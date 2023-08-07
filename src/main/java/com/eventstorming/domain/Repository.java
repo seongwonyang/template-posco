@@ -8,7 +8,7 @@ package {{options.package}}.domain;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 {{/if}}
 import {{options.package}}.domain.*;
