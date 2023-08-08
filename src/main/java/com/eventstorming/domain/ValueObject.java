@@ -12,7 +12,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.util.Date;
-import java.time.LocalDate;
 {{#checkBigDecimal fieldDescriptors}}{{/checkBigDecimal}}
 
 //<<< DDD / Value Object
@@ -21,12 +20,13 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class {{namePascalCase}} {
-
+    {{#aggregateRoot.fieldDescriptors}}
+    {{#checkClassType ../aggregateRoot.fieldDescriptors}}{{/checkClassType}}
+    {{/aggregateRoot.fieldDescriptors}}
     {{#fieldDescriptors}}
     {{#isLob}}@Lob{{/isLob}}
     {{#if (isPrimitive className)}}{{#isList}}@ElementCollection{{/isList}}{{/if}}
     {{#checkRelations ../relations className isVO}} {{/checkRelations}}
-    {{#checkClassType ../aggregateRoot.fieldDescriptors}}{{/checkClassType}}
     private {{{className}}} {{nameCamelCase}};
     {{/fieldDescriptors}}
 
