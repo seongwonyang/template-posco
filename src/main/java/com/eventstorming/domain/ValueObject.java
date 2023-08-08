@@ -25,7 +25,7 @@ public class {{namePascalCase}} {
     {{#isLob}}@Lob{{/isLob}}
     {{#if (isPrimitive className)}}{{#isList}}@ElementCollection{{/isList}}{{/if}}
     {{#checkRelations ../relations className isVO}} {{/checkRelations}}
-    {{#if (isLongType className)}}@GeneratedValue(strategy=GenerationType.AUTO){{/if}}
+    {{#checkClassType ../fieldDescriptors}}{{/checkClassType}}
     private {{{className}}} {{nameCamelCase}};
     {{/fieldDescriptors}}
 
@@ -42,9 +42,6 @@ public class {{namePascalCase}} {
 
 //>>> DDD / Value Object
 <function>
-window.$HandleBars.registerHelper('isLongType', function (className) {
-    return className === 'Long';
-});
 window.$HandleBars.registerHelper('checkClassType', function (fieldDescriptors) {
     for(var i = 0; i < fieldDescriptors.length; i++) {
         if(fieldDescriptors[i] && fieldDescriptors[i].className === 'Long'){
