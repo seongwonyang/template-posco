@@ -6,9 +6,7 @@ except: {{#except fieldDescriptors}}{{/except}}
 ---
 package {{options.package}}.domain;
 
-import javax.persistence.*;
-import java.util.List;
-import java.util.Date;
+import java.util.*;
 import lombok.Data;
 import java.time.LocalDate;
 {{#checkBigDecimal fieldDescriptors}}{{/checkBigDecimal}}
@@ -17,10 +15,6 @@ import java.time.LocalDate;
 public class {{namePascalCase}}Command {
 
 {{#fieldDescriptors}}
-    {{#isKey}}
-        @Id
-        //@GeneratedValue(strategy=GenerationType.AUTO)
-    {{/isKey}}
         private {{{className}}} {{nameCamelCase}};
 {{/fieldDescriptors}}
 
