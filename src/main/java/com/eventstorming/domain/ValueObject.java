@@ -21,8 +21,9 @@ import java.util.Date;
 @NoArgsConstructor
 public class {{namePascalCase}} {
     {{#aggregateRoot.fieldDescriptors}}
+    {{^isVO}}{{#isKey}}
     {{#checkClassType ../aggregateRoot.fieldDescriptors}}{{/checkClassType}}
-    {{/aggregateRoot.fieldDescriptors}}
+    {{/isKey}}{{/isVO}}
     {{#fieldDescriptors}}
     {{#isLob}}@Lob{{/isLob}}
     {{#if (isPrimitive className)}}{{#isList}}@ElementCollection{{/isList}}{{/if}}
