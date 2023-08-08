@@ -76,11 +76,10 @@ window.$HandleBars.registerHelper('isPrimitive', function (className) {
         return false;
     }
 });
-
-window.$HandleBars.registerHelper('checkRelations', function (relations, className, isVO) {
+window.$HandleBars.registerHelper('checkRelations', function (relations, className, isVO, referenceClass) {
     try {
-        if(typeof relations == "undefined") {
-            return
+        if(typeof relations === "undefined") {
+            return 
         } else {
             // primitive type
             if(className.includes("String") || className.includes("Integer") || className.includes("Long") || className.includes("Double") || className.includes("Float")
@@ -99,91 +98,36 @@ window.$HandleBars.registerHelper('checkRelations', function (relations, classNa
                 } else {
                     for(var i = 0; i < relations.length; i ++ ) {
                         if(relations[i] != null) {
-                            if(relations[i].targetElement == null) {
-                                if(className.includes(relations[i].toName) && !relations[i].relationType.includes("Generalization")){
-                                    // Enumeration
-                                    if(relations[i].targetType && relations[i].targetType.includes('enum')) {
-                                        return '@Enumerated(EnumType.STRING)'
-                                    } 
+                            if(className.includes(relations[i].targetElement.name) && !relations[i].relationType.includes("Generalization")) {
+                                // Enumeration
+                                if(relations[i].targetElement._type.endsWith('enum') || relations[i].targetElement._type.endsWith('Exception')) {
+                                    return
                                 }
-                            } else {
-                                if(className.includes(relations[i].targetElement.name) && !relations[i].relationType.includes("Generalization")) {
-                                    // Enumeration
-                                    if(relations[i].targetElement._type.endsWith('enum')) {
-                                        return '@Enumerated(EnumType.STRING)'
-                                    }
-                                }
-                            }
-                            // complex type
-                            if(relations[i].sourceMultiplicity == "1" && className.includes("List")){
-                                return "@OneToMany"
-                            } else if((relations[i].sourceMultiplicity == "1..n" || relations[i].sourceMultiplicity == "0..n") 
-                                    && relations[i].targetMultiplicity == "1"){
-                                return "@ManyToOne"
-                            } else if(relations[i].sourceMultiplicity == "1" && relations[i].targetMultiplicity == "1"){
-                                return "@OneToOne"
-                            } else if((relations[i].sourceMultiplicity == "1..n" || relations[i].sourceMultiplicity == "0..n") && className.includes("List")){
-                                return "@ManyToMany"
-                            }
-                        }
-                    }
-                }
-            }
+                                // complex type
+                                if(relations[i].sourceMultiplicity == "1" &&
+                                        (relations[i].targetMultiplicity == "1..n" || relations[i].targetMultiplicity == "0..n") || className.includes("List")
+                                ) {
+                                    return "@OneToMany"
 
-            for(var i = 0; i < relations.length; i ++ ) {
-                if(relations[i] != null){
-                    if(relations[i].targetElement == null) {
-                        if(className.includes(relations[i].toName) && !relations[i].relationType.includes("Generalization")){
-                            if(relations[i].targetType && relations[i].targetType.includes('enum')) {
-                                return '@Enumerated(EnumType.STRING)'
-                            } else {
-                                if(isVO) {
-                                    if((relations[i].targetMultiplicity == "1..n" || relations[i].targetMultiplicity == "0..n") && relations[i].sourceMultiplicity == "1"){
-                                        return "@ElementCollection"
-                                    } else {
-                                        return "@Embedded"
-                                    }
-                                } else {
-                                    if(relations[i].sourceMultiplicity == "1" && (relations[i].targetMultiplicity == "1..n" || relations[i].targetMultiplicity == "0..n")){
-                                        return "@OneToMany"
-                                    } else if((relations[i].sourceMultiplicity == "1..n" || relations[i].sourceMultiplicity == "0..n") && relations[i].targetMultiplicity == "1"){
-                                        return "@ManyToOne"
-                                    } else if(relations[i].sourceMultiplicity == "1" && relations[i].targetMultiplicity == "1"){
-                                        return "@OneToOne"
-                                    } else if((relations[i].sourceMultiplicity == "1..n" || relations[i].sourceMultiplicity == "0..n") && (relations[i].targetMultiplicity == "1..n" || relations[i].targetMultiplicity == "0..n")){
-                                        return "@ManyToMany"
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        if(className.includes(relations[i].targetElement.name) && !relations[i].relationType.includes("Generalization")) {
-                            if(relations[i].targetElement._type.includes('enum')) {
-                                return '@Enumerated(EnumType.STRING)'
-                            } else {
-                                if(isVO) {
-                                    if((relations[i].targetMultiplicity == "1..n" || relations[i].targetMultiplicity == "0..n") && relations[i].sourceMultiplicity == "1"){
-                                        return "@ElementCollection"
-                                    } else {
-                                        return "@Embedded"
-                                    }
-                                } else {
-                                    if(relations[i].sourceMultiplicity == "1" && (relations[i].targetMultiplicity == "1..n" || relations[i].targetMultiplicity == "0..n")){
-                                        return "@OneToMany"
-                                    } else if((relations[i].sourceMultiplicity == "1..n" || relations[i].sourceMultiplicity == "0..n") && relations[i].targetMultiplicity == "1"){
-                                        return "@ManyToOne"
-                                    } else if(relations[i].sourceMultiplicity == "1" && relations[i].targetMultiplicity == "1"){
-                                        return "@OneToOne"
-                                    } else if((relations[i].sourceMultiplicity == "1..n" || relations[i].sourceMultiplicity == "0..n") && (relations[i].targetMultiplicity == "1..n" || relations[i].targetMultiplicity == "0..n")){
-                                        return "@ManyToMany"
-                                    }
+                                } else if((relations[i].sourceMultiplicity == "1..n" || relations[i].sourceMultiplicity == "0..n") && relations[i].targetMultiplicity == "1"){
+                                    return "@ManyToOne"
+                                
+                                } else if(relations[i].sourceMultiplicity == "1" && relations[i].targetMultiplicity == "1"){
+                                    return "@OneToOne"
+                                
+                                } else if((relations[i].sourceMultiplicity == "1..n" || relations[i].sourceMultiplicity == "0..n") &&
+                                        (relations[i].targetMultiplicity == "1..n" || relations[i].targetMultiplicity == "0..n") || className.includes("List")
+                                ) {
+                                    return "@ManyToMany"
                                 }
                             }
                         }
                     }
+                    if(referenceClass) {
+                        return "@OneToOne"
+                    }
                 }
             }
-            return
         }
     } catch (e) {
         console.log(e)
