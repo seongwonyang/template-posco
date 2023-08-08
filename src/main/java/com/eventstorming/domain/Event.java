@@ -10,6 +10,7 @@ import {{options.package}}.domain.*;
 import {{options.package}}.infra.AbstractEvent;
 import java.util.*;
 import lombok.*;
+import java.time.LocalDate;
 {{#checkBigDecimal fieldDescriptors}}{{/checkBigDecimal}}
 
 //<<< DDD / Domain Event
@@ -33,7 +34,6 @@ public class {{namePascalCase}} extends AbstractEvent {
 //>>> DDD / Domain Event
 <function>
 window.$HandleBars.registerHelper('checkDateType', function (fieldDescriptors) {
-
     for(var i = 0; i < fieldDescriptors.length; i ++ ){
         if(fieldDescriptors[i] && fieldDescriptors[i].className == 'Date'){
             return "import java.util.Date; \n"

@@ -143,17 +143,16 @@ new Vue({
 {{/if}}
 
 <function>
-window.$HandleBars.registerHelper('isSelectedSecurity', function (toppingPlatforms) {
-    var selectedSecurity = false;
+ window.$HandleBars.registerHelper('isSelectedSecurity', function (selectedSecurity) {
     try{
-        for(var i=0; i<toppingPlatforms.length; i++){
-            if(toppingPlatforms[i] == "keycloak-security" || toppingPlatforms[i] == "spring-security"){
-                selectedSecurity =  true;
+        var isSelectedSecurity = false
+        for(var i=0; i<selectedSecurity.length; i++){
+            if(selectedSecurity[i] == 'keycloak-security'){
+                isSelectedSecurity =  true;
             }
         }
 
-        return selectedSecurity;
-
+        return isSelectedSecurity;
     } catch(e){
         console.log(e)
     }

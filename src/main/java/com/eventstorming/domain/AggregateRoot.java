@@ -15,6 +15,7 @@ import javax.persistence.*;
 import java.util.List;
 import lombok.Data;
 import java.util.Date;
+import java.time.LocalDate;
 {{#checkBigDecimal aggregateRoot.fieldDescriptors}}{{/checkBigDecimal}}
 
 @Entity
@@ -189,7 +190,7 @@ window.$HandleBars.registerHelper('checkClassType', function (fieldDescriptors) 
 window.$HandleBars.registerHelper('checkDateType', function (fieldDescriptors) {
     for(var i = 0; i < fieldDescriptors.length; i ++ ){
         if(fieldDescriptors[i] && fieldDescriptors[i].className == 'Date'){
-        return "import java.util.Date; \n"
+            return "import java.util.Date; \n"
         }
     }
 });

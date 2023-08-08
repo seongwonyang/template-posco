@@ -4,6 +4,13 @@ path: {{boundedContext.name}}/{{{options.packagePath}}}/domain
 ---
 package {{options.package}}.domain;
 
+{{#if boundedContext.readModels}} 
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
+{{/if}}
 import {{options.package}}.domain.*;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -11,10 +18,24 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 //<<< PoEAA / Repository
 @RepositoryRestResource(collectionResourceRel="{{namePlural}}", path="{{namePlural}}")
 public interface {{namePascalCase}}Repository extends PagingAndSortingRepository<{{namePascalCase}}, {{aggregateRoot.keyFieldDescriptor.className}}>{
-
+{{#if boundedContext.readModels}}    
+    @Query(value = "select {{nameCamelCase}} " +
+        "from {{namePascalCase}} {{nameCamelCase}} " +
+        "where{{#boundedContext.readModels}}{{#queryParameters}}(:{{name}} is null or {{../nameCamelCase}}.{{name}} like %:{{name}}%){{^@last}} and {{/@last}}{{/queryParameters}}{{/boundedContext.readModels}}")
+       List<{{namePascalCase}}> {{#boundedContext.readModels}}{{#queryOption}}{{apiPath}}{{/queryOption}}Query       
+({{#queryParameters}}{{className}} {{nameCamelCase}}{{^@last}}, {{/@last}}{{/queryParameters}}, Pageable pageable);
+{{/boundedContext.readModels}}
+{{/if}}  
 }
-//>>> PoEAA / Repository
 <function>
+ var me = this;
+ me.contexts.views = []
+  if(this.boundedContext.readModels)
+  this.boundedContext.readModels.forEach(view=>{
+      if(view.aggregate == me && view.dataProjection=="query-for-aggregate"){
+          me.contexts.views.push(view);
+      }
+  })
   window.$HandleBars.registerHelper('isNotId', function (className) {
     return (className != 'id')
   })

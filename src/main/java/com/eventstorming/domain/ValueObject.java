@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.util.Date;
+import java.time.LocalDate;
 {{#checkBigDecimal fieldDescriptors}}{{/checkBigDecimal}}
 
 //<<< DDD / Value Object

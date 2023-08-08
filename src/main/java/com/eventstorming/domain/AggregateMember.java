@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import java.util.List;
 import lombok.Data;
 import java.util.Date;
+import java.time.LocalDate;
 {{#checkBigDecimal fieldDescriptors}}{{/checkBigDecimal}}
 
 @Entity
@@ -38,7 +39,7 @@ public class {{namePascalCase}} {{#checkExtends relations namePascalCase}}{{/che
 window.$HandleBars.registerHelper('checkDateType', function (fieldDescriptors) {
     for(var i = 0; i < fieldDescriptors.length; i ++ ){
         if(fieldDescriptors[i] && fieldDescriptors[i].className == 'Date'){
-        return "import java.util.Date; \n"
+            return "import java.util.Date; \n"
         }
     }
 });
