@@ -11,6 +11,7 @@ hystrix:
       execution.isolation.thread.timeoutInMilliseconds: 500
 #>>> Resilency / Circuit Breaker
 {{/circuitBreaker}}
+
 spring:
   application:
     name: {{toLowerCase name}}
