@@ -4,7 +4,7 @@ path: frontend/src/components/listers
 ---
 <template>
     <div>
-    <h1>{{displayName}}</h1>
+    <h1>{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}</h1>
         <v-row>
             <v-card
                 class="mx-auto"
@@ -30,7 +30,7 @@ path: frontend/src/components/listers
                         color="primary"
                         style="font-weight:500; font-size:20px; padding:15px; border:solid 2px; max-width:250px; overflow:hidden"
                     >
-                        {{displayName}} 등록
+                        {{#ifNotNull displayName namePascalCase}}{{/ifNotNull}} 등록
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -158,6 +158,13 @@ path: frontend/src/components/listers
 
 
 <function>
+    window.$HandleBars.registerHelper('ifNotNull', function (displayName, name) {
+        if(displayName){
+            return displayName;
+        }else{
+            return name;
+        }
+    })
     window.$HandleBars.registerHelper('isNotId', function (className) {
         return (className != 'id')
     })

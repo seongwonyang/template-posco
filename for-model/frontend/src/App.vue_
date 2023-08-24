@@ -74,9 +74,6 @@ export default {
 };
 </script>
 <style>
-.v-application {
-    background-color: {{options.rootModel.uiStyle.palette.colors.info.colorCode}} !important;
-}
 *{
     font-family: {{options.rootModel.uiStyle.font.fontFamilyName}} !important;
 }
