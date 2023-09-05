@@ -15,7 +15,6 @@ sudo mv /tmp/eksctl /usr/local/bin
 
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 . ~/.nvm/nvm.sh
-export NODE_OPTIONS=--openssl-legacy-provider
 
 cd infra
 docker-compose up
