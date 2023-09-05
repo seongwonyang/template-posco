@@ -29,11 +29,6 @@ public class PolicyHandler{
     @StreamListener(KafkaProcessor.INPUT)
     public void whatever(@Payload String eventString){}
 
-    {{#aggregates}}
-    @Autowired
-    {{namePascalCase}}Service {{nameCamelCase}}Service;
-    {{/aggregates}}
-    
     {{#policies}}
     {{#relationEventInfo}}
     @StreamListener(value=KafkaProcessor.INPUT, condition="headers['type']=='{{eventValue.namePascalCase}}'")
