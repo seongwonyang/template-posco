@@ -18,12 +18,14 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 //<<< PoEAA / Repository
 @RepositoryRestResource(collectionResourceRel="{{namePlural}}", path="{{namePlural}}")
 public interface {{namePascalCase}}Repository extends PagingAndSortingRepository<{{namePascalCase}}, {{aggregateRoot.keyFieldDescriptor.className}}>{
-{{#attached 'View' this}}    
+{{#attached 'View' this}}
+{{#if queryParameters}}    
     @Query(value = "select {{../nameCamelCase}} " +
         "from {{../namePascalCase}} {{../nameCamelCase}} " +
         "where{{#queryParameters}}(:{{name}} is null or {{../../nameCamelCase}}.{{name}} like %:{{name}}%){{^@last}} and {{/@last}}{{/queryParameters}}")
        List<{{../namePascalCase}}> findBy{{namePascalCase}}       
 ({{#queryParameters}}{{className}} {{nameCamelCase}}{{^@last}}, {{/@last}}{{/queryParameters}}, Pageable pageable);
+{{/if}}
 {{/attached}}
 }
 <function>
