@@ -1,6 +1,23 @@
-forEach: RelationCommandInfo
-fileName: {{commandValue.aggregate.namePascalCase}}Service.java
-path: {{boundedContext.name}}/{{{options.packagePath}}}/external
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+forEach: Relation
+fileName: {{target.aggregate.namePascalCase}}Service.java
+path: {{source.boundedContext.name}}/{{{options.packagePath}}}/external
+except: {{contexts.except}}
+ifDuplicated: merge
 ---
 package {{options.package}}.external;
 
@@ -12,36 +29,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Date;
 
-
-//<<< Resilency / Circuit Breaker
-{{#if boundedContext.fallback}}
-//<<< Resilency / Fallback
-@FeignClient(name = "{{commandValue.boundedContext.name}}", url = "{{apiVariable commandValue.boundedContext.name}}", fallback = {{commandValue.aggregate.namePascalCase}}ServiceImpl.class)
-//>>> Resilency / Fallback
-{{else}}
-@FeignClient(name = "{{commandValue.boundedContext.name}}", url = "{{apiVariable commandValue.boundedContext.name}}")
-{{/if}}
-public interface {{commandValue.aggregate.namePascalCase}}Service {
-{{#if commandValue.restRepositoryInfo.getMethod}}
-    @RequestMapping(method= RequestMethod.GET, path="/{{commandValue.aggregate.namePlural}}/{{wrap commandValue.aggregate.keyFieldDescriptor.name}}")
-    public {{commandValue.aggregate.namePascalCase}} get{{commandValue.aggregate.namePascalCase}}(@PathVariable("{{commandValue.aggregate.keyFieldDescriptor.name}}") {{commandValue.aggregate.keyFieldDescriptor.className}} {{commandValue.aggregate.keyFieldDescriptor.name}});
-{{else if commandValue.restRepositoryInfo.method}}
-    {{#commandValue.isRestRepository}}
-    @RequestMapping(method= RequestMethod.{{commandValue.restRepositoryInfo.method}}, path="/{{commandValue.aggregate.namePlural}}")
-    public void {{commandValue.nameCamelCase}}(@RequestBody {{commandValue.aggregate.namePascalCase}} {{commandValue.aggregate.nameCamelCase}});
-    {{/commandValue.isRestRepository}}
-    {{^commandValue.isRestRepository}}
-    @RequestMapping(method= RequestMethod.{{commandValue.controllerInfo.method}}, path="/{{#setPath commandValue}}{{/setPath}}")
-    public void {{commandValue.nameCamelCase}}(@PathVariable("id") {{commandValue.aggregate.keyFieldDescriptor.className}} {{commandValue.aggregate.keyFieldDescriptor.name}}{{#if (hasFields commandValue.fieldDescriptors)}}, @RequestBody {{commandValue.namePascalCase}}Command {{commandValue.nameCamelCase}}Command {{/if}});
-    {{/commandValue.isRestRepository}}
-{{else}}
-    @RequestMapping(method= RequestMethod.GET, path="/{{commandValue.aggregate.namePlural}}/{{wrap commandValue.aggregate.keyFieldDescriptor.name}}")
-    public {{commandValue.aggregate.namePascalCase}} get{{commandValue.aggregate.namePascalCase}}(@PathVariable("{{commandValue.aggregate.keyFieldDescriptor.name}}") {{commandValue.aggregate.keyFieldDescriptor.className}} {{commandValue.aggregate.keyFieldDescriptor.name}});
-{{/if}}
+@FeignClient(name = "{{target.boundedContext.name}}", url = "{{apiVariable target.boundedContext.name}}")
+public interface {{target.aggregate.namePascalCase}}Service {
+    {{#target.isRestRepository}}
+    @RequestMapping(method= RequestMethod.{{target.restRepositoryInfo.method}}, path="/{{target.aggregate.namePlural}}")
+    public void {{target.nameCamelCase}}(@RequestBody {{target.aggregate.namePascalCase}} {{target.aggregate.nameCamelCase}});
+    {{/target.isRestRepository}}
+    {{^target.isRestRepository}}
+    @RequestMapping(method= RequestMethod.{{target.controllerInfo.method}}, path="/{{#setPath target}}{{/setPath}}")
+    public void {{target.nameCamelCase}}(@PathVariable("id") {{target.aggregate.keyFieldDescriptor.className}} {{target.aggregate.keyFieldDescriptor.name}}{{#if (hasFields target.fieldDescriptors)}}, @RequestBody {{target.namePascalCase}}Command {{target.nameCamelCase}}Command {{/if}});
+    {{/target.isRestRepository}}
 }
-//>>> Resilency / Circuit Breaker
 
 <function>
+ 
+    let isGetInvocation = ((this.source._type.endsWith("Command") || this.source._type.endsWith("Policy")) && (this.target._type.endsWith("View") || this.target._type.endsWith("Aggregate")))
+    let isPostInvocation = ((this.source._type.endsWith("Event") || this.source._type.endsWith("Policy")) && this.target._type.endsWith("Command"))
+    let isExternalInvocation = (this.source.boundedContext.name != this.target.boundedContext.name)
+
+    this.contexts.except = !(isExternalInvocation && isPostInvocation)
 
   window.$HandleBars.registerHelper('setPath', function (command) {
       if(command && command.controllerInfo && command.controllerInfo.apiPath){
