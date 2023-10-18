@@ -6,3 +6,4 @@ description: Framework for rapidly and easily developing Java-based web applicat
 tags:
   - Java
   - Spring boot
+testModel: testmodel
