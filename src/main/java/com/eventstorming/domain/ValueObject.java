@@ -44,7 +44,7 @@ public class {{namePascalCase}} {
 <function>
 window.$HandleBars.registerHelper('checkClassType', function (fieldDescriptors) {
     for(var i = 0; i < fieldDescriptors.length; i++) {
-        if(fieldDescriptors[i] && fieldDescriptors[i].isKey && fieldDescriptors[i].className === 'Long'){
+        if(fieldDescriptors[i] && fieldDescriptors[i].className === 'Long'){
             return "@GeneratedValue(strategy=GenerationType.AUTO)";
         }
     }
