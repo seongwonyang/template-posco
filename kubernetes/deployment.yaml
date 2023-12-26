@@ -17,7 +17,7 @@ spec:
       containers:
         - name: {{name}}
 //<<< Container / Image Name
-          image: username/{{name}}:latest
+          image: "username/{{name}}:latest"
 //>>> Container / Image Name
           ports:
             - containerPort: 8080
