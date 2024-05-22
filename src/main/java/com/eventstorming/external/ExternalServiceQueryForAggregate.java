@@ -24,10 +24,10 @@ import java.util.List;
 {{#target}}
 public interface {{aggregate.namePascalCase}}Service {
     {{#queryOption.multipleResult}}
-    @GetMapping(path="/{{aggregate.namePlural}}")
+    @GetMapping(path="/{{aggregate.namePlural}}/search/findBy{{namePascalCase}}")
     public List<{{aggregate.namePascalCase}}> {{nameCamelCase}}({{namePascalCase}}Query query);
     {{else}}
-    @GetMapping(path="/{{aggregate.namePlural}}/{id}")
+    @GetMapping(path="/{{aggregate.namePlural}}/search/findBy{{namePascalCase}}")
     public {{aggregate.namePascalCase}} {{nameCamelCase}}(@PathVariable("id") {{aggregate.keyFieldDescriptor.className}} id);
     {{/queryOption.multipleResult}}
 
