@@ -73,17 +73,19 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
     {{#commands}}
         {{#outgoingRelations}}
         {{#target}}
-        {{#if queryOption.multipleResult}}
-        // Get request from {{aggregate.namePascalCase}}
-        //java.util.List<{{../../../../options.package}}.external.{{aggregate.namePascalCase}}> {{aggregate.nameCamelCase}} =
-        //    {{../relationCommandInfo.boundedContext.namePascalCase}}Application.applicationContext.getBean({{../../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-        //    .get{{aggregate.namePascalCase}}(/** mapping value needed */);
+        {{#queryOption}}
+        {{#if multipleResult}}
+        // Get request from {{../aggregate.namePascalCase}}
+        //java.util.List<{{../../../../../options.package}}.external.{{../aggregate.namePascalCase}}> {{../aggregate.nameCamelCase}} =
+        //    {{#../../source}}{{aggregate.namePascalCase}}{{/../../source}}Application.applicationContext.getBean({{../../../../../options.package}}.external.{{../aggregate.namePascalCase}}Service.class)
+        //    .get{{../aggregate.namePascalCase}}(/** mapping value needed */);2
         {{else}}
-        // Get request from {{aggregate.namePascalCase}}
-        //{{../../../../options.package}}.external.{{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} =
-        //    {{#../../source}}{{aggregate.namePascalCase}}{{/../../source}}Application.applicationContext.getBean({{../../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-        //    .get{{aggregate.namePascalCase}}(/** mapping value needed */);
+        // Get request from {{../aggregate.namePascalCase}}
+        //{{../../../../../options.package}}.external.{{../aggregate.namePascalCase}} {{../aggregate.nameCamelCase}} =
+        //    {{#../../source}}{{aggregate.namePascalCase}}{{/../../source}}Application.applicationContext.getBean({{../../../../../options.package}}.external.{{../aggregate.namePascalCase}}Service.class)
+        //    .get{{../aggregate.namePascalCase}}(/** mapping value needed */);1
         {{/if}}
+        {{/queryOption}}
         {{/target}}
         {{/outgoingRelations}}
     {{/commands}}
