@@ -71,15 +71,21 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
 
     {{/events}}
     {{#commands}}
-        {{#relationCommandInfo}}
-            {{#commandValue}}
+        {{#outgoingRelations}}
+        {{#target}}
+        {{#if queryOption.multipleResult}}
         // Get request from {{aggregate.namePascalCase}}
-        //{{../../../../options.package}}.external.{{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} =
+        //java.util.List<{{../../../../options.package}}.external.{{aggregate.namePascalCase}}> {{aggregate.nameCamelCase}} =
         //    {{../relationCommandInfo.boundedContext.namePascalCase}}Application.applicationContext.getBean({{../../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
         //    .get{{aggregate.namePascalCase}}(/** mapping value needed */);
-
-            {{/commandValue}}
-        {{/relationCommandInfo}}
+        {{else}}
+        // Get request from {{aggregate.namePascalCase}}
+        //{{../../../../options.package}}.external.{{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} =
+        //    {{#../../source}}{{aggregate.namePascalCase}}{{/../../source}}Application.applicationContext.getBean({{../../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
+        //    .get{{aggregate.namePascalCase}}(/** mapping value needed */);
+        {{/if}}
+        {{/target}}
+        {{/outgoingRelations}}
     {{/commands}}
     }
 {{/lifeCycles}}
