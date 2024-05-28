@@ -22,7 +22,7 @@ public interface {{namePascalCase}}Repository extends PagingAndSortingRepository
 {{#if queryParameters}}    
     @Query(value = "select {{../nameCamelCase}} " +
         "from {{../namePascalCase}} {{../nameCamelCase}} " +
-        "where{{#queryParameters}}(:{{name}} is null or {{../../nameCamelCase}}.{{name}} like %:{{name}}%){{^@last}} and {{/@last}}{{/queryParameters}}")
+        "where{{#queryParameters}}{{#checkParameterType className nameCamelCase ../../nameCamelCase}}{{/checkParameterType}}{{^@last}} and {{/@last}}{{/queryParameters}}")
        List<{{../namePascalCase}}> findBy{{namePascalCase}}       
 ({{#queryParameters}}{{className}} {{nameCamelCase}}{{^@last}}, {{/@last}}{{/queryParameters}}, Pageable pageable);
 {{/if}}
@@ -55,6 +55,15 @@ public interface {{namePascalCase}}Repository extends PagingAndSortingRepository
 
   window.$HandleBars.registerHelper('isDate', function (className) {
     return (className.endsWith("Date"))
+  })
+  window.$HandleBars.registerHelper('checkParameterType', function (className, value, aggName) {
+    if(className == 'String'){
+      return `(:${value} is null or ${aggName}.${value} like %:${value}%)`
+    }else if(className == 'Boolean'){
+      return `(${aggName}.${value} = :${value})`
+    }else if(className == 'Long' || className == 'Integer'){
+      return `(:${value} is null or ${aggName}.${value} = :${value})`
+    }
   })
 
   window.$HandleBars.registerHelper('toURL', function (className) {
