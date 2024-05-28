@@ -78,12 +78,12 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
         // Get request from {{../aggregate.namePascalCase}}
         //java.util.List<{{../../../../../options.package}}.external.{{../aggregate.namePascalCase}}> {{../aggregate.nameCamelCase}} =
         //    {{#../../source}}{{aggregate.namePascalCase}}{{/../../source}}Application.applicationContext.getBean({{../../../../../options.package}}.external.{{../aggregate.namePascalCase}}Service.class)
-        //    .get{{../aggregate.namePascalCase}}(/** mapping value needed */);2
+        //    .get{{../aggregate.namePascalCase}}(/** mapping value needed */);
         {{else}}
         // Get request from {{../aggregate.namePascalCase}}
         //{{../../../../../options.package}}.external.{{../aggregate.namePascalCase}} {{../aggregate.nameCamelCase}} =
         //    {{#../../source}}{{aggregate.namePascalCase}}{{/../../source}}Application.applicationContext.getBean({{../../../../../options.package}}.external.{{../aggregate.namePascalCase}}Service.class)
-        //    .get{{../aggregate.namePascalCase}}(/** mapping value needed */);1
+        //    .get{{../aggregate.namePascalCase}}(/** mapping value needed */);
         {{/if}}
         {{/queryOption}}
         {{/target}}
