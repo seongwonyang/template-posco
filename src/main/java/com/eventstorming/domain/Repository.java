@@ -23,7 +23,7 @@ public interface {{namePascalCase}}Repository extends PagingAndSortingRepository
     @Query(value = "select {{../nameCamelCase}} " +
         "from {{../namePascalCase}} {{../nameCamelCase}} " +
         "where{{#queryParameters}}{{#checkParameterType className nameCamelCase ../../nameCamelCase}}{{/checkParameterType}}{{^@last}} and {{/@last}}{{/queryParameters}}")
-       List<{{../namePascalCase}}> findBy{{namePascalCase}}       
+       {{#queryOption}}{{#if multipleResult}}List<{{../../namePascalCase}}>{{else}}{{../../namePascalCase}} {{/if}}{{#if apiPath}}{{apiPath}}{{else}}findBy{{../namePascalCase}}{{/if}}{{/queryOption}}
 ({{#queryParameters}}{{className}} {{nameCamelCase}}{{^@last}}, {{/@last}}{{/queryParameters}}, Pageable pageable);
 {{/if}}
 {{/attached}}
