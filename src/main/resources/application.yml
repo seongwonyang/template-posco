@@ -3,12 +3,16 @@ server:
 {{#circuitBreaker}}
 #<<< Resilency / Circuit Breaker
 feign:
-  hystrix:
+  client:
     enabled: true
-hystrix:
-  command:
-    default:
-      execution.isolation.thread.timeoutInMilliseconds: 500
+    config:
+      default:
+        connectTimeout: 3000  # 연결 타임아웃 (밀리초 단위)
+        readTimeout: 510      # 읽기 타임아웃 (밀리초 단위)
+        retryer:
+          period: 2000        # 재시도 주기 (밀리초 단위)
+          maxPeriod: 5000     # 최대 재시도 주기 (밀리초 단위)
+          maxAttempts: 2      # 최대 재시도 횟수 
 #>>> Resilency / Circuit Breaker
 {{/circuitBreaker}}
 
