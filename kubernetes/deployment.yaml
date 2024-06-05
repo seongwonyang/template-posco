@@ -1,5 +1,6 @@
 forEach: BoundedContext
 fileName: deployment.yaml
+path: {{name}}/kubernetes
 ---
 apiVersion: apps/v1
 kind: Deployment
