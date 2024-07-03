@@ -1,3 +1,7 @@
+forEach: BoundedContext
+fileName: deployment.yaml
+path: {{name}}/kubernetes
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,12 +20,9 @@ spec:
     spec:
       containers:
         - name: {{name}}
-//<<< Container / Image Name
           image: "username/{{name}}:latest"
-//>>> Container / Image Name
           ports:
             - containerPort: 8080
-//<<< Availability / Zero Down Time
           readinessProbe:
             httpGet:
               path: '/actuator/health'
@@ -30,8 +31,6 @@ spec:
             timeoutSeconds: 2
             periodSeconds: 5
             failureThreshold: 10
-//>>> Availability / Zero Down Time
-//<<< Availability / Self Healing
           livenessProbe:
             httpGet:
               path: '/actuator/health'
@@ -40,4 +39,3 @@ spec:
             timeoutSeconds: 2
             periodSeconds: 5
             failureThreshold: 5
-//>>> Availability / Self Healing
