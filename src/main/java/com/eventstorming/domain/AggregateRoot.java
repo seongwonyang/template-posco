@@ -57,10 +57,10 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
         {{/isRestRepository}}
 
         {{#isRestRepository}}
-        {{../../../../options.package}}.external.{{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = new {{../../../../options.package}}.external.{{namePascalCase}}Command();
+        {{../../../../options.package}}.external.{{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = new {{../../../../options.package}}.external.{{aggregate.namePascalCase}}();
         // mappings goes here
         {{../boundedContext.namePascalCase}}Application.applicationContext.getBean({{../../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-            .{{nameCamelCase}}(/* get???(), */ {{nameCamelCase}}Command);
+            .{{nameCamelCase}}({{aggregate.nameCamelCase}});
         {{/isRestRepository}}
 
             {{/commandValue}}
