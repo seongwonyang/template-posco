@@ -78,6 +78,8 @@ public class {{ namePascalCase }}Controller {
     public {{../namePascalCase}} {{nameCamelCase}}(HttpServletRequest request, HttpServletResponse response, 
         {{#if fieldDescriptors}}@RequestBody {{namePascalCase}}Command {{nameCamelCase}}command{{/if}}) throws Exception {
             System.out.println("##### /{{aggregate.nameCamelCase}}/{{nameCamelCase}}  called #####");
+
+            {{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = New {{aggregate.namePascalCase}}();
             {{aggregate.nameCamelCase}}.{{nameCamelCase}}({{#if fieldDescriptors}}{{nameCamelCase}}command{{/if}});
             {{aggregate.nameCamelCase}}Repository.save({{aggregate.nameCamelCase}});
             return {{aggregate.nameCamelCase}};
