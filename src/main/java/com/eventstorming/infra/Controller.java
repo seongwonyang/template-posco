@@ -41,7 +41,7 @@ public class {{ namePascalCase }}Controller {
 
     {{^isRestRepository}}
     {{#checkMethod controllerInfo.method}}
-    @RequestMapping(value = "{{../namePlural}}/{id}/{{controllerInfo.apiPath}}",
+    @RequestMapping(value = "/{{../namePlural}}/{id}/{{controllerInfo.apiPath}}",
         method = RequestMethod.{{controllerInfo.method}},
         produces = "application/json;charset=UTF-8")
     public {{../namePascalCase}} {{nameCamelCase}}(@PathVariable(value = "id") {{../keyFieldDescriptor.className}} id, {{#if (hasFields fieldDescriptors)}}@RequestBody {{namePascalCase}}Command {{nameCamelCase}}Command, {{/if}}HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -59,7 +59,7 @@ public class {{ namePascalCase }}Controller {
     
     {{#each ../aggregateRoot.entities.relations}}
     {{#if (isGeneralization targetElement.namePascalCase ../../namePascalCase relationType)}}
-    @RequestMapping(value = "{{#toURL sourceElement.nameCamelCase}}{{/toURL}}/{id}/{{../controllerInfo.apiPath}}",
+    @RequestMapping(value = "/{{#toURL sourceElement.nameCamelCase}}{{/toURL}}/{id}/{{../controllerInfo.apiPath}}",
             method = RequestMethod.{{../controllerInfo.method}},
             produces = "application/json;charset=UTF-8")
     public {{../../namePascalCase}} {{../nameCamelCase}}{{sourceElement.namePascalCase}}(
