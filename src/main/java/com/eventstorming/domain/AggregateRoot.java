@@ -261,7 +261,14 @@ window.$HandleBars.registerHelper('isPrimitive', function (className) {
 window.$HandleBars.registerHelper('checkRelations', function (relations, className, isVO, referenceClass) {
     try {
         if(typeof relations === "undefined") {
-            return 
+            // not open uml canvas
+            if(isVO) {
+                if(className.includes("List")) {
+                    return "@ElementCollection"
+                } else {
+                    return "@Embedded"
+                }
+            } 
         } else {
             // primitive type
             if(className.includes("String") || className.includes("Integer") || className.includes("Long") || className.includes("Double") || className.includes("Float")
