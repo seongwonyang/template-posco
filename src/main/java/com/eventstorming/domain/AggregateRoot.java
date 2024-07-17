@@ -33,7 +33,7 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
     {{/isKey}}{{/isVO}}
     {{#isLob}}@Lob{{/isLob}}
     {{#if (isPrimitive className)}}{{#isList}}{{/isList}}{{/if}}
-    {{#checkRelations ../aggregateRoot.fieldDescriptors.className}}{{/checkRelations}}
+    {{#each ../aggregateRoot.fieldDescriptors}}{{#checkFieldType className}}{{/checkFieldType}}{{/each}}
     private {{{className}}} {{nameCamelCase}};
     {{/aggregateRoot.fieldDescriptors}}
 
@@ -258,72 +258,17 @@ window.$HandleBars.registerHelper('isPrimitive', function (className) {
     }
 });
 
-window.$HandleBars.registerHelper('checkRelations', function (className) {
+window.$HandleBars.registerHelper('checkFieldType', function (className) {
     try {
-        if(className === "Integer" || className === "String" || className === "Boolean" || className === "Float" || className === "Double" ||
-           className === "Double" || className === "Long" || className === "Date"){
+        if(className.include("Integer") || className.include("String") || className.include("Boolean") || className.include("Float") || 
+           className.include("Double") || className.include("Double") || className.include("Long") || className.include("Date"){
                 return
         }else {
+            if(className.includes("List")){
+                return "@ElementCollection"
+            }
             return "@Embedded"
         }
-        // if(typeof relations === "undefined") {
-        //     // not open uml canvas
-        //     if(isVO) {
-        //         if(className.includes("List")) {
-        //             return "@ElementCollection"
-        //         } else {
-        //             return "@Embedded"
-        //         }
-        //     } 
-        // } else {
-        //     // primitive type
-        //     if(className.includes("String") || className.includes("Integer") || className.includes("Long") || className.includes("Double") || className.includes("Float")
-        //             || className.includes("Boolean") || className.includes("Date")) {
-        //         if(className.includes("List")) {
-        //             return "@ElementCollection"
-        //         }
-        //     } else {
-        //         // ValueObject
-        //         if(isVO) {
-        //             if(className.includes("List")) {
-        //                 return "@ElementCollection"
-        //             } else {
-        //                 return "@Embedded"
-        //             }
-        //         } else {
-        //             for(var i = 0; i < relations.length; i ++ ) {
-        //                 if(relations[i] != null) {
-        //                     if(className.includes(relations[i].targetElement.name) && !relations[i].relationType.includes("Generalization")) {
-        //                         // Enumeration
-        //                         if(relations[i].targetElement._type.endsWith('enum') || relations[i].targetElement._type.endsWith('Exception')) {
-        //                             return
-        //                         }
-        //                         // complex type
-        //                         if(relations[i].sourceMultiplicity == "1" &&
-        //                                 (relations[i].targetMultiplicity == "1..n" || relations[i].targetMultiplicity == "0..n") || className.includes("List")
-        //                         ) {
-        //                             return "@OneToMany"
-
-        //                         } else if((relations[i].sourceMultiplicity == "1..n" || relations[i].sourceMultiplicity == "0..n") && relations[i].targetMultiplicity == "1"){
-        //                             return "@ManyToOne"
-                                
-        //                         } else if(relations[i].sourceMultiplicity == "1" && relations[i].targetMultiplicity == "1"){
-        //                             return "@OneToOne"
-                                
-        //                         } else if((relations[i].sourceMultiplicity == "1..n" || relations[i].sourceMultiplicity == "0..n") &&
-        //                                 (relations[i].targetMultiplicity == "1..n" || relations[i].targetMultiplicity == "0..n") || className.includes("List")
-        //                         ) {
-        //                             return "@ManyToMany"
-        //                         }
-        //                     }
-        //                 }
-        //             }
-        //             if(referenceClass) {
-        //                 return "@OneToOne"
-        //             }
-        //         }
-        //     }
-        // }
     } catch (e) {
         console.log(e)
     }
