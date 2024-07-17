@@ -33,7 +33,7 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
     {{/isKey}}{{/isVO}}
     {{#isLob}}@Lob{{/isLob}}
     {{#if (isPrimitive className)}}{{#isList}}{{/isList}}{{/if}}
-    {{#checkRelations ../aggregateRoot.fieldDescriptors}}{{/checkRelations}}
+    {{#checkRelations ../aggregateRoot.fieldDescriptors.className}}{{/checkRelations}}
     private {{{className}}} {{nameCamelCase}};
     {{/aggregateRoot.fieldDescriptors}}
 
