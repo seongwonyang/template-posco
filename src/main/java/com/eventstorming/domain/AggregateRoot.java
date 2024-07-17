@@ -261,7 +261,7 @@ window.$HandleBars.registerHelper('isPrimitive', function (className) {
 window.$HandleBars.registerHelper('checkFieldType', function (className) {
     try {
         if(className.include("Integer") || className.include("String") || className.include("Boolean") || className.include("Float") || 
-           className.include("Double") || className.include("Double") || className.include("Long") || className.include("Date"){
+           className.include("Double") || className.include("Double") || className.include("Long") || className.include("Date")){
                 return
         }else {
             if(className.includes("List"){
