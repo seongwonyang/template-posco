@@ -264,7 +264,7 @@ window.$HandleBars.registerHelper('checkFieldType', function (className) {
            className.include("Double") || className.include("Double") || className.include("Long") || className.include("Date"){
                 return
         }else {
-            if(className.includes("List")){
+            if(className.includes("List"){
                 return "@ElementCollection"
             }
             return "@Embedded"
