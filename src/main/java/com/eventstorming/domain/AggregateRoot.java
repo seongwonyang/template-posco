@@ -261,7 +261,7 @@ window.$HandleBars.registerHelper('isPrimitive', function (className) {
 window.$HandleBars.registerHelper('checkRelations', function (className) {
     try {
         if(className === "Integer" || className === "String" || className === "Boolean" || className === "Float" || className === "Double" ||
-           className === "Double" || className === "Long" || className === "Date" ||){
+           className === "Double" || className === "Long" || className === "Date"){
                 return
         }else {
             return "@Embedded"
