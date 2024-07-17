@@ -323,7 +323,7 @@ window.$HandleBars.registerHelper('checkRelations', function (className) {
         //             }
         //         }
         //     }
-        }
+        // }
     } catch (e) {
         console.log(e)
     }
