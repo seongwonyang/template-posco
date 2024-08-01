@@ -1,6 +1,7 @@
 forEach: View
 fileName: {{namePascalCase}}Query.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/domain
+except: {{#checkExtend queryOption}}{{/checkExtend}}
 ---
 package {{options.package}}.domain;
 
@@ -15,8 +16,8 @@ public class {{namePascalCase}}Query {
     {{/queryParameters}}
 }
 <function>
-window.$HandleBars.registerHelper('checkExtend', function (readModel) {
-    if(readModel.queryOption.useDefaultUri != true && readModel.queryOption.apiPath !=''){
+window.$HandleBars.registerHelper('checkExtend', function (queryOption) {
+    if(queryOption.useDefaultUri != true && queryOption.apiPath !=''){
         return false;
     }
 });
