@@ -25,11 +25,11 @@ import java.util.List;
 public interface {{aggregate.namePascalCase}}Service {
     {{#queryOption}}
     {{#if multipleResult}}
-    @GetMapping(path="/{{../aggregate.namePlural}}/search/{{#if apiPath}}{{apiPath}}{{else}}findBy{{../namePascalCase}}{{/if}}")
-    public List<{{../aggregate.namePascalCase}}> {{../nameCamelCase}}({{../namePascalCase}}Query query);
+    @GetMapping(path="/{{../aggregate.namePlural}}/search/{{#if useDefaultUri}}findBy{{apiPath}}{{else}}findBy{{../namePascalCase}}{{/if}}")
+    public List<{{../aggregate.namePascalCase}}> {{#if useDefaultUri}}{{apiPath}}{{else}}{{../nameCamelCase}}{{/if}}({{../namePascalCase}}Query {{../nameCamelCase}}query);
     {{else}}
     @GetMapping(path="/{{../aggregate.namePlural}}/search/{{#if apiPath}}{{apiPath}}{{else}}findBy{{../namePascalCase}}{{/if}}")
-    public {{../aggregate.namePascalCase}} {{../nameCamelCase}}(@PathVariable("id") {{../aggregate.keyFieldDescriptor.className}} id);
+    public {{../aggregate.namePascalCase}} {{#if useDefaultUri}}{{apiPath}}{{else}}{{../nameCamelCase}}{{/if}}(@PathVariable{{#../queryParameters}}{{#if isKey}}("{{nameCamelCase}}") {{className}} {{nameCamelCase}}, ({/if}){{/../queryParameters}}{{../namePascalCase}}Query {{../nameCamelCase}}query);
     {{/if}}
     {{/queryOption}}
 
@@ -51,5 +51,8 @@ public interface {{aggregate.namePascalCase}}Service {
 if(!this.contexts.except){
  
 }
+window.$HandleBars.registerHelper('changeUpper', function (name) {
+    return name.charAt(0).toUpperCase() + name.slice(1);
+});
  
 </function>
