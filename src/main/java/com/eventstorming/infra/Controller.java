@@ -34,11 +34,9 @@ public class {{ namePascalCase }}Controller {
     {{/if}}
     {{/each}}
     {{/if}}
-
     {{#commands}}
     {{#isRestRepository}}
     {{/isRestRepository}}
-
     {{^isRestRepository}}
     {{#checkMethod controllerInfo.method}}
     @RequestMapping(value = "/{{../namePlural}}/{id}/{{controllerInfo.apiPath}}",
@@ -56,7 +54,6 @@ public class {{ namePascalCase }}Controller {
             return {{../nameCamelCase}};
             
     }
-    
     {{#each ../aggregateRoot.entities.relations}}
     {{#if (isGeneralization targetElement.namePascalCase ../../namePascalCase relationType)}}
     @RequestMapping(value = "/{{#toURL sourceElement.nameCamelCase}}{{/toURL}}/{id}/{{../controllerInfo.apiPath}}",
@@ -68,9 +65,7 @@ public class {{ namePascalCase }}Controller {
     }
     {{/if}}
     {{/each}}
-
     {{/checkMethod}}
-
     {{^checkMethod controllerInfo.method}}
     @RequestMapping(value = "/{{../namePlural}}{{#if controllerInfo.apiPath}}{{controllerInfo.apiPath}}{{/if}}",
             method = RequestMethod.{{controllerInfo.method}},
@@ -86,7 +81,6 @@ public class {{ namePascalCase }}Controller {
     {{/checkMethod}}    
     {{/isRestRepository}}
     {{/commands}}
-
     {{#if (checkGeneralization aggregateRoot.entities.relations nameCamelCase)}}
     {{#each aggregateRoot.entities.relations}}
     {{#if (isGeneralization targetElement.namePascalCase ../namePascalCase relationType)}}
@@ -112,12 +106,11 @@ public class {{ namePascalCase }}Controller {
     {{/if}}
     {{/each}}
     {{/if}}
-
     {{#attached "View" this}}
     {{#if queryOption.useDefaultUri}}
     {{else}}
     @GetMapping(path = "/{{../namePlural}}/search/findBy{{queryOption.apiPath}}")
-    public {{../namePascalCase}} {{queryOption.apiPath}}{{#queryParameters}}{{#if isKey}}(@PathVariable("{{nameCamelCase}}"){{className}} {{nameCamelCase}}{{/if}},{{/queryParameters}} {{namePascalCase}}Query {{nameCamelCase}}Query) {
+    public {{../namePascalCase}} {{queryOption.apiPath}}{{#queryParameters}}{{#if isKey}}(@PathVariable("{{nameCamelCase}}"){{className}} {{nameCamelCase}}{{/if}}{{/queryParameters}}, {{namePascalCase}}Query {{nameCamelCase}}Query) {
         return {{nameCamelCase}}Repository.{{queryOption.apiPath}}({{#queryParameters}}{{#if isKey}}{{nameCamelCase}},{{else}}{{nameCamelCase}}Query.get{{namePascalCase}}(){{#unless @last}},{{/unless}}{{/if}}{{/queryParameters}});
     }
     {{/if}}
