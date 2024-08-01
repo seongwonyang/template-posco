@@ -112,6 +112,16 @@ public class {{ namePascalCase }}Controller {
     {{/if}}
     {{/each}}
     {{/if}}
+
+    {{#attached "View" this}}
+    {{#if queryOption.useDefaultUri}}
+    {{else}}
+    @GetMapping(path = "/{{../namePlural}}/search/findBy{{queryOption.apiPath}}")
+    public {{../namePascalCase}} {{queryOption.apiPath}}{{#queryParameters}}{{#if isKey}}(@PathVariable("{{nameCamelCase}}"){{className}} {{nameCamelCase}}{{/if}},{{/queryParameters}} {{namePascalCase}}Query {{nameCamelCase}}Query) {
+        return {{nameCamelCase}}Repository.{{queryOption.apiPath}}({{#queryParameters}}{{#if isKey}}{{nameCamelCase}},{{else}}{{nameCamelCase}}Query.get{{namePascalCase}}(){{#unless @last}},{{/unless}}{{/if}}{{/queryParameters}});
+    }
+    {{/if}}
+    {{/attached}}
 }
 //>>> Clean Arch / Inbound Adaptor
 
