@@ -109,7 +109,7 @@ public class {{ namePascalCase }}Controller {
     {{#attached "View" this}}
     {{#if queryOption.useDefaultUri}}
     {{else}}
-    @GetMapping(path = "/{{../namePlural}}/search/findBy{{queryOption.apiPath}}")
+    @GetMapping(path = "/{{../namePlural}}/search/findBy{{#changeUpper queryOption.apiPath}}{{/changeUpper}}")
     public {{../namePascalCase}} {{queryOption.apiPath}}{{#queryParameters}}{{#if isKey}}(@PathVariable("{{nameCamelCase}}"){{className}} {{nameCamelCase}}{{/if}}{{/queryParameters}}, {{namePascalCase}}Query {{nameCamelCase}}Query) {
         return {{../nameCamelCase}}Repository.{{queryOption.apiPath}}({{#queryParameters}}{{#if isKey}}{{nameCamelCase}}, {{else}}{{../nameCamelCase}}Query.get{{namePascalCase}}(){{#unless @last}},{{/unless}}{{/if}}{{/queryParameters}});
     }
@@ -325,4 +325,9 @@ window.$HandleBars.registerHelper('toURL', function (className) {
 
     return pluralize(className.toLowerCase())
 })
+
+window.$HandleBars.registerHelper('changeUpper', function (name) {
+    return name.charAt(0).toUpperCase() + name.slice(1);
+});
+
 </function>
