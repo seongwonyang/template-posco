@@ -1,7 +1,7 @@
 forEach: View
+fileName: {{namePascalCase}}Query.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/domain
-except: {{#checkExtend this}}{{/checkExtend}}
-
+---
 package {{options.package}}.domain;
 
 import java.util.Date;
