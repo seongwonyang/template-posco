@@ -128,7 +128,7 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
         {{#targetAggregate}}
         {{../../../options.package}}.external.{{namePascalCase}}Query {{nameCamelCase}}Query = new {{../../../options.package}}.external.{{namePascalCase}}Query();
         {{#if examples}}
-        {{nameCamelCase}}Query.set{{#../queryParameters}}{{#if isKey}}{{namePascalCase}}{{/if}}{{/../queryParameters}}(1L);
+        {{nameCamelCase}}Query.set{{#queryParameters}}{{#if isKey}}{{namePascalCase}}{{/if}}{{/queryParameters}}(1L);
         {{/if}}
         {{../../../namePascalCase}}Application.applicationContext
             .getBean({{../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
