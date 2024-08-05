@@ -122,6 +122,18 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
         {{/commandValue}}
         {{/relationCommandInfo}}
         {{/triggerByCommand}}
+
+        {{#relationCommandInfo}}
+        {{#if targetAggregate}}
+        {{#targetAggregate}}
+        {{../../../options.package}}.external.{{namePascalCase}} {{nameCamelCase}}Query = new {{../../../options.package}}.external.{{namePascalCase}}();
+        // {{nameCamelCase}}Query.set??(get???());
+        {{../../../namePascalCase}}Application.applicationContext
+            .getBean({{../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
+            .{{#if queryOption.useDefaultUri}}{{nameCamelCase}}{{else}}{{queryOption.apiPath}}{{/if}}({{#queryParameters}}{{#if isKey}}{{nameCamelCase}}, {{/if}}{{/queryParameters}} {{nameCamelCase}}Query);
+        {{/targetAggregate}}
+        {{/if}}
+        {{/relationCommandInfo}}
     }
 //>>> Clean Arch / Port Method
     {{/isRestRepository}}
