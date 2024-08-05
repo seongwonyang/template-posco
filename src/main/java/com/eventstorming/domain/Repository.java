@@ -23,7 +23,7 @@ public interface {{namePascalCase}}Repository extends PagingAndSortingRepository
     @Query(value = "select {{../nameCamelCase}} " +
         "from {{../namePascalCase}} {{../nameCamelCase}} " +
         "where{{#queryParameters}}{{#checkParameterType className nameCamelCase ../../nameCamelCase}}{{/checkParameterType}}{{^@last}} and {{/@last}}{{/queryParameters}}")
-       {{#queryOption}}{{#if multipleResult}}List<{{../../namePascalCase}}>{{else}}{{../../namePascalCase}} {{/if}}{{#if apiPath}}{{apiPath}}{{else}}findBy{{../namePascalCase}}{{/if}}{{/queryOption}}
+       {{#queryOption}}{{#if multipleResult}}List<{{../../namePascalCase}}>{{else}}{{../../namePascalCase}} {{/if}}{{#if useDefaultUri}}findBy{{../namePascalCase}}{{else}}findBy{{#changeUpper apiPath}}{{/changeUpper}}{{/if}}{{/queryOption}}
 ({{#queryParameters}}{{className}} {{nameCamelCase}}{{^@last}}, {{/@last}}{{/queryParameters}}{{#queryOption}}{{#if multipleResult}}, Pageable pageable{{/if}}{{/queryOption}});
 {{/if}}
 {{/attached}}
@@ -182,5 +182,8 @@ public interface {{namePascalCase}}Repository extends PagingAndSortingRepository
 
     return pluralize(className.toLowerCase())
   })
+  window.$HandleBars.registerHelper('changeUpper', function (name) {
+    return name.charAt(0).toUpperCase() + name.slice(1);
+  });
 
 </function>

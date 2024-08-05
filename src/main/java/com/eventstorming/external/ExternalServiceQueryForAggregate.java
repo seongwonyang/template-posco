@@ -24,10 +24,10 @@ import java.util.List;
 {{#target}}
 public interface {{aggregate.namePascalCase}}Service {
     {{#if queryOption.multipleResult}}
-    @GetMapping(path="/{{aggregate.namePlural}}/search/{{#if queryOption.useDefaultUri}}findBy{{namePascalCase}}{{else}}findBy{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{/if}}")
+    @GetMapping(path="/{{aggregate.namePlural}}/search/{{#if queryOption.useDefaultUri}}findBy{{namePascalCase}}{{else}}findBy{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{/if}}/{id}")
     public List<{{aggregate.namePascalCase}}> {{#if queryOption.useDefaultUri}}{{nameCamelCase}}{{else}}{{queryOption.apiPath}}{{/if}}({{namePascalCase}}Query {{nameCamelCase}}Query);
     {{else}}
-    @GetMapping(path="/{{aggregate.namePlural}}/search/{{#if queryOption.useDefaultUri}}findBy{{namePascalCase}}{{else}}findBy{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{/if}}")
+    @GetMapping(path="/{{aggregate.namePlural}}/search/{{#if queryOption.useDefaultUri}}findBy{{namePascalCase}}{{else}}findBy{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{/if}}/{id}")
     public {{aggregate.namePascalCase}} {{#if queryOption.useDefaultUri}}{{nameCamelCase}}{{else}}{{queryOption.apiPath}}{{/if}}(@PathVariable{{#queryParameters}}{{#if isKey}}("{{nameCamelCase}}") {{className}} {{nameCamelCase}}, {{/if}}{{/queryParameters}}{{namePascalCase}}Query {{nameCamelCase}}Query);
     {{/if}}
 
