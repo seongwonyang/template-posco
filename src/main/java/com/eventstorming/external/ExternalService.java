@@ -37,7 +37,7 @@ public interface {{target.aggregate.namePascalCase}}Service {
     {{/target.isRestRepository}}
     {{^target.isRestRepository}}
     @RequestMapping(method= RequestMethod.{{target.controllerInfo.method}}, path="/{{#setPath target}}{{/setPath}}")
-    public void {{target.nameCamelCase}}(@PathVariable("id") {{target.aggregate.keyFieldDescriptor.className}} {{target.aggregate.keyFieldDescriptor.name}}{{#if (hasFields target.fieldDescriptors)}}, @RequestBody {{target.namePascalCase}}Command {{target.nameCamelCase}}Command {{/if}});
+    public void {{target.nameCamelCase}}(@PathVariable("id") {{target.aggregate.keyFieldDescriptor.className}} {{target.aggregate.keyFieldDescriptor.name}} {{#if (hasFields target.fieldDescriptors)}}, @RequestBody {{target.namePascalCase}}Command {{target.nameCamelCase}}Command {{/if}});
     {{/target.isRestRepository}}
 }
 
