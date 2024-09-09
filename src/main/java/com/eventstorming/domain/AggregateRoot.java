@@ -274,14 +274,14 @@ window.$HandleBars.registerHelper('isPrimitive', function (className) {
 
 window.$HandleBars.registerHelper('checkFieldType', function (className) {
     try {
-        if {
+        if (className.equals("Integer") || className.equals("String") || className.equals("Boolean") || className.equals("Float") || 
+           className.equals("Double") || className.equals("Double") || className.equals("Long") || className.equals("Date")){
+                return
+        }else {
             if(className.includes("List")){
                 return "@ElementCollection"
             }
             return "@Embedded"
-        }else (className.includes("Integer") || className.includes("String") || className.includes("Boolean") || className.includes("Float") || 
-           className.includes("Double") || className.includes("Double") || className.equals("Long") || className.includes("Date")){
-                return
         }
     } catch (e) {
         console.log(e)
