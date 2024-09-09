@@ -1,7 +1,7 @@
 forEach: Aggregate
 representativeFor: Aggregate
 fileName: {{namePascalCase}}.java
-path: {{boundedContext.name}}/{{{options.packagePath}}}/domain
+path: {{boundedContext.name}}/{{options.packagePath}}/domain
 ---
 package {{options.package}}.domain;
 
@@ -34,7 +34,7 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
     {{#isLob}}@Lob{{/isLob}}
     {{#if (isPrimitive className)}}{{#isList}}{{/isList}}{{/if}}
     {{#checkFieldType className}}{{/checkFieldType}}
-    private {{{className}}} {{nameCamelCase}};
+    private {{className}} {{nameCamelCase}};
     {{/aggregateRoot.fieldDescriptors}}
 
 {{#lifeCycles}}
