@@ -34,7 +34,7 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
     {{#isLob}}@Lob{{/isLob}}
     {{#if (isPrimitive className)}}{{#isList}}{{/isList}}{{/if}}
     {{#checkFieldType className}}{{/checkFieldType}}
-    private {{className}} {{nameCamelCase}};
+    private {{{className}}} {{nameCamelCase}};
     {{/aggregateRoot.fieldDescriptors}}
 
 {{#lifeCycles}}
@@ -274,8 +274,8 @@ window.$HandleBars.registerHelper('isPrimitive', function (className) {
 
 window.$HandleBars.registerHelper('checkFieldType', function (className) {
     try {
-        if (className.equals("Integer") || className.equals("String") || className.equals("Boolean") || className.equals("Float") || 
-           className.equals("Double") || className.equals("Double") || className.equals("Long") || className.equals("Date")){
+        if (className==="Integer" || className==="String" || className==="Boolean" || className==="Float" || 
+           className==="Double" || className==="Double" || className==="Long" || className==="Date"){
                 return
         }else {
             if(className.includes("List")){
