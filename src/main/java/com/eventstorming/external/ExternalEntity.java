@@ -27,7 +27,7 @@ public class {{namePascalCase}} {
 
     this.contexts.except = !(isExternalInvocation && isPostInvocation && !isAggRelationInvocation)
     if(isGetInvocation){
-        this.contexts.except = true;
+        this.contexts.except = false;
     }
     this.contexts.aggregate = (this.target._type.endsWith("Aggregate") ? this.target : this.target.aggregate)
 
