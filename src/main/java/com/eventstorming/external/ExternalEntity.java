@@ -25,10 +25,7 @@ public class {{namePascalCase}} {
     let isExternalInvocation = (this.source.boundedContext.name != this.target.boundedContext.name)
     let isAggRelationInvocation = (this.source._type.endsWith("Command") && this.target._type.endsWith("Aggregate"))
 
-    this.contexts.except = !(isExternalInvocation && isPostInvocation && !isAggRelationInvocation)
-    if(isGetInvocation){
-        this.contexts.except = false;
-    }
+    this.contexts.except = !(isExternalInvocation && (isPostInvocation || isGetInvocation) && !isAggRelationInvocation);
     this.contexts.aggregate = (this.target._type.endsWith("Aggregate") ? this.target : this.target.aggregate)
 
     window.$HandleBars.registerHelper('safeTypeOf', function (className) {

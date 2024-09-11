@@ -41,7 +41,7 @@ public interface {{namePascalCase}}Service {
     let isExternalInvocation = (this.source.boundedContext.name != this.target.boundedContext.name)
     let isAggRelationInvocation = (this.source._type.endsWith("Command") && this.target._type.endsWith("Aggregate"))
 
-    this.contexts.except = !(isExternalInvocation && isPostInvocation && !isAggRelationInvocation)
+    this.contexts.except = !(isExternalInvocation && (isPostInvocation || isGetInvocation) && !isAggRelationInvocation);
  
 if(!this.contexts.except){
  
