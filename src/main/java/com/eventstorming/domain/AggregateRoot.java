@@ -94,7 +94,36 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
 
 
     {{#commands}}
-    {{^isRestRepository}}
+    {{#if isRestRepository}}
+    public void {{nameCamelCase}}({{#if (has fieldDescriptors)}}{{namePascalCase}}Command {{nameCamelCase}}Command{{/if}}){
+        //implement business logic here:
+        
+        {{#triggerByCommand}}
+        {{eventValue.namePascalCase}} {{eventValue.nameCamelCase}} = new {{eventValue.namePascalCase}}(this);
+        {{#correlationGetSet .. eventValue}}
+        {{#if target}}
+        {{../eventValue.nameCamelCase}}.set{{target.namePascalCase}}({{../../nameCamelCase}}Command.get{{source.namePascalCase}}());
+        {{/if}}
+        {{/correlationGetSet}}
+        {{eventValue.nameCamelCase}}.publishAfterCommit();
+        {{/triggerByCommand}}
+        
+        
+        {{#relationCommandInfo}}
+        {{#if targetAggregate}}
+        {{#targetAggregate}}
+        {{../../../options.package}}.external.{{namePascalCase}}Query {{nameCamelCase}}Query = new {{../../../options.package}}.external.{{namePascalCase}}Query();
+        {{#if examples}}
+        {{nameCamelCase}}Query.set{{#queryParameters}}{{#if isKey}}{{namePascalCase}}{{/if}}{{/queryParameters}}(1L);
+        {{/if}}
+        {{../../../namePascalCase}}Application.applicationContext
+            .getBean({{../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
+            .{{#if queryOption.useDefaultUri}}{{nameCamelCase}}{{else}}{{queryOption.apiPath}}{{/if}}({{#queryParameters}}{{#if isKey}}{{../nameCamelCase}}Query.get{{namePascalCase}}(), {{/if}}{{/queryParameters}} {{nameCamelCase}}Query);
+        {{/targetAggregate}}
+        {{/if}}
+        {{/relationCommandInfo}}
+    }
+    {{else}}
 //<<< Clean Arch / Port Method
     public void {{nameCamelCase}}({{#if (has fieldDescriptors)}}{{namePascalCase}}Command {{nameCamelCase}}Command{{/if}}){
         
@@ -132,13 +161,13 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
         {{/if}}
         {{../../../namePascalCase}}Application.applicationContext
             .getBean({{../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-            .{{#if queryOption.useDefaultUri}}{{nameCamelCase}}{{else}}{{queryOption.apiPath}}{{/if}}({{#queryParameters}}{{#if isKey}}{{../nameCamelCase}}Query.get{{namePascalCase}}, {{/if}}{{/queryParameters}} {{nameCamelCase}}Query);
+            .{{#if queryOption.useDefaultUri}}{{nameCamelCase}}{{else}}{{queryOption.apiPath}}{{/if}}({{#queryParameters}}{{#if isKey}}{{../nameCamelCase}}Query.get{{namePascalCase}}(), {{/if}}{{/queryParameters}} {{nameCamelCase}}Query);
         {{/targetAggregate}}
         {{/if}}
         {{/relationCommandInfo}}
     }
 //>>> Clean Arch / Port Method
-    {{/isRestRepository}}
+    {{/if}}
     {{/commands}}
 
     {{#policyList}}
