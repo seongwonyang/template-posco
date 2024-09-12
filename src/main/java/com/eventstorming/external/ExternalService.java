@@ -46,9 +46,8 @@ public interface {{target.aggregate.namePascalCase}}Service {
     let isGetInvocation = ((this.source._type.endsWith("Command") || this.source._type.endsWith("Policy")) && this.target._type.endsWith("View"))
     let isPostInvocation = ((this.source._type.endsWith("Event") || this.source._type.endsWith("Policy")) && this.target._type.endsWith("Command"))
     let isExternalInvocation = (this.source.boundedContext.name != this.target.boundedContext.name)
-    let isAggRelationInvocation = ((this.source._type.endsWith("Command") || this.source._type.endsWith("Policy")) && this.target._type.endsWith("Aggregate"))
 
-    this.contexts.except = !(isExternalInvocation && (isPostInvocation || isGetInvocation) && !isAggRelationInvocation);
+    this.contexts.except = !(isExternalInvocation && isPostInvocation)
 
   window.$HandleBars.registerHelper('setPath', function (command) {
       if(command && command.controllerInfo && command.controllerInfo.apiPath){
