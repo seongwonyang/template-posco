@@ -722,8 +722,8 @@ path: frontend/src/components
     })
 
     window.$HandleBars.registerHelper('checkMember', function (className, options) {
-        if(className.indexOf("List")){
-            return options.inverse(this);
+        if(className.includes("List")){
+            return
         }else{
             if(!(className.endsWith("Address") || className.endsWith("Photo") || className.endsWith("User") || className.endsWith("Email") || className.endsWith("Payment") || className.endsWith("Money") || className.endsWith("Weather") || className.endsWith("Rating")) || className.endsWith("Likes")|| className.endsWith("Tags")|| className.endsWith("Comment") && className.indexOf("java.") == -1){
                 return options.fn(this);
