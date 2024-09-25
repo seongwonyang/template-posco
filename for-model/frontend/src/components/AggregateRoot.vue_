@@ -504,14 +504,9 @@ path: frontend/src/components
 
     window.$HandleBars.registerHelper('getEntityClassNameOfList', function (name, aggregateRoot) {
 
-        var relation = aggregateRoot.entities.relations;
-        
-        for(var i = 0; i < relation.length; i++){
-            if(relation[i] && relation[i].name == name){
-                return relation[i].targetElement.namePascalCase;
-            }else{
-                return "NO-CLASS";
-            }
+        var relation = aggregateRoot.entities.relations.find(x => x.name == name)
+        if(relation){
+            return relation.targetElement.namePascalCase;
         }
     })
 
