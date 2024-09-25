@@ -722,17 +722,17 @@ path: frontend/src/components
     })
 
     window.$HandleBars.registerHelper('checkMember', function (className, options) {
-        if(!(className.endsWith("Address") || className.endsWith("Photo") || className.endsWith("User") || className.endsWith("Email") 
-                || className.endsWith("Payment") || className.endsWith("Money") || className.endsWith("Weather") || className.endsWith("Rating")) 
-                || className.endsWith("Likes")|| className.endsWith("Tags")|| className.endsWith("Comment") && className.indexOf("java.") == -1){
-            return options.fn(this);
-        } 
-        else if(className.indexOf("List")){
+        if(className.indexOf("List")){
             return options.inverse(this);
+        }else{
+            if(!(className.endsWith("Address") || className.endsWith("Photo") || className.endsWith("User") || className.endsWith("Email") || className.endsWith("Payment") || className.endsWith("Money") || className.endsWith("Weather") || className.endsWith("Rating")) || className.endsWith("Likes")|| className.endsWith("Tags")|| className.endsWith("Comment") && className.indexOf("java.") == -1){
+                return options.fn(this);
+            } 
+            else {
+                return options.inverse(this);
+            }
         }
-        else {
-            return options.inverse(this);
-        }
+
     })
 
 </function>
