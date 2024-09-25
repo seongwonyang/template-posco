@@ -24,19 +24,19 @@ path: frontend/src/components
         {{#if (isNotId nameCamelCase)}}
         {{#if (isPrimitive className)}}
             {{#if isKey}}
-            <3{{getPrimitiveType className}} v-if="editMode" label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" :inputUI="'{{inputUI}}'"/>
+            <{{getPrimitiveType className}} v-if="editMode" label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" :inputUI="'{{inputUI}}'"/>
             {{else}}
-            <4{{getPrimitiveType className}} label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" :inputUI="'{{inputUI}}'"/>
+            <{{getPrimitiveType className}} label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" :inputUI="'{{inputUI}}'"/>
             {{/if}}
         {{else}}
             {{#checkVO className}}
             <2{{className}} offline label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
             {{/checkVO}}
-            {{#checkEntityMember className}}
-            <1{{className}} offline label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
-            {{/checkEntityMember}}
+            {{#checkMember className}}
+            <11{{className}} offline label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
+            {{/checkMember}}
             {{#checkListOfEntityMember className}}
-            <5{{getEntityClassNameOfList name ../aggregateRoot}}Manager offline label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
+            <{{getEntityClassNameOfList name ../aggregateRoot}}Manager offline label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
             {{/checkListOfEntityMember}}
         {{/if}}
         {{/if}}
@@ -719,6 +719,20 @@ path: frontend/src/components
       }
 
       return pluralize(className.toLowerCase())
+    })
+
+    window.$HandleBars.registerHelper('checkMember', function (className, options) {
+        if(!(className.endsWith("Address") || className.endsWith("Photo") || className.endsWith("User") || className.endsWith("Email") 
+                || className.endsWith("Payment") || className.endsWith("Money") || className.endsWith("Weather") || className.endsWith("Rating")) 
+                || className.endsWith("Likes")|| className.endsWith("Tags")|| className.endsWith("Comment") && className.indexOf("java.") == -1{
+            return options.fn(this);
+        } 
+        else if(className.indexOf("List")){
+            return options.inverse(this);
+        }
+        else {
+            return options.inverse(this);
+        }
     })
 
 </function>
