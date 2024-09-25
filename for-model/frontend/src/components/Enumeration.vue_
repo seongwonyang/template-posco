@@ -12,7 +12,7 @@ path: frontend/src/components
                 <v-select
                         v-model="newValue"
                         :label="'name'"
-                        :items="{{pascalCase name}}List"
+                        :items="{{camelCase name}}List"
                 ></v-select>
             </div>
             <div v-else style="margin-top:-20px;">

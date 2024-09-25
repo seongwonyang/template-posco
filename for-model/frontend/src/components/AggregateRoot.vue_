@@ -19,7 +19,7 @@ path: frontend/src/components
             {{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}
         </v-card-title >        
 
-        <v-card-text>
+        <v-card-text style="background-color: white;">
         {{#aggregateRoot.fieldDescriptors}}
         {{#if (isNotId nameCamelCase)}}
         {{#if (isPrimitive className)}}
@@ -43,7 +43,7 @@ path: frontend/src/components
         {{/aggregateRoot.fieldDescriptors}}
         </v-card-text>
 
-        <v-card-actions>
+        <v-card-actions style="background-color: white;">
             <v-spacer></v-spacer>
             <v-btn
                 color="primary"
@@ -506,7 +506,7 @@ path: frontend/src/components
         var regex = /\<(.*?)\>/g;
         var match = regex.exec(listClassName);
         if (match) {
-            return (match[1]);
+            return match[1];
         }
         return "NO-CLASS";
     })

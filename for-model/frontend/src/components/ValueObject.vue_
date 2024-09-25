@@ -103,17 +103,17 @@ path: frontend/src/components
             }
             {{/referenceClass}}
             {{^referenceClass}}
-            if(typeof this.value === 'object') {
             {{#fieldDescriptors}}
             {{#if (isNotId nameCamelCase)}}
             {{#if (isPrimitive className)}}
+            if(typeof this.value === 'object') {
                 if(!('{{nameCamelCase}}' in this.value)) {
                     this.value.{{nameCamelCase}} = {{#setDefaultValue className}}{{/setDefaultValue}};
                 }
+            }
             {{/if}}
             {{/if}}
             {{/fieldDescriptors}}
-            }
             {{/referenceClass}}
         },
         watch: {
