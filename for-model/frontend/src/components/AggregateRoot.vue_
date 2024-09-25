@@ -24,19 +24,19 @@ path: frontend/src/components
         {{#if (isNotId nameCamelCase)}}
         {{#if (isPrimitive className)}}
             {{#if isKey}}
-            <{{getPrimitiveType className}} v-if="editMode" label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" :inputUI="'{{inputUI}}'"/>
+            <3{{getPrimitiveType className}} v-if="editMode" label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" :inputUI="'{{inputUI}}'"/>
             {{else}}
-            <{{getPrimitiveType className}} label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" :inputUI="'{{inputUI}}'"/>
+            <4{{getPrimitiveType className}} label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" :inputUI="'{{inputUI}}'"/>
             {{/if}}
         {{else}}
             {{#checkVO className}}
-            <{{className}} offline label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
+            <2{{className}} offline label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
             {{/checkVO}}
             {{#checkEntityMember className}}
-            <{{className}} offline label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
+            <1{{className}} offline label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
             {{/checkEntityMember}}
             {{#checkListOfEntityMember className}}
-            <{{getEntityClassNameOfList name ../aggregateRoot}}Manager offline label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
+            <5{{getEntityClassNameOfList name ../aggregateRoot}}Manager offline label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
             {{/checkListOfEntityMember}}
         {{/if}}
         {{/if}}
