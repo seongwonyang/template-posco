@@ -36,7 +36,7 @@ path: frontend/src/components
             <{{className}} offline label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
             {{/checkEntityMember}}
             {{#checkListOfEntityMember className}}
-            <{{getEntityClassNameOfList className}}Manager offline label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
+            <{{getEntityClassNameOfList name ../aggregateRoot}}Manager offline label="{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}" v-model="value.{{nameCamelCase}}" :editMode="editMode" @change="change"/>
             {{/checkListOfEntityMember}}
         {{/if}}
         {{/if}}
@@ -502,11 +502,17 @@ path: frontend/src/components
         }
     })
 
-    window.$HandleBars.registerHelper('getEntityClassNameOfList', function (listClassName) {
+    window.$HandleBars.registerHelper('getEntityClassNameOfList', function (name, aggregateRoot) {
 
-        const regex = /List<(.+)>/;
-        const match = listClassName.match(regex);
-        return match ? match[1] : "NO-CLASS";
+        var relation = aggregateRoot.entities.relations;
+        
+        for(var i = 0; i < relation.length; i++){
+            if(relation[i].name == name){
+                return relation[i].targetElement.namePascalCase;
+            }else{
+                return "NO-CLASS";
+            }
+        }
     })
 
     window.$HandleBars.registerHelper('setOperations', function (commands, name, options) {
