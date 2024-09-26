@@ -20,12 +20,12 @@ path: frontend/src/components/listers
             style="padding:10px 0px 10px 0px; margin-bottom:40px;"
         >
             <v-row>
-                <v-list-item class="d-flex">
+                <v-list-item class="d-flex" {{#if uiStyle.icon}}{{else}}style="background-color: white;"{{/if}}>
+                        {{#if uiStyle.icon}}
                     <v-list-item-avatar
                         size="70"
                         class="border-color"
                     >
-                        {{#if uiStyle.icon}}
                         <span class="material-symbols-outlined" style="font-size:60px; color:#9575CD;">{{uiStyle.icon}}</span>
                         {{else}}
                         {{/if}}
