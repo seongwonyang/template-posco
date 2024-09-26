@@ -27,9 +27,9 @@ path: frontend/src/components/listers
                         class="border-color"
                     >
                         <span class="material-symbols-outlined" style="font-size:60px; color:#9575CD;">{{uiStyle.icon}}</span>
+                    </v-list-item-avatar>
                         {{else}}
                         {{/if}}
-                    </v-list-item-avatar>
                     <h1 class="align-self-center ml-3">{{#ifNotNull displayName namePascalCase}}{{/ifNotNull}}</h1>
                     <div class="secondary-text-color" style="margin-left:30px;">{{description}}</div>
                 </v-list-item>
