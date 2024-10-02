@@ -26,15 +26,15 @@ public interface {{aggregate.namePascalCase}}Service {
     {{#if queryOption.multipleResult}}
     {{#if queryOption.useDefaultUri}}
     {{else}}
-    @GetMapping(path="/{{aggregate.namePlural}}/search/{{#if queryOption.useDefaultUri}}findBy{{namePascalCase}}{{else}}findBy{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{/if}}/{id}")
-    public List<{{aggregate.namePascalCase}}> {{#if queryOption.useDefaultUri}}{{nameCamelCase}}{{else}}{{queryOption.apiPath}}{{/if}}({{namePascalCase}}Query {{nameCamelCase}}Query);
+    @GetMapping(path="/{{aggregate.namePlural}}/search/findBy{{#if queryOption.apiPath}}{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{else}}{{namePascalCase}}{{/if}}/{id}")
+    public List<{{aggregate.namePascalCase}}> {{queryOption.apiPath}}(@PathVariable {{#checkKeyParameter this}}{{/checkKeyParameter}}, {{namePascalCase}}Query {{nameCamelCase}}Query);
     {{/if}}
     {{else}}
     {{#if queryOption.useDefaultUri}}
     @GetMapping(path="/{{aggregate.namePlural}}/{id}")
     public {{aggregate.namePascalCase}} {{nameCamelCase}} (@PathVariable ("{{aggregate.keyFieldDescriptor.nameCamelCase}}") {{aggregate.keyFieldDescriptor.className}} {{aggregate.keyFieldDescriptor.nameCamelCase}});
     {{else}} 
-    @GetMapping(path="/{{aggregate.namePlural}}/search/findBy{{#changeUpper queryOption.apiPath}}{{/changeUpper}}/{id}")
+    @GetMapping(path="/{{aggregate.namePlural}}/search/findBy{{#if queryOption.apiPath}}{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{else}}{{namePascalCase}}{{/if}}/{id}")
     public {{aggregate.namePascalCase}} {{queryOption.apiPath}}(@PathVariable {{#checkKeyParameter this}}{{/checkKeyParameter}}, {{namePascalCase}}Query {{nameCamelCase}}Query);
     {{/if}}
     {{/if}}
