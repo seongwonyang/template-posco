@@ -24,7 +24,7 @@ public class {{target.namePascalCase}}Query {
 this.contexts.except = !(
     (this.source._type.endsWith("Command") || this.source._type.endsWith("Policy")) && 
     (this.target._type.endsWith("View") && this.target.dataProjection=="query-for-aggregate") &&
-    (this.target.queryParameters !='')
+    (this.target.queryParameters !='') 
 )
  
 if(!this.contexts.except){  
