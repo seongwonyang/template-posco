@@ -24,11 +24,19 @@ import java.util.List;
 {{#target}}
 public interface {{aggregate.namePascalCase}}Service {
     {{#if queryOption.multipleResult}}
-    @GetMapping(path="/{{aggregate.namePlural}}/search/{{#if queryOption.useDefaultUri}}findBy{{namePascalCase}}{{else}}findBy{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{/if}}/{id}")
-    public List<{{aggregate.namePascalCase}}> {{#if queryOption.useDefaultUri}}{{nameCamelCase}}{{else}}{{queryOption.apiPath}}{{/if}}({{namePascalCase}}Query {{nameCamelCase}}Query);
+    {{#if queryOption.useDefaultUri}}
     {{else}}
     @GetMapping(path="/{{aggregate.namePlural}}/search/{{#if queryOption.useDefaultUri}}findBy{{namePascalCase}}{{else}}findBy{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{/if}}/{id}")
-    public {{aggregate.namePascalCase}} {{#if queryOption.useDefaultUri}}{{nameCamelCase}}{{else}}{{queryOption.apiPath}}{{/if}}(@PathVariable{{#queryParameters}}{{#if isKey}}("{{nameCamelCase}}") {{className}} {{nameCamelCase}}, {{/if}}{{/queryParameters}}{{namePascalCase}}Query {{nameCamelCase}}Query);
+    public List<{{aggregate.namePascalCase}}> {{#if queryOption.useDefaultUri}}{{nameCamelCase}}{{else}}{{queryOption.apiPath}}{{/if}}({{namePascalCase}}Query {{nameCamelCase}}Query);
+    {{/if}}
+    {{else}}
+    {{#if queryOption.useDefaultUri}}
+    @GetMapping(path="/{{aggregate.namePlural}}/{id}")
+    public {{aggregate.namePascalCase}} {{nameCamelCase}} (@PathVariable ("{{aggregate.keyFieldDescriptor.nameCamelCase}}") {{aggregate.keyFieldDescriptor.className}} {{aggregate.keyFieldDescriptor.nameCamelCase}});
+    {{else}} 
+    @GetMapping(path="/{{aggregate.namePlural}}/search/findBy{{#changeUpper queryOption.apiPath}}{{/changeUpper}}/{id}")
+    public {{aggregate.namePascalCase}} {{queryOption.apiPath}}(@PathVariable {{#checkKeyParameter this}}{{/checkKeyParameter}}, {{namePascalCase}}Query {{nameCamelCase}}Query);
+    {{/if}}
     {{/if}}
 
 }
@@ -51,6 +59,20 @@ if(!this.contexts.except){
 }
 window.$HandleBars.registerHelper('changeUpper', function (name) {
     return name.charAt(0).toUpperCase() + name.slice(1);
+});
+
+window.$HandleBars.registerHelper('checkKeyParameter', function (view) {
+    var idType = ""
+    for( var i = 0; i < view.queryParameters.length; i++){
+        if(view.queryParameters[i].isKey){
+            idType = `("${view.queryParameters[i].nameCamelCase}") ` + view.queryParameters[i].className + " " + view.queryParameters[i].nameCamelCase
+            
+        }else{
+            idType = "(id) " + view.aggregate.keyFieldDescriptor.className + " " + view.aggregate.keyFieldDescriptor.nameCamelCase
+            
+        }
+        return idType
+    }
 });
  
 </function>
