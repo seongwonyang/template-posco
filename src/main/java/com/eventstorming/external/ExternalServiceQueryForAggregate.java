@@ -31,7 +31,7 @@ public interface {{aggregate.namePascalCase}}Service {
     {{/if}}
     {{else}}
     {{#if queryOption.useDefaultUri}}
-    @GetMapping(path="/{{aggregate.namePlural}}/{id}")
+    @GetMapping(path="/{{aggregate.namePlural}}/{{#addMustache aggregate.keyFieldDescriptor.nameCamelCase}}{{/addMustache}}")
     public {{aggregate.namePascalCase}} {{nameCamelCase}} (@PathVariable ("{{aggregate.keyFieldDescriptor.nameCamelCase}}") {{aggregate.keyFieldDescriptor.className}} {{aggregate.keyFieldDescriptor.nameCamelCase}});
     {{else}} 
     @GetMapping(path="/{{aggregate.namePlural}}/search/findBy{{#if queryOption.apiPath}}{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{else}}{{namePascalCase}}{{/if}}/{id}")
@@ -59,6 +59,12 @@ if(!this.contexts.except){
 }
 window.$HandleBars.registerHelper('changeUpper', function (name) {
     return name.charAt(0).toUpperCase() + name.slice(1);
+});
+
+window.$HandleBars.registerHelper('addMustache', function (name) {
+    var keyName = ''
+    keyName = "{" + name + "}"
+    return keyName
 });
 
 window.$HandleBars.registerHelper('checkKeyParameter', function (view) {
