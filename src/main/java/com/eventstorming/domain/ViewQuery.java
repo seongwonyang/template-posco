@@ -17,7 +17,9 @@ public class {{namePascalCase}}Query {
 }
 <function>
 window.$HandleBars.registerHelper('checkExtend', function (view) {
-    if(view.queryOption.useDefaultUri != true && view.queryParameters !=''){
+    if(view.queryOption.useDefaultUri && view.queryParameters ==''){
+        return true;
+    }else{
         return false;
     }
 });
