@@ -320,7 +320,8 @@ path: frontend/src/components
                 this.$emit('input', this.value);
             },
             {{#commands}}
-            {{^isRestRepository}}
+            {{#if isRestRepository}}
+            {{else}}
             {{#checkCommandPut controllerInfo.method}}
             async {{nameCamelCase}}({{#if (checkParam fieldDescriptors)}}params{{/if}}) {
                 try {
@@ -398,7 +399,7 @@ path: frontend/src/components
                 }
             },
             {{/checkCommandPost}}
-            {{/isRestRepository}}
+            {{/if}}
             {{/commands}}
             {{#aggregateRoot.operations}}
             {{#setOperations ../commands name}}
