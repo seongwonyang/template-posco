@@ -95,23 +95,10 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
 
     {{#commands}}
     {{#if isRestRepository}}
-    public void {{nameCamelCase}}({{#if (has fieldDescriptors)}}{{namePascalCase}}Command {{nameCamelCase}}Command{{/if}}){
-        //implement business logic here:
-        
-        {{#triggerByCommand}}
-        {{eventValue.namePascalCase}} {{eventValue.nameCamelCase}} = new {{eventValue.namePascalCase}}(this);
-        {{#correlationGetSet .. eventValue}}
-        {{#if target}}
-        {{../eventValue.nameCamelCase}}.set{{target.namePascalCase}}({{../../nameCamelCase}}Command.get{{source.namePascalCase}}());
-        {{/if}}
-        {{/correlationGetSet}}
-        {{eventValue.nameCamelCase}}.publishAfterCommit();
-        {{/triggerByCommand}}
-        
-        
         {{#relationCommandInfo}}
         {{#if targetAggregate}}
         {{#targetAggregate}}
+    public void {{nameCamelCase}}({{#if (has fieldDescriptors)}}{{namePascalCase}}Command {{nameCamelCase}}Command{{/if}}){
         {{../../../options.package}}.external.{{namePascalCase}}Query {{nameCamelCase}}Query = new {{../../../options.package}}.external.{{namePascalCase}}Query();
         {{#if examples}}
         {{nameCamelCase}}Query.set{{#queryParameters}}{{#if isKey}}{{namePascalCase}}{{/if}}{{/queryParameters}}(1L);
@@ -119,10 +106,11 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
         {{../../../namePascalCase}}Application.applicationContext
             .getBean({{../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
             .{{#if queryOption.useDefaultUri}}{{nameCamelCase}}{{else}}{{queryOption.apiPath}}{{/if}}({{#queryParameters}}{{#if isKey}}{{../nameCamelCase}}Query.get{{namePascalCase}}(), {{/if}}{{/queryParameters}} {{nameCamelCase}}Query);
+    }
         {{/targetAggregate}}
         {{/if}}
         {{/relationCommandInfo}}
-    }
+    
     {{else}}
 //<<< Clean Arch / Port Method
     public void {{nameCamelCase}}({{#if (has fieldDescriptors)}}{{namePascalCase}}Command {{nameCamelCase}}Command{{/if}}){
