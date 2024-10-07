@@ -17,7 +17,7 @@ import java.util.List;
 {{#ifEquals dataProjection "query-for-aggregate"}}
 @Service
 public class {{aggregate.namePascalCase}}ServiceImpl implements {{aggregate.namePascalCase}}Service {
-    {{#queryOption.multipleResult}}
+    {{#if queryOption.multipleResult}}
     public List<{{aggregate.namePascalCase}}> {{nameCamelCase}}({{namePascalCase}}Query query){
         {{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = new {{aggregate.namePascalCase}}();
         
@@ -27,12 +27,12 @@ public class {{aggregate.namePascalCase}}ServiceImpl implements {{aggregate.name
         return list;
     }
     {{else}}
-    public {{aggregate.namePascalCase}} {{nameCamelCase}}({{aggregate.keyFieldDescriptor.className}} id){
+    public {{aggregate.namePascalCase}} {{nameCamelCase}}({{namePascalCase}}Query id){
         {{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = new {{aggregate.namePascalCase}}();
         
         return {{aggregate.nameCamelCase}};
     }
-    {{/queryOption.multipleResult}}
+    {{/if}}
 {{/ifEquals}}
 {{/target}}
 {{/ifContains}}
@@ -42,7 +42,7 @@ public class {{aggregate.namePascalCase}}ServiceImpl implements {{aggregate.name
 
 <function> 
  
-var commandToReadModelOrPolicy = ((this.source._type.endsWith("Command") || this.source._type.endsWith("Policy")) && (this.target._type.endsWith("View") || this.target._type.endsWith("Aggregate")))
+var commandToReadModelOrPolicy = ((this.source._type.endsWith("Command") || this.source._type.endsWith("Policy")) && this.target._type.endsWith("View"))
  this.contexts.except = !(commandToReadModelOrPolicy && this.value.fallback)
 
 
