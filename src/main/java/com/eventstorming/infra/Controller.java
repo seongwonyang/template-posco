@@ -110,7 +110,7 @@ public class {{ namePascalCase }}Controller {
     {{#if queryOption.useDefaultUri}}
     {{else}}
     @GetMapping(path = "/{{../namePlural}}/search/findBy{{#if queryOption.apiPath}}{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{else}}{{namePascalCase}}{{/if}}")
-    public {{../namePascalCase}} {{#if queryOption.apiPath}}{{queryOption.apiPath}}{{else}}{{nameCamelCase}}{{/if}}{{#queryParameters}}({{namePascalCase}}Query {{nameCamelCase}}Query) {
+    public {{../namePascalCase}} {{#if queryOption.apiPath}}{{queryOption.apiPath}}{{else}}{{nameCamelCase}}{{/if}}({{namePascalCase}}Query {{nameCamelCase}}Query) {
         return {{../nameCamelCase}}Repository.findBy{{#if queryOption.apiPath}}{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{else}}{{namePascalCase}}{{/if}}({{#queryParameters}}{{../nameCamelCase}}Query.get{{namePascalCase}}(){{#unless @last}},{{/unless}}{{/queryParameters}});
     }
     {{/if}}
