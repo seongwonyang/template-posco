@@ -2,7 +2,6 @@ forEach: Relation
 fileName: {{target.aggregate.namePascalCase}}Service.java
 path: {{source.boundedContext.name}}/{{options.packagePath}}/external
 except: {{contexts.except}}
-ifDuplicated: merge
 ---
 
 package {{options.package}}.external;
