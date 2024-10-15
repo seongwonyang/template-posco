@@ -114,17 +114,6 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
     {{else}}
 //<<< Clean Arch / Port Method
     public void {{nameCamelCase}}({{#if (has fieldDescriptors)}}{{namePascalCase}}Command {{nameCamelCase}}Command{{/if}}){
-        
-        //implement business logic here:
-        
-        {{#triggerByCommand}}
-        {{eventValue.namePascalCase}} {{eventValue.nameCamelCase}} = new {{eventValue.namePascalCase}}(this);
-        {{#correlationGetSet .. eventValue}}
-        {{#if target}}
-        {{../eventValue.nameCamelCase}}.set{{target.namePascalCase}}({{../../nameCamelCase}}Command.get{{source.namePascalCase}}());
-        {{/if}}
-        {{/correlationGetSet}}
-        {{eventValue.nameCamelCase}}.publishAfterCommit();
 
         {{#relationCommandInfo}}
         {{#commandValue}}
@@ -175,6 +164,17 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
         {{/targetAggregate}}
         {{/if}}
         {{/relationCommandInfo}}
+
+        //implement business logic here:
+        
+        {{#triggerByCommand}}
+        {{eventValue.namePascalCase}} {{eventValue.nameCamelCase}} = new {{eventValue.namePascalCase}}(this);
+        {{#correlationGetSet .. eventValue}}
+        {{#if target}}
+        {{../eventValue.nameCamelCase}}.set{{target.namePascalCase}}({{../../nameCamelCase}}Command.get{{source.namePascalCase}}());
+        {{/if}}
+        {{/correlationGetSet}}
+        {{eventValue.nameCamelCase}}.publishAfterCommit();
     }
 //>>> Clean Arch / Port Method
     {{/if}}
