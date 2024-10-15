@@ -1,5 +1,5 @@
 forEach: View
-fileName: {{namePascalCase}}Query.java
+fileName: {{#if queryOption.apiPath}}{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{else}}{{namePascalCase}}{{/if}}Query.java
 path: {{boundedContext.name}}/{{{options.packagePath}}}/domain
 except: {{#checkExtend this}}{{/checkExtend}}
 ---
@@ -22,5 +22,8 @@ window.$HandleBars.registerHelper('checkExtend', function (view) {
     }else{
         return false;
     }
+});
+window.$HandleBars.registerHelper('changeUpper', function (name) {
+    return name.charAt(0).toUpperCase() + name.slice(1);
 });
 </function>
