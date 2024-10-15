@@ -1,5 +1,5 @@
 forEach: Relation
-fileName: {{#target}}{{#if queryOption.apiPath}}{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{else}}{{namePascalCase}}{{/if}}{{/target}}Query.java
+fileName: {{pascalCase target.name}}Query.java
 path: {{source.boundedContext.name}}/{{options.packagePath}}/external
 except: {{contexts.except}}
 ---
@@ -29,9 +29,5 @@ this.contexts.except = !(
  
 if(!this.contexts.except){  
 }
-
-window.$HandleBars.registerHelper('changeUpper', function (name) {
-    return name.charAt(0).toUpperCase() + name.slice(1);
-});
  
 </function>
