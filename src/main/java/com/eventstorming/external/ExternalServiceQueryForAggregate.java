@@ -24,10 +24,10 @@ import java.util.List;
 public interface {{aggregate.namePascalCase}}Service {
     {{#if queryOption.multipleResult}}
     {{#if queryOption.useDefaultUri}}
-    @GetMapping(path="/{{aggregate.namePlural}}/search/findBy{{#if queryOption.apiPath}}{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{else}}{{namePascalCase}}{{/if}}")
+    @GetMapping(path="/{{aggregate.namePlural}}/search/{{#if queryOption.apiPath}}{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{else}}{{namePascalCase}}{{/if}}")
     public {{aggregate.namePascalCase}} {{nameCamelCase}}({{#queryParameters}}{{className}} {{nameCamelCase}}{{#unless @last}},{{/unless}}{{/queryParameters}});
     {{else}}
-    @GetMapping(path="/{{aggregate.namePlural}}/search/findBy{{#if queryOption.apiPath}}{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{else}}{{namePascalCase}}{{/if}}")
+    @GetMapping(path="/{{aggregate.namePlural}}/{{#if queryOption.apiPath}}{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{else}}{{namePascalCase}}{{/if}}")
     public List<{{aggregate.namePascalCase}}> {{#if queryOption.apiPath}}{{queryOption.apiPath}}{{else}}{{nameCamelCase}}{{/if}}({{namePascalCase}}Query {{nameCamelCase}}Query);
     {{/if}}
     {{else}}
@@ -35,7 +35,7 @@ public interface {{aggregate.namePascalCase}}Service {
     @GetMapping(path="/{{aggregate.namePlural}}/{{#addMustache aggregate.keyFieldDescriptor.nameCamelCase}}{{/addMustache}}")
     public {{aggregate.namePascalCase}} {{nameCamelCase}} (@PathVariable ("{{aggregate.keyFieldDescriptor.nameCamelCase}}") {{aggregate.keyFieldDescriptor.className}} {{aggregate.keyFieldDescriptor.nameCamelCase}});
     {{else}} 
-    @GetMapping(path="/{{aggregate.namePlural}}/search/findBy{{#if queryOption.apiPath}}{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{else}}{{namePascalCase}}{{/if}}")
+    @GetMapping(path="/{{aggregate.namePlural}}/{{#if queryOption.apiPath}}{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{else}}{{namePascalCase}}{{/if}}")
     public {{aggregate.namePascalCase}} {{#if queryOption.apiPath}}{{queryOption.apiPath}}{{else}}{{nameCamelCase}}{{/if}}({{namePascalCase}}Query {{nameCamelCase}}Query);
     {{/if}}
     {{/if}}

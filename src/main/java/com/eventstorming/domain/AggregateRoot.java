@@ -148,16 +148,14 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
         // multi default
         List<{{aggregate.namePascalCase}}> {{aggregate.nameCamelCase}} = {{../../../namePascalCase}}Application.applicationContext
             .getBean({{../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-            .{{nameCamelCase}}(get??);
+            .{{nameCamelCase}}//({{#queryParameters}}get{{namePascalCase}}(){{#unless @last}},{{/unless}}{{/queryParameters}});
         {{else}}
         // multi extended
         {{../../../options.package}}.external.{{namePascalCase}}Query {{nameCamelCase}}Query = new {{../../../options.package}}.external.{{namePascalCase}}Query();
-        {{#if examples}}
-        {{nameCamelCase}}Query.set{{#queryParameters}}{{#if isKey}}{{namePascalCase}}{{/if}}{{/queryParameters}}(1L);
-        {{/if}}
-        {{../../../namePascalCase}}Application.applicationContext
+        // {{nameCamelCase}}Query.set??()
+        List<{{aggregate.namePascalCase}}> {{aggregate.nameCamelCase}} = {{../../../namePascalCase}}Application.applicationContext
             .getBean({{../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-            .{{#if queryOption.apiPath}}{{queryOption.apiPath}}{{else}}{{nameCamelCase}}{{/if}}({{#queryParameters}}{{#if isKey}}{{../nameCamelCase}}Query.get{{namePascalCase}}(), {{/if}}{{/queryParameters}} {{nameCamelCase}}Query);
+            .{{#if queryOption.apiPath}}{{queryOption.apiPath}}{{else}}{{nameCamelCase}}{{/if}}({{nameCamelCase}}Query);
         {{/if}}
         {{else}}
         {{#if queryOption.useDefaultUri}}
@@ -168,10 +166,8 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
         {{else}}
         // single extended
         {{../../../options.package}}.external.{{namePascalCase}}Query {{nameCamelCase}}Query = new {{../../../options.package}}.external.{{namePascalCase}}Query();
-        {{#if examples}}
-        {{nameCamelCase}}Query.set{{#queryParameters}}{{#if isKey}}{{namePascalCase}}{{/if}}{{/queryParameters}}(1L);
-        {{/if}}
-        {{../../../namePascalCase}}Application.applicationContext
+        // {{nameCamelCase}}Query.set??()        
+        {{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = {{../../../namePascalCase}}Application.applicationContext
             .getBean({{../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
             .{{#if queryOption.apiPath}}{{queryOption.apiPath}}{{else}}{{nameCamelCase}}{{/if}}({{#queryParameters}}{{#if isKey}}{{../nameCamelCase}}Query.get{{namePascalCase}}(), {{/if}}{{/queryParameters}} {{nameCamelCase}}Query);
         {{/if}}

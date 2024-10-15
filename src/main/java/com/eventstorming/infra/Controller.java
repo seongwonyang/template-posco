@@ -109,9 +109,9 @@ public class {{ namePascalCase }}Controller {
     {{#attached "View" this}}
     {{#if queryOption.useDefaultUri}}
     {{else}}
-    @GetMapping(path = "/{{../namePlural}}/search/findBy{{#if queryOption.apiPath}}{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{else}}{{namePascalCase}}{{/if}}")
+    @GetMapping(path = "/{{../namePlural}}/{{#if queryOption.apiPath}}{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{else}}{{namePascalCase}}{{/if}}")
     public {{#if queryOption.multipleResult}}List<{{../namePascalCase}}>{{else}}{{../namePascalCase}}{{/if}} {{#if queryOption.apiPath}}{{queryOption.apiPath}}{{else}}{{nameCamelCase}}{{/if}}({{namePascalCase}}Query {{nameCamelCase}}Query) {
-        return {{../nameCamelCase}}Repository.findBy{{#if queryOption.apiPath}}{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{else}}{{namePascalCase}}{{/if}}({{#queryParameters}}{{../nameCamelCase}}Query.get{{namePascalCase}}(){{#unless @last}},{{/unless}}{{/queryParameters}});
+        return {{../nameCamelCase}}Repository.{{#if queryOption.apiPath}}{{#changeUpper queryOption.apiPath}}{{/changeUpper}}{{else}}{{namePascalCase}}{{/if}}({{#queryParameters}}{{../nameCamelCase}}Query.get{{namePascalCase}}(){{#unless @last}},{{/unless}}{{/queryParameters}});
     }
     {{/if}}
     {{/attached}}
