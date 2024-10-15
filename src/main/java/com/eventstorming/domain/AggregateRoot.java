@@ -41,6 +41,7 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
     {{annotation}}
     public void on{{trigger}}(){
     {{#commands}}
+    {{#if isRestRepository}}
     {{#relationCommandInfo}}
     {{#if targetAggregate}}
     {{#targetAggregate}}
@@ -72,6 +73,7 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
     {{/targetAggregate}}
     {{/if}}
     {{/relationCommandInfo}}
+    {{/if}}
     {{/commands}}
     {{#events}}
 
