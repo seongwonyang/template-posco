@@ -23,7 +23,7 @@ public interface {{namePascalCase}}Repository extends PagingAndSortingRepository
     @Query(value = "select {{../nameCamelCase}} " +
         "from {{../namePascalCase}} {{../nameCamelCase}} " +
         "where{{#queryParameters}}{{#checkParameterType className nameCamelCase ../../nameCamelCase}}{{/checkParameterType}}{{^@last}} and {{/@last}}{{/queryParameters}}")
-       {{#queryOption}}{{#if multipleResult}}{{#if useDefaultUri}}List<{{../../namePascalCase}}> {{../../nameCamelCase}}{{else}}List<{{../../namePascalCase}}> findBy{{#if apiPath}}{{#changeUpper apiPath}}{{/changeUpper}}{{else}}{{../../namePascalCase}}{{/if}}{{/if}}{{else}}{{#if useDefaultUri}}{{../../namePascalCase}} {{../../nameCamelCase}}{{else}}{{../../namePascalCase}} findBy{{#if apiPath}}{{#changeUpper apiPath}}{{/changeUpper}}{{else}}{{../../namePascalCase}}{{/if}}{{/if}}{{/if}}{{/queryOption}}
+       {{#queryOption}}{{#if multipleResult}}{{#if useDefaultUri}}List<{{../../namePascalCase}}> {{../nameCamelCase}}{{else}}List<{{../../namePascalCase}}> findBy{{#if apiPath}}{{#changeUpper apiPath}}{{/changeUpper}}{{else}}{{../namePascalCase}}{{/if}}{{/if}}{{else}}{{#if useDefaultUri}}{{../../namePascalCase}} {{../nameCamelCase}}{{else}}{{../../namePascalCase}} findBy{{#if apiPath}}{{#changeUpper apiPath}}{{/changeUpper}}{{else}}{{../namePascalCase}}{{/if}}{{/if}}{{/if}}{{/queryOption}}
 ({{#queryParameters}}{{className}} {{nameCamelCase}}{{^@last}}, {{/@last}}{{/queryParameters}}{{#queryOption}}{{#if multipleResult}}, Pageable pageable{{/if}}{{/queryOption}});
 {{/if}}
 {{/attached}}
