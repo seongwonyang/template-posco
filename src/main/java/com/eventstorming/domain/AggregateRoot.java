@@ -115,6 +115,7 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
             .getBean({{../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
             .{{#if queryOption.apiPath}}{{queryOption.apiPath}}{{else}}{{nameCamelCase}}{{/if}}({{#queryParameters}}{{#if isKey}}{{../nameCamelCase}}Query.get{{namePascalCase}}(), {{/if}}{{/queryParameters}} {{nameCamelCase}}Query);
     }
+        {{/if}}
         {{else}}
         {{#if queryOption.useDefaultUri}}
     public void {{nameCamelCase}}({{#if (has fieldDescriptors)}}{{namePascalCase}}Command {{nameCamelCase}}Command{{/if}}){
