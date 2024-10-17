@@ -1,4 +1,4 @@
-path: {{name}}/domain
+path: {{name}}/boot
 fileName: pom.xml
 ---
 <?xml version="1.0" encoding="UTF-8"?>
@@ -12,11 +12,16 @@ fileName: pom.xml
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>domain</artifactId>
-    <name>domain</name>
-    <description>Domain module for {{options.package}}</description>
+    <artifactId>boot</artifactId>
+    <name>boot</name>
+    <description>Boot module for {{options.package}}</description>
 
     <dependencies>
+        <dependency>
+            <groupId>{{options.package}}</groupId>
+            <artifactId>domain</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
