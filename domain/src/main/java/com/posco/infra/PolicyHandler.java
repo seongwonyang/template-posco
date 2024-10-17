@@ -1,5 +1,5 @@
 representativeFor: Policy
-path: {{name}}/infra/{{{options.packagePath}}}/infra
+path: {{name}}/domain/{{{options.packagePath}}}/infra
 mergeType: template
 ---
 package {{options.package}}.infra;

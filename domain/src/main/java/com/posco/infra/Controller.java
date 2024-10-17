@@ -1,7 +1,7 @@
 forEach: Aggregate
 representativeFor: Command
 fileName: {{namePascalCase}}Controller.java
-path: {{boundedContext.name}}/infra/{{{options.packagePath}}}/infra
+path: {{boundedContext.name}}/domain/{{{options.packagePath}}}/infra
 mergeType: template
 ---
 package {{options.package}}.infra;

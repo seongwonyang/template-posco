@@ -1,4 +1,4 @@
-path: {{name}}/infra/{{{options.packagePath}}}/infra
+path: {{name}}/domain/{{{options.packagePath}}}/infra
 ---
 package {{options.package}}.infra;
 
