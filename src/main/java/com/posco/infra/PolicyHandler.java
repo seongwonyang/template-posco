@@ -17,6 +17,7 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import {{options.package}}.domain.*;
+import {{options.package}}.store.*;
 
 //<<< Clean Arch / Inbound Adaptor
 @Service

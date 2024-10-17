@@ -8,6 +8,7 @@ except: {{contexts.isNotCQRS}}
 package {{options.package}}.infra;
 
 import {{options.package}}.domain.*;
+import {{options.package}}.store.*;
 import {{options.package}}.boot.config.kafka.KafkaProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;

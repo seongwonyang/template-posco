@@ -5,7 +5,7 @@ except: {{contexts.except}}
 ifDuplicated: merge
 ---
 
-package {{options.package}}.external;
+package {{options.package}}.service;
 
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;

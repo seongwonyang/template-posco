@@ -5,7 +5,7 @@ except: {{contexts.except}}
 ifDuplicated: merge
 ---
 
-package {{options.package}}.external;
+package {{options.package}}.service;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

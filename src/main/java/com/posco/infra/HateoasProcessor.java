@@ -5,6 +5,7 @@ mergeType: template
 ---
 package {{options.package}}.infra;
 import {{options.package}}.domain.*;
+import {{options.package}}.store.*;
 
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.RepresentationModelProcessor;
