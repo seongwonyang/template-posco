@@ -9,7 +9,7 @@ import javax.naming.NameParser;
 import javax.naming.NameParser;
 import javax.transaction.Transactional;
 
-import {{options.package}}.config.kafka.KafkaProcessor;
+import {{options.package}}.boot.config.kafka.KafkaProcessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,8 +2,8 @@ path: {{name}}/{{{options.packagePath}}}/infra
 ---
 package {{options.package}}.infra;
 
-import {{options.package}}.{{namePascalCase}}Application;
-import {{options.package}}.config.kafka.KafkaProcessor;
+import {{options.package}}.boot.{{namePascalCase}}Application;
+import {{options.package}}.boot.config.kafka.KafkaProcessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

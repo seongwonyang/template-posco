@@ -1,6 +1,6 @@
-path: {{name}}/{{{options.packagePath}}}/config/kafka
+path: {{name}}/{{{options.packagePath}}}/boot/config/kafka
 ---
-package {{options.package}}.config.kafka;
+package {{options.package}}.boot.config.kafka;
 
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.cloud.stream.annotation.Output;
