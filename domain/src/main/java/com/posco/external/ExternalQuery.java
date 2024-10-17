@@ -1,6 +1,6 @@
 forEach: Relation
 fileName: {{pascalCase target.name}}Query.java
-path: {{source.boundedContext.name}}/{{options.packagePath}}/external
+path: {{source.boundedContext.name}}/external/{{{options.packagePath}}}/external
 except: {{contexts.except}}
 ---
 

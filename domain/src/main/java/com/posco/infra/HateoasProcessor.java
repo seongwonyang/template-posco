@@ -1,6 +1,6 @@
 forEach: Aggregate
 fileName: {{namePascalCase}}HateoasProcessor.java
-path: {{boundedContext.name}}/{{{options.packagePath}}}/infra
+path: {{boundedContext.name}}/infra/{{{options.packagePath}}}/infra
 mergeType: template
 ---
 package {{options.package}}.infra;

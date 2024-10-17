@@ -1,7 +1,7 @@
 
 forEach: Relation
 fileName: {{target.namePascalCase}}Command.java
-path: {{source.boundedContext.name}}/{{{options.packagePath}}}/external
+path: {{source.boundedContext.name}}/external/{{{options.packagePath}}}/external
 except: {{contexts.except}}
 ---
 package {{options.package}}.external;

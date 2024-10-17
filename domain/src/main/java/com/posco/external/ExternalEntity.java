@@ -1,6 +1,6 @@
 forEach: Relation
 fileName: {{contexts.aggregate.namePascalCase}}.java
-path: {{boundedContext.name}}/{{{options.packagePath}}}/external
+path: {{boundedContext.name}}/external/{{{options.packagePath}}}/external
 except: {{contexts.except}}
 ---
 package {{options.package}}.external;

@@ -1,7 +1,7 @@
 forEach: View
 representativeFor: View
 fileName: {{namePascalCase}}ViewHandler.java
-path: {{boundedContext.name}}/{{{options.packagePath}}}/infra
+path: {{boundedContext.name}}/infra/{{{options.packagePath}}}/infra
 mergeType: template
 except: {{contexts.isNotCQRS}}
 ---
