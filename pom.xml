@@ -126,3 +126,20 @@ fileName: pom.xml
 	</build>
 
 </project>
+
+<function>
+	window.$HandleBars.registerHelper('replaceName', function (name) {
+		try{
+			if(!name)
+				return;
+
+			if(name.includes(" ")){
+				name = name.replaceAll(" ", "-")
+			}
+
+			return name
+		} catch(e){
+		console.log(e)
+		}
+  	});
+</function>
