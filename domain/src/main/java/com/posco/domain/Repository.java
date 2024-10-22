@@ -1,8 +1,8 @@
 forEach: Aggregate
 fileName: {{namePascalCase}}Repository.java
-path: {{boundedContext.name}}/store/{{{options.packagePath}}}/store
+path: {{boundedContext.name}}/domain/{{{options.packagePath}}}/domain
 ---
-package {{options.package}}.store;
+package {{options.package}}.domain;
 
 {{#if boundedContext.readModels}} 
 import java.util.Date;
