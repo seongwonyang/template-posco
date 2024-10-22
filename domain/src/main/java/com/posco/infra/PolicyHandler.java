@@ -1,6 +1,7 @@
 representativeFor: Policy
 path: {{name}}/domain/{{{options.packagePath}}}/infra
 mergeType: template
+except: true
 ---
 package {{options.package}}.infra;
 
