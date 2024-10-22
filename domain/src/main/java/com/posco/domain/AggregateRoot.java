@@ -25,219 +25,45 @@ import java.time.LocalDate;
 //<<< DDD / Aggregate Root
 public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations namePascalCase}}{{/checkExtends}} {
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long id;
 
     {{#aggregateRoot.fieldDescriptors}}
-    {{^isVO}}{{#isKey}}
-    @Id
-    {{#checkClassType ../aggregateRoot.fieldDescriptors}}{{/checkClassType}}
-    {{/isKey}}{{/isVO}}
+    {{^isKey}}
     {{#isLob}}@Lob{{/isLob}}
     {{#if (isPrimitive className)}}{{#isList}}{{/isList}}{{/if}}
     {{#checkFieldType className isVO}}{{/checkFieldType}}
     private {{{className}}} {{nameCamelCase}};
+    {{/isKey}}
     {{/aggregateRoot.fieldDescriptors}}
 
-{{#lifeCycles}}
-    {{annotation}}
-    public void on{{trigger}}(){
     {{#commands}}
     {{#if isRestRepository}}
-    {{#relationCommandInfo}}
-    {{#if targetAggregate}}
-    {{#targetAggregate}}
-    {{#if queryOption.multipleResult}}
-    {{#if queryOption.useDefaultUri}}
-    List<{{aggregate.namePascalCase}}> {{aggregate.nameCamelCase}}List = {{../../../../namePascalCase}}Application.applicationContext
-        .getBean({{../../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-        .{{nameCamelCase}}//({{#queryParameters}}get{{namePascalCase}}(){{#unless @last}},{{/unless}}{{/queryParameters}});
     {{else}}
-    {{../../../../options.package}}.external.{{namePascalCase}}Query {{nameCamelCase}}Query = new {{../../../../options.package}}.external.{{namePascalCase}}Query();
-    // {{nameCamelCase}}Query.set??()
-    List<{{aggregate.namePascalCase}}> {{aggregate.nameCamelCase}}List = {{../../../../namePascalCase}}Application.applicationContext
-        .getBean({{../../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-        .{{#if queryOption.apiPath}}{{queryOption.apiPath}}{{else}}{{nameCamelCase}}{{/if}}({{nameCamelCase}}Query);
-    {{/if}}
-    {{else}}
-    {{#if queryOption.useDefaultUri}}
-    {{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = {{../../../../namePascalCase}}Application.applicationContext
-        .getBean({{../../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-        .{{nameCamelCase}}(get??);
-    {{else}}
-    {{../../../../options.package}}.external.{{namePascalCase}}Query {{nameCamelCase}}Query = new {{../../../../options.package}}.external.{{namePascalCase}}Query();
-    // {{nameCamelCase}}Query.set??()        
-    {{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = {{../../../../namePascalCase}}Application.applicationContext
-        .getBean({{../../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-        .{{#if queryOption.apiPath}}{{queryOption.apiPath}}{{else}}{{nameCamelCase}}{{/if}}({{nameCamelCase}}Query);
-    {{/if}}
-    {{/if}}
-    {{/targetAggregate}}
-    {{/if}}
-    {{/relationCommandInfo}}
+    //<<< Clean Arch / Port Method
+    public void {{nameCamelCase}}({{#if (has fieldDescriptors)}}{{namePascalCase}}Command {{nameCamelCase}}Command{{/if}}){
+        // 구현 로직
+    }
+    //>>> Clean Arch / Port Method
     {{/if}}
     {{/commands}}
-    {{#events}}
 
-        {{#relationCommandInfo}}
-            {{#commandValue}}
-        //Following code causes dependency to external APIs
-        // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
-
-        {{^isRestRepository}}
-        {{#if (has fieldDescriptors)}}
-        {{../../../../options.package}}.external.{{namePascalCase}}Command {{nameCamelCase}}Command = new {{../../../../options.package}}.external.{{namePascalCase}}Command();
-        // mappings goes here
-        {{../boundedContext.namePascalCase}}Application.applicationContext.getBean({{../../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-            .{{nameCamelCase}}(/* get???(), */ {{nameCamelCase}}Command);
-        {{/if}}
-        {{/isRestRepository}}
-
-        {{#isRestRepository}}
-        {{../../../../options.package}}.external.{{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = new {{../../../../options.package}}.external.{{aggregate.namePascalCase}}();
-        // mappings goes here
-        {{../boundedContext.namePascalCase}}Application.applicationContext.getBean({{../../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-            .{{nameCamelCase}}({{aggregate.nameCamelCase}});
-        {{/isRestRepository}}
-
-            {{/commandValue}}
-        {{/relationCommandInfo}}
-
-        {{namePascalCase}} {{nameCamelCase}} = new {{namePascalCase}}(this);
-        {{nameCamelCase}}.publishAfterCommit();
-
-    {{/events}}
-    
-    }
-{{/lifeCycles}}
-
-    public static {{namePascalCase}}Repository repository(){
-        {{namePascalCase}}Repository {{nameCamelCase}}Repository = {{boundedContext.namePascalCase}}Application.applicationContext.getBean({{namePascalCase}}Repository.class);
-        return {{nameCamelCase}}Repository;
-    }
-
-{{#aggregateRoot.operations}}
+    {{#aggregateRoot.operations}}
     {{#setOperations ../commands name}}
     {{#isOverride}}
     @Override
     {{/isOverride}}
     {{^isRootMethod}}
     public {{returnType}} {{name}}(){
-        //
+        // 구현 로직
     }
     {{/isRootMethod}}
     {{/setOperations}}
-{{/aggregateRoot.operations}}
-
-
-    {{#commands}}
-    {{#if isRestRepository}}
-    {{else}}
-//<<< Clean Arch / Port Method
-    public void {{nameCamelCase}}({{#if (has fieldDescriptors)}}{{namePascalCase}}Command {{nameCamelCase}}Command{{/if}}){
-        
-        //implement business logic here:
-        
-        {{#triggerByCommand}}
-        {{#relationCommandInfo}}
-        {{#commandValue}}
-        //Following code causes dependency to external APIs
-        // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
-
-        {{../../../../options.package}}.external.{{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = new {{../../../../options.package}}.external.{{aggregate.namePascalCase}}();
-        // mappings goes here
-        {{../boundedContext.namePascalCase}}Application.applicationContext.getBean({{../../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-            .{{nameCamelCase}}({{aggregate.nameCamelCase}});
-
-        {{/commandValue}}
-        {{/relationCommandInfo}}
-        {{/triggerByCommand}}
-
-        {{#relationCommandInfo}}
-        {{#if targetAggregate}}
-        {{#targetAggregate}}
-        {{#if queryOption.multipleResult}}
-        {{#if queryOption.useDefaultUri}}
-        List<{{aggregate.namePascalCase}}> {{aggregate.nameCamelCase}}List = {{../../../namePascalCase}}Application.applicationContext
-            .getBean({{../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-            .{{nameCamelCase}}//({{#queryParameters}}get{{namePascalCase}}(){{#unless @last}},{{/unless}}{{/queryParameters}});
-        {{else}}
-        {{../../../options.package}}.external.{{namePascalCase}}Query {{nameCamelCase}}Query = new {{../../../options.package}}.external.{{namePascalCase}}Query();
-        // {{nameCamelCase}}Query.set??()
-        List<{{aggregate.namePascalCase}}> {{aggregate.nameCamelCase}}List = {{../../../namePascalCase}}Application.applicationContext
-            .getBean({{../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-            .{{#if queryOption.apiPath}}{{queryOption.apiPath}}{{else}}{{nameCamelCase}}{{/if}}({{nameCamelCase}}Query);
-        {{/if}}
-        {{else}}
-        {{#if queryOption.useDefaultUri}}
-        {{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = {{../../../namePascalCase}}Application.applicationContext
-            .getBean({{../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-            .{{nameCamelCase}}(get??);
-        {{else}}
-        {{../../../options.package}}.external.{{namePascalCase}}Query {{nameCamelCase}}Query = new {{../../../options.package}}.external.{{namePascalCase}}Query();
-        // {{nameCamelCase}}Query.set??()        
-        {{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = {{../../../namePascalCase}}Application.applicationContext
-            .getBean({{../../../options.package}}.external.{{aggregate.namePascalCase}}Service.class)
-            .{{#if queryOption.apiPath}}{{queryOption.apiPath}}{{else}}{{nameCamelCase}}{{/if}}({{nameCamelCase}}Query);
-        {{/if}}
-        {{/if}}
-        {{/targetAggregate}}
-        {{/if}}
-        {{/relationCommandInfo}}
-
-        {{#triggerByCommand}}
-        {{eventValue.namePascalCase}} {{eventValue.nameCamelCase}} = new {{eventValue.namePascalCase}}(this);
-        {{#correlationGetSet .. eventValue}}
-        {{#if target}}
-        {{../eventValue.nameCamelCase}}.set{{target.namePascalCase}}({{../../nameCamelCase}}Command.get{{source.namePascalCase}}());
-        {{/if}}
-        {{/correlationGetSet}}
-        {{eventValue.nameCamelCase}}.publishAfterCommit();
-        {{/triggerByCommand}}
-    }
-//>>> Clean Arch / Port Method
-    {{/if}}
-    {{/commands}}
-
-    {{#policyList}}
-    {{#relationEventInfo}}
-//<<< Clean Arch / Port Method
-    public static void {{../nameCamelCase}}({{eventValue.namePascalCase}} {{eventValue.nameCamelCase}}){
-        
-        //implement business logic here:
-
-        /** Example 1:  new item 
-        {{../../namePascalCase}} {{../../nameCamelCase}} = new {{../../namePascalCase}}();
-        repository().save({{../../nameCamelCase}});
-
-        {{#../relationExampleEventInfo}}
-        {{eventValue.namePascalCase}} {{eventValue.nameCamelCase}} = new {{eventValue.namePascalCase}}({{../../../nameCamelCase}});
-        {{eventValue.nameCamelCase}}.publishAfterCommit();
-        {{/../relationExampleEventInfo}}
-        */
-
-        /** Example 2:  finding and process
-        
-        repository().findById({{eventValue.nameCamelCase}}.get???()).ifPresent({{../../nameCamelCase}}->{
-            
-            {{../../nameCamelCase}} // do something
-            repository().save({{../../nameCamelCase}});
-
-            {{#../relationExampleEventInfo}}
-            {{eventValue.namePascalCase}} {{eventValue.nameCamelCase}} = new {{eventValue.namePascalCase}}({{../../../nameCamelCase}});
-            {{eventValue.nameCamelCase}}.publishAfterCommit();
-            {{/../relationExampleEventInfo}}
-
-         });
-        */
-
-        
-    }
-//>>> Clean Arch / Port Method
-    {{/relationEventInfo}}
-    {{/policyList}}
-
-
+    {{/aggregateRoot.operations}}
 }
 //>>> DDD / Aggregate Root
+
 
 <function>
 window.$HandleBars.registerHelper('checkClassType', function (fieldDescriptors) {
