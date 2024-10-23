@@ -24,7 +24,7 @@ import javax.transaction.Transactional;
 @Transactional
 public class {{ namePascalCase }}Controller {
     @Autowired
-    {{namePascalCase}}Service {{nameCamelCase}}Service;
+    {{namePascalCase}}RepositoryService {{nameCamelCase}}Service;
 
     {{#commands}}
     {{^isRestRepository}}

@@ -9,7 +9,6 @@ import {{options.package}}.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityNotFoundException;
 
 @Service
@@ -19,22 +18,23 @@ public class {{namePascalCase}}RepositoryService {
     private final {{namePascalCase}}Repository {{nameCamelCase}}Repository;
 
     @Autowired
-    public {{namePascalCase}}Service({{namePascalCase}}Repository {{nameCamelCase}}Repository) {
+    public {{namePascalCase}}RepositoryService({{namePascalCase}}Repository {{nameCamelCase}}Repository) {
         this.{{nameCamelCase}}Repository = {{nameCamelCase}}Repository;
     }
 
     {{#commands}}
     {{#if isRestRepository}}
     {{else}}
-    public {{../namePascalCase}} {{nameCamelCase}}({{../keyFieldDescriptor.className}} id{{#if (has fieldDescriptors)}}, {{namePascalCase}}Command {{nameCamelCase}}Command{{/if}}) {
-        {{../namePascalCase}} {{../nameCamelCase}} = {{nameCamelCase}}Repository.findById(id)
+    public {{../namePascalCase}} {{nameCamelCase}}({{../keyFieldDescriptor.className}} id, {{namePascalCase}}Command {{nameCamelCase}}Command) {
+        {{../namePascalCase}} {{../nameCamelCase}} = {{../nameCamelCase}}Repository
+            .findById(id)
             .orElseThrow(() -> new EntityNotFoundException("{{../namePascalCase}} not found"));
         
         // 비즈니스 로직 호출
-        {{../nameCamelCase}}.{{nameCamelCase}}({{#if (has fieldDescriptors)}}{{nameCamelCase}}Command{{/if}});
+        {{../nameCamelCase}}.{{nameCamelCase}}({{nameCamelCase}}Command);
         
         // 레포지토리에 저장
-        return {{nameCamelCase}}Repository.save({{../nameCamelCase}});
+        return {{../nameCamelCase}}Repository.save({{../nameCamelCase}});
     }
     {{/if}}
     {{/commands}}
