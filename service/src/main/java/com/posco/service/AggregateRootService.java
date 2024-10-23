@@ -46,20 +46,6 @@ public class {{namePascalCase}}Service {
     {{/if}}
     {{/commands}}
 
-    {{#aggregateRoot.operations}}
-    {{#setOperations ../commands name}}
-    {{#isOverride}}
-    @Override
-    {{/isOverride}}
-    {{^isRootMethod}}
-    public {{returnType}} {{name}}({{../namePascalCase}} {{../nameCamelCase}}){
-        // Implement business logic here
-        return null; // Replace with actual implementation
-    }
-    {{/isRootMethod}}
-    {{/setOperations}}
-    {{/aggregateRoot.operations}}
-
     {{#policyList}}
     {{#relationEventInfo}}
     public static void {{../nameCamelCase}}({{eventValue.namePascalCase}} {{eventValue.nameCamelCase}}){
