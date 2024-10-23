@@ -2,6 +2,7 @@ forEach: RelationEventInfo
 fileName: {{eventValue.namePascalCase}}.java
 path: {{boundedContext.name}}/domain/{{{options.packagePath}}}/domain
 priority: 2
+except: true
 ---
 package {{options.package}}.domain;
 
