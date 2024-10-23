@@ -1,10 +1,10 @@
 forEach: Command
 representativeFor: Command
 fileName: {{namePascalCase}}Command.java
-path: {{boundedContext.name}}/domain/{{{options.packagePath}}}/domain
-except: {{#except fieldDescriptors}}{{/except}}
+path: {{boundedContext.name}}/service/{{{options.packagePath}}}/service
+except: true
 ---
-package {{options.package}}.domain;
+package {{options.package}}.service;
 
 import java.util.*;
 import lombok.Data;

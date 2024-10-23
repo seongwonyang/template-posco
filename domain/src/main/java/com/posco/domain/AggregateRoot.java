@@ -5,12 +5,6 @@ path: {{boundedContext.name}}/domain/{{options.packagePath}}/domain
 ---
 package {{options.package}}.domain;
 
-{{#lifeCycles}}
-{{#events}}
-import {{../../options.package}}.domain.{{namePascalCase}};
-{{/events}}
-{{/lifeCycles}}
-import {{options.package}}.{{boundedContext.namePascalCase}}Application;
 import javax.persistence.*;
 import java.util.List;
 import lombok.Data;
@@ -22,7 +16,6 @@ import java.time.LocalDate;
 @Table(name="{{namePascalCase}}_table")
 @Data
 {{#setDiscriminator aggregateRoot.entities.relations nameCamelCase}}{{/setDiscriminator}}
-//<<< DDD / Aggregate Root
 public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations namePascalCase}}{{/checkExtends}} {
 
     {{#aggregateRoot.fieldDescriptors}}
@@ -39,28 +32,11 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
     {{#commands}}
     {{#if isRestRepository}}
     {{else}}
-    public void {{nameCamelCase}}({{#if (has fieldDescriptors)}}{{namePascalCase}}Command {{nameCamelCase}}Command{{/if}}){
+    public void {{nameCamelCase}}({{#fieldDescriptors}}{{{className}}} {{nameCamelCase}}{{^@last}}, {{/@last}}{{/fieldDescriptors}}){
         // 비즈니스 로직 구현
-        {{#triggerByCommand}}
-        {{eventValue.namePascalCase}} {{eventValue.nameCamelCase}} = new {{eventValue.namePascalCase}}(this);
-        {{#correlationGetSet .. eventValue}}
-        {{#if target}}
-        {{../eventValue.nameCamelCase}}.set{{target.namePascalCase}}({{../../nameCamelCase}}Command.get{{source.namePascalCase}}());
-        {{/if}}
-        {{/correlationGetSet}}
-        {{eventValue.nameCamelCase}}.publishAfterCommit();
-        {{/triggerByCommand}}
     }
     {{/if}}
     {{/commands}}
-
-    {{#policyList}}
-    {{#relationEventInfo}}
-    public void {{../nameCamelCase}}({{eventValue.namePascalCase}} {{eventValue.nameCamelCase}}){
-        // 이벤트 처리 로직 구현
-    }
-    {{/relationEventInfo}}
-    {{/policyList}}
 
     {{#aggregateRoot.operations}}
     {{#setOperations ../commands name}}

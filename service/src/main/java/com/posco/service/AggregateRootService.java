@@ -3,7 +3,7 @@ representativeFor: Aggregate
 fileName: {{namePascalCase}}RepositoryService.java
 path: {{boundedContext.name}}/service/{{options.packagePath}}/service
 ---
-package {{options.package}}.service;
+package {{options.package}}.service.*;
 
 import {{options.package}}.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +25,17 @@ public class {{namePascalCase}}RepositoryService {
     {{#commands}}
     {{#if isRestRepository}}
     {{else}}
-    public {{../namePascalCase}} {{nameCamelCase}}({{../keyFieldDescriptor.className}} id, {{namePascalCase}}Command {{nameCamelCase}}Command) {
+    public {{../namePascalCase}} {{nameCamelCase}}({{namePascalCase}}Command {{nameCamelCase}}Command) {
         {{../namePascalCase}} {{../nameCamelCase}} = {{../nameCamelCase}}Repository
-            .findById(id)
+            .findById({{nameCamelCase}}Command.getId())
             .orElseThrow(() -> new EntityNotFoundException("{{../namePascalCase}} not found"));
         
-        // 비즈니스 로직 호출
-        {{../nameCamelCase}}.{{nameCamelCase}}({{nameCamelCase}}Command);
+        // Map command fields to method parameters
+        {{../nameCamelCase}}.{{nameCamelCase}}(
+            {{#fieldDescriptors}}
+            {{nameCamelCase}}Command.get{{pascalCase nameCamelCase}}(){{^@last}},{{/@last}}
+            {{/fieldDescriptors}}
+        );
         
         // 레포지토리에 저장
         return {{../nameCamelCase}}Repository.save({{../nameCamelCase}});
@@ -57,18 +61,4 @@ public class {{namePascalCase}}RepositoryService {
     {{/isRootMethod}}
     {{/setOperations}}
     {{/aggregateRoot.operations}}
-
-    {{#policyList}}
-    {{#relationEventInfo}}
-    public void {{../nameCamelCase}}({{eventValue.namePascalCase}} {{eventValue.nameCamelCase}}){
-        // 이벤트 처리 로직
-        {{../../namePascalCase}} {{../../nameCamelCase}} = {{../../nameCamelCase}}Repository.findById({{eventValue.nameCamelCase}}.getId())
-            .orElseThrow(() -> new EntityNotFoundException("{{../../namePascalCase}} not found"));
-        
-        {{../../nameCamelCase}}.{{../nameCamelCase}}({{eventValue.nameCamelCase}});
-        
-        {{../../nameCamelCase}}Repository.save({{../../nameCamelCase}});
-    }
-    {{/relationEventInfo}}
-    {{/policyList}}
 }
