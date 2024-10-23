@@ -1,8 +1,7 @@
 forEach: Command
 representativeFor: Command
 fileName: {{namePascalCase}}Command.java
-path: {{boundedContext.name}}/service/{{{options.packagePath}}}/service
-except: true
+path: {{boundedContext.name}}/service/{{options.packagePath}}/service
 ---
 package {{options.package}}.service;
 
