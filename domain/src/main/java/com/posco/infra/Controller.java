@@ -22,13 +22,22 @@ import javax.transaction.Transactional;
 
 @RestController
 // @RequestMapping(value="/{{namePlural}}")
-@RestController
 @Transactional
 public class {{ namePascalCase }}Controller {
     @Autowired
-    {{namePascalCase}}Service {{nameCamelCase}}Service;
+    {{namePascalCase}}Repository {{nameCamelCase}}Repository;
 
+    {{#if (checkGeneralization aggregateRoot.entities.relations nameCamelCase)}}
+    {{#each aggregateRoot.entities.relations}}
+    {{#if (isGeneralization targetElement.namePascalCase ../namePascalCase relationType)}}
+    @Autowired
+    {{sourceElement.namePascalCase}}Repository {{sourceElement.nameCamelCase}}Repository;
+    {{/if}}
+    {{/each}}
+    {{/if}}
     {{#commands}}
+    {{#isRestRepository}}
+    {{/isRestRepository}}
     {{^isRestRepository}}
     {{#checkMethod controllerInfo.method}}
     @RequestMapping(value = "/{{../namePlural}}/{id}/{{controllerInfo.apiPath}}",
@@ -36,34 +45,79 @@ public class {{ namePascalCase }}Controller {
         produces = "application/json;charset=UTF-8")
     public {{../namePascalCase}} {{nameCamelCase}}(@PathVariable(value = "id") {{../keyFieldDescriptor.className}} id, {{#if (hasFields fieldDescriptors)}}@RequestBody {{namePascalCase}}Command {{nameCamelCase}}Command, {{/if}}HttpServletRequest request, HttpServletResponse response) throws Exception {
             System.out.println("##### /{{../nameCamelCase}}/{{nameCamelCase}}  called #####");
-            Optional<{{../namePascalCase}}> optional{{../namePascalCase}} = {{../nameCamelCase}}Service.findById(id);
+            Optional<{{../namePascalCase}}> optional{{../namePascalCase}} = {{../nameCamelCase}}Repository.findById(id);
             
             optional{{../namePascalCase}}.orElseThrow(()-> new Exception("No Entity Found"));
             {{../namePascalCase}} {{../nameCamelCase}} = optional{{../namePascalCase}}.get();
-            {{../nameCamelCase}}Service.{{nameCamelCase}}({{../nameCamelCase}}{{#if (hasFields fieldDescriptors)}}, {{nameCamelCase}}Command{{/if}});
+            {{../nameCamelCase}}.{{nameCamelCase}}({{#if (hasFields fieldDescriptors)}}{{nameCamelCase}}Command{{/if}});
             
+            {{../nameCamelCase}}Repository.{{#methodConvert controllerInfo.method}}{{/methodConvert}}({{../nameCamelCase}});
             return {{../nameCamelCase}};
+            
     }
+    {{#each ../aggregateRoot.entities.relations}}
+    {{#if (isGeneralization targetElement.namePascalCase ../../namePascalCase relationType)}}
+    @RequestMapping(value = "/{{#toURL sourceElement.nameCamelCase}}{{/toURL}}/{id}/{{../controllerInfo.apiPath}}",
+            method = RequestMethod.{{../controllerInfo.method}},
+            produces = "application/json;charset=UTF-8")
+    public {{../../namePascalCase}} {{../nameCamelCase}}{{sourceElement.namePascalCase}}(
+        @PathVariable(value = "id") {{../../keyFieldDescriptor.className}} id, {{#if (hasFields ../fieldDescriptors)}}@RequestBody {{../namePascalCase}}Command {{../nameCamelCase}}Command, {{/if}}HttpServletRequest request, HttpServletResponse response) throws Exception {
+            return {{../nameCamelCase}}(id, {{#if (hasFields ../fieldDescriptors)}}{{../nameCamelCase}}Command,{{/if}} request, response);
+    }
+    {{/if}}
+    {{/each}}
     {{/checkMethod}}
+    {{^checkMethod controllerInfo.method}}
+    @RequestMapping(value = "/{{../namePlural}}{{#if controllerInfo.apiPath}}{{controllerInfo.apiPath}}{{/if}}",
+            method = RequestMethod.{{controllerInfo.method}},
+            produces = "application/json;charset=UTF-8")
+    public {{../namePascalCase}} {{nameCamelCase}}(HttpServletRequest request, HttpServletResponse response, 
+        {{#if fieldDescriptors}}@RequestBody {{namePascalCase}}Command {{nameCamelCase}}Command{{/if}}) throws Exception {
+            System.out.println("##### /{{aggregate.nameCamelCase}}/{{nameCamelCase}}  called #####");
+            {{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = new {{aggregate.namePascalCase}}();
+            {{aggregate.nameCamelCase}}.{{nameCamelCase}}({{#if fieldDescriptors}}{{nameCamelCase}}Command{{/if}});
+            {{aggregate.nameCamelCase}}Repository.save({{aggregate.nameCamelCase}});
+            return {{aggregate.nameCamelCase}};
+    }
+    {{/checkMethod}}    
     {{/isRestRepository}}
     {{/commands}}
-
-    {{#aggregateRoot.operations}}
-    {{#setOperations ../commands name}}
-    {{^isRootMethod}}
-    @RequestMapping(value = "/{{../namePlural}}/{id}/{{name}}",
-        method = RequestMethod.GET,
+    {{#if (checkGeneralization aggregateRoot.entities.relations nameCamelCase)}}
+    {{#each aggregateRoot.entities.relations}}
+    {{#if (isGeneralization targetElement.namePascalCase ../namePascalCase relationType)}}
+    {{#sourceElement.operations}}
+    {{^isOverride}}
+    @RequestMapping(value = "{{#toURL ../sourceElement.nameCamelCase}}{{/toURL}}/{id}/{{name}}",
+        method = RequestMethod.PUT,
         produces = "application/json;charset=UTF-8")
-    public {{returnType}} {{name}}(@PathVariable("id") {{../keyFieldDescriptor.className}} id) throws Exception {
-        Optional<{{../namePascalCase}}> optional{{../namePascalCase}} = {{../nameCamelCase}}Service.findById(id);
-        optional{{../namePascalCase}}.orElseThrow(() -> new Exception("No Entity Found"));
-        {{../namePascalCase}} {{../nameCamelCase}} = optional{{../namePascalCase}}.get();
-        return {{../nameCamelCase}}Service.{{name}}({{../nameCamelCase}});
+    public {{../sourceElement.namePascalCase}} {{name}}(@PathVariable(value = "id") {{../targetElement.keyFieldDescriptor.className}}id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+            System.out.println("##### /{{../sourceElement.nameCamelCase}}/{{name}}  called #####");
+            Optional<{{../sourceElement.namePascalCase}}> optional{{../sourceElement.namePascalCase}} = {{../sourceElement.nameCamelCase}}Repository.findById(id);
+            
+            optional{{../sourceElement.namePascalCase}}.orElseThrow(()-> new Exception("No Entity Found"));
+            {{../sourceElement.namePascalCase}} {{../sourceElement.nameCamelCase}} = optional{{../sourceElement.namePascalCase}}.get();
+            {{../sourceElement.namePascalCase}}.{{name}}({{#if (hasFields fieldDescriptors)}}{{name}}Command{{/if}});
+            
+            {{../sourceElement.nameCamelCase}}Repository.save({{../sourceElement.nameCamelCase}});
+            return {{../sourceElement.nameCamelCase}};
+            
     }
-    {{/isRootMethod}}
-    {{/setOperations}}
-    {{/aggregateRoot.operations}}
+    {{/isOverride}}
+    {{/sourceElement.operations}}
+    {{/if}}
+    {{/each}}
+    {{/if}}
+    {{#attached "View" this}}
+    {{#if queryOption.useDefaultUri}}
+    {{else}}
+    @GetMapping(path = "/{{../namePlural}}/{{#if queryOption.apiPath}}{{queryOption.apiPath}}{{else}}{{nameCamelCase}}{{/if}}")
+    public {{#if queryOption.multipleResult}}List<{{../namePascalCase}}>{{else}}{{../namePascalCase}}{{/if}} {{#if queryOption.apiPath}}{{queryOption.apiPath}}{{else}}{{nameCamelCase}}{{/if}}({{namePascalCase}}Query {{nameCamelCase}}Query) {
+        return {{../nameCamelCase}}Repository.{{#if queryOption.apiPath}}{{queryOption.apiPath}}{{else}}{{nameCamelCase}}{{/if}}({{#queryParameters}}{{../nameCamelCase}}Query.get{{namePascalCase}}(){{#unless @last}},{{/unless}}{{/queryParameters}});
+    }
+    {{/if}}
+    {{/attached}}
 }
+//>>> Clean Arch / Inbound Adaptor
 
 <function>
 window.$HandleBars.registerHelper('isGeneralization', function (toName, name, type) {
