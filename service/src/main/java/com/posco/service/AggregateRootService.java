@@ -10,6 +10,7 @@ import {{options.package}}.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityNotFoundException;
 
 @RestController
@@ -37,7 +38,7 @@ public class {{namePascalCase}}RepositoryService {
         // Map command fields to method parameters
         {{../nameCamelCase}}.{{nameCamelCase}}(
             {{#fieldDescriptors}}
-            {{nameCamelCase}}Command.get{{pascalCase nameCamelCase}}(){{^@last}},{{/@last}}
+            {{../nameCamelCase}}Command.get{{pascalCase nameCamelCase}}(){{^@last}},{{/@last}}
             {{/fieldDescriptors}}
         );
         
