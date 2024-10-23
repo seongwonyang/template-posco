@@ -26,22 +26,15 @@ public class {{namePascalCase}}Service {
     {{#commands}}
     {{#if isRestRepository}}
     {{else}}
-    public void {{nameCamelCase}}({{namePascalCase}} {{nameCamelCase}}{{#if (has fieldDescriptors)}}, {{namePascalCase}}Command {{nameCamelCase}}Command{{/if}}) {
-        // Implement business logic here
-        {{#if (has fieldDescriptors)}}
-        // Update {{nameCamelCase}} with {{nameCamelCase}}Command
-        {{/if}}
-        {{nameCamelCase}}Repository.save({{nameCamelCase}});
-
-        {{#triggerByCommand}}
-        {{eventValue.namePascalCase}} {{eventValue.nameCamelCase}} = new {{eventValue.namePascalCase}}({{nameCamelCase}});
-        {{#correlationGetSet .. eventValue}}
-        {{#if target}}
-        {{../eventValue.nameCamelCase}}.set{{target.namePascalCase}}({{nameCamelCase}}Command.get{{source.namePascalCase}}());
-        {{/if}}
-        {{/correlationGetSet}}
-        {{eventValue.nameCamelCase}}.publishAfterCommit();
-        {{/triggerByCommand}}
+    public {{../namePascalCase}} {{nameCamelCase}}({{../keyFieldDescriptor.className}} id{{#if (has fieldDescriptors)}}, {{namePascalCase}}Command {{nameCamelCase}}Command{{/if}}) {
+        {{../namePascalCase}} {{../nameCamelCase}} = {{nameCamelCase}}Repository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("{{../namePascalCase}} not found"));
+        
+        // 비즈니스 로직 호출
+        {{../nameCamelCase}}.{{nameCamelCase}}({{#if (has fieldDescriptors)}}{{nameCamelCase}}Command{{/if}});
+        
+        // 레포지토리에 저장
+        return {{nameCamelCase}}Repository.save({{../nameCamelCase}});
     }
     {{/if}}
     {{/commands}}
@@ -53,8 +46,13 @@ public class {{namePascalCase}}Service {
     {{/isOverride}}
     {{^isRootMethod}}
     public {{returnType}} {{name}}({{../namePascalCase}} {{../nameCamelCase}}){
-        // Implement business logic here
-        return null; // Replace with actual implementation
+        // 비즈니스 로직 호출
+        {{returnType}} result = {{../nameCamelCase}}.{{name}}();
+        
+        // 필요한 경우 레포지토리에 저장
+        {{nameCamelCase}}Repository.save({{../nameCamelCase}});
+        
+        return result;
     }
     {{/isRootMethod}}
     {{/setOperations}}
@@ -62,18 +60,14 @@ public class {{namePascalCase}}Service {
 
     {{#policyList}}
     {{#relationEventInfo}}
-    public static void {{../nameCamelCase}}({{eventValue.namePascalCase}} {{eventValue.nameCamelCase}}){
-        // Implement business logic here
-        {{../../namePascalCase}}Repository {{../../nameCamelCase}}Repository = {{../../boundedContext.namePascalCase}}Application.applicationContext.getBean({{../../namePascalCase}}Repository.class);
-
-        // Example implementation:
-        // {{../../namePascalCase}} {{../../nameCamelCase}} = new {{../../namePascalCase}}();
-        // {{../../nameCamelCase}}Repository.save({{../../nameCamelCase}});
-
-        // {{#../relationExampleEventInfo}}
-        // {{eventValue.namePascalCase}} {{eventValue.nameCamelCase}} = new {{eventValue.namePascalCase}}({{../../../nameCamelCase}});
-        // {{eventValue.nameCamelCase}}.publishAfterCommit();
-        // {{/../relationExampleEventInfo}}
+    public void {{../nameCamelCase}}({{eventValue.namePascalCase}} {{eventValue.nameCamelCase}}){
+        // 이벤트 처리 로직
+        {{../../namePascalCase}} {{../../nameCamelCase}} = {{../../nameCamelCase}}Repository.findById({{eventValue.nameCamelCase}}.getId())
+            .orElseThrow(() -> new EntityNotFoundException("{{../../namePascalCase}} not found"));
+        
+        {{../../nameCamelCase}}.{{../nameCamelCase}}({{eventValue.nameCamelCase}});
+        
+        {{../../nameCamelCase}}Repository.save({{../../nameCamelCase}});
     }
     {{/relationEventInfo}}
     {{/policyList}}
