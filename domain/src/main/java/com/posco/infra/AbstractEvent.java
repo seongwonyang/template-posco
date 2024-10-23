@@ -2,70 +2,40 @@ path: {{name}}/domain/{{{options.packagePath}}}/infra
 ---
 package {{options.package}}.infra;
 
-import {{options.package}}.boot.{{namePascalCase}}Application;
-import {{options.package}}.boot.config.kafka.KafkaProcessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.springframework.beans.BeanUtils;
-import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.MessageHeaders;
-import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.transaction.support.TransactionSynchronizationAdapter;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
-import org.springframework.util.MimeTypeUtils;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 
-//<<< Clean Arch / Outbound Adaptor
-public class AbstractEvent {
+public abstract class AbstractEvent implements ApplicationEventPublisherAware {
 
-    String eventType;
-    Long timestamp;
+    private transient ApplicationEventPublisher publisher;
+    private String eventType;
+    private Long timestamp;
 
-    public AbstractEvent(Object aggregate){
+    public AbstractEvent(Object aggregate) {
         this();
         BeanUtils.copyProperties(aggregate, this);
     }
 
-    public AbstractEvent(){
+    public AbstractEvent() {
         this.setEventType(this.getClass().getSimpleName());
         this.timestamp = System.currentTimeMillis();
     }
 
     public void publish() {
-        /**
-         * spring streams 방식
-         */
-        KafkaProcessor processor = {{namePascalCase}}Application.applicationContext.getBean(
-            KafkaProcessor.class
-        );
-        MessageChannel outputChannel = processor.outboundTopic();
-
-        outputChannel.send(
-            MessageBuilder
-                .withPayload(this)
-                .setHeader(
-                    MessageHeaders.CONTENT_TYPE,
-                    MimeTypeUtils.APPLICATION_JSON
-                )
-                .setHeader(
-                    "type",
-                    getEventType()
-                )
-                .build()
-        );
+        publisher.publishEvent(this);
     }
 
-
-    public void publishAfterCommit(){
-        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
-
-            @Override
-            public void afterCompletion(int status) {
-                AbstractEvent.this.publish();
-            }
-        });
+    public void publishAfterCommit() {
+        this.publish();
     }
 
+    @Override
+    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+        this.publisher = applicationEventPublisher;
+    }
 
     public String getEventType() {
         return eventType;
@@ -83,10 +53,11 @@ public class AbstractEvent {
         this.timestamp = timestamp;
     }
 
-    public boolean validate(){
+    public boolean validate() {
         return getEventType().equals(getClass().getSimpleName());
     }
-    public String toJson(){
+
+    public String toJson() {
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;
 

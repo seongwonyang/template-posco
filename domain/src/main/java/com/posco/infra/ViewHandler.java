@@ -3,12 +3,11 @@ representativeFor: View
 fileName: {{namePascalCase}}ViewHandler.java
 path: {{boundedContext.name}}/domain/{{{options.packagePath}}}/infra
 mergeType: template
-except: {{contexts.isNotCQRS}}
+except: true
 ---
 package {{options.package}}.infra;
 
 import {{options.package}}.domain.*;
-import {{options.package}}.store.*;
 import {{options.package}}.boot.config.kafka.KafkaProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;

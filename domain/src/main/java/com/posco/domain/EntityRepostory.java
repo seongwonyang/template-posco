@@ -2,7 +2,7 @@ forEach: Entity
 fileName: {{namePascalCase}}Repository.java
 path: {{boundedContext.name}}/domain/{{{options.packagePath}}}/domain
 ---
-package {{options.package}}.store;
+package {{options.package}}.domain;
 
 import ../domain/src/main/java/com/{{options.package}}.domain.*;
 import org.springframework.data.repository.PagingAndSortingRepository;
