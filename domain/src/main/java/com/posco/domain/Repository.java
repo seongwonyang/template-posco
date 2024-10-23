@@ -12,12 +12,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 {{/if}}
 import {{options.package}}.domain.*;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 //<<< PoEAA / Repository
 @RepositoryRestResource(collectionResourceRel="{{namePlural}}", path="{{namePlural}}")
-public interface {{namePascalCase}}Repository extends PagingAndSortingRepository<{{namePascalCase}}, {{aggregateRoot.keyFieldDescriptor.className}}>{
+public interface {{namePascalCase}}Repository extends JpaRepository<{{namePascalCase}}, {{aggregateRoot.keyFieldDescriptor.className}}> {
 {{#attached 'View' this}}
 {{#if queryParameters}}    
     @Query(value = "select {{../nameCamelCase}} " +
@@ -28,6 +28,7 @@ public interface {{namePascalCase}}Repository extends PagingAndSortingRepository
 {{/if}}
 {{/attached}}
 }
+
 <function>
  var me = this;
  me.contexts.views = []

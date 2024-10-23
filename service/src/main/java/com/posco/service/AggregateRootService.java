@@ -28,7 +28,7 @@ public class {{namePascalCase}}RepositoryService {
     {{#commands}}
     {{#if isRestRepository}}
     {{else}}
-    @RequestMapping(value = "/{id}/{{namePlural}}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}/{{nameCamelCase}}", method = RequestMethod.POST)
     public {{../namePascalCase}} {{nameCamelCase}}({{namePascalCase}}Command {{nameCamelCase}}Command) {
         {{../namePascalCase}} {{../nameCamelCase}} = {{../nameCamelCase}}Repository
             .findById({{nameCamelCase}}Command.getId())
