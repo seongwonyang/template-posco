@@ -22,39 +22,47 @@ import javax.transaction.Transactional;
 
 @RestController
 // @RequestMapping(value="/{{namePlural}}")
+@RestController
 @Transactional
 public class {{ namePascalCase }}Controller {
     @Autowired
     {{namePascalCase}}Service {{nameCamelCase}}Service;
 
     {{#commands}}
-    {{#if isRestRepository}}
-    {{else}}
+    {{^isRestRepository}}
     {{#checkMethod controllerInfo.method}}
     @RequestMapping(value = "/{{../namePlural}}/{id}/{{controllerInfo.apiPath}}",
         method = RequestMethod.{{controllerInfo.method}},
         produces = "application/json;charset=UTF-8")
     public {{../namePascalCase}} {{nameCamelCase}}(@PathVariable(value = "id") {{../keyFieldDescriptor.className}} id, {{#if (hasFields fieldDescriptors)}}@RequestBody {{namePascalCase}}Command {{nameCamelCase}}Command, {{/if}}HttpServletRequest request, HttpServletResponse response) throws Exception {
-        System.out.println("##### /{{../nameCamelCase}}/{{nameCamelCase}}  called #####");
-        {{../namePascalCase}} {{../nameCamelCase}} = {{nameCamelCase}}Service.get{{../namePascalCase}}(id);
-        {{../nameCamelCase}}.{{nameCamelCase}}({{#if (hasFields fieldDescriptors)}}{{nameCamelCase}}Command{{/if}});
-        return {{../nameCamelCase}};
+            System.out.println("##### /{{../nameCamelCase}}/{{nameCamelCase}}  called #####");
+            Optional<{{../namePascalCase}}> optional{{../namePascalCase}} = {{../nameCamelCase}}Service.findById(id);
+            
+            optional{{../namePascalCase}}.orElseThrow(()-> new Exception("No Entity Found"));
+            {{../namePascalCase}} {{../nameCamelCase}} = optional{{../namePascalCase}}.get();
+            {{../nameCamelCase}}Service.{{nameCamelCase}}({{../nameCamelCase}}{{#if (hasFields fieldDescriptors)}}, {{nameCamelCase}}Command{{/if}});
+            
+            return {{../nameCamelCase}};
     }
     {{/checkMethod}}
-    {{^checkMethod controllerInfo.method}}
-    @RequestMapping(value = "/{{../namePlural}}{{#if controllerInfo.apiPath}}{{controllerInfo.apiPath}}{{/if}}",
-            method = RequestMethod.{{controllerInfo.method}},
-            produces = "application/json;charset=UTF-8")
-    public {{../namePascalCase}} {{nameCamelCase}}(HttpServletRequest request, HttpServletResponse response, 
-        {{#if fieldDescriptors}}@RequestBody {{namePascalCase}}Command {{nameCamelCase}}Command{{/if}}) throws Exception {
-        System.out.println("##### /{{aggregate.nameCamelCase}}/{{nameCamelCase}}  called #####");
-        {{../namePascalCase}} {{../nameCamelCase}} = new {{../namePascalCase}}();
-        {{../nameCamelCase}}.{{nameCamelCase}}({{#if fieldDescriptors}}{{nameCamelCase}}Command{{/if}});
-        return {{nameCamelCase}}Service.save{{../namePascalCase}}({{../nameCamelCase}});
-    }
-    {{/checkMethod}}    
-    {{/if}}
+    {{/isRestRepository}}
     {{/commands}}
+
+    {{#aggregateRoot.operations}}
+    {{#setOperations ../commands name}}
+    {{^isRootMethod}}
+    @RequestMapping(value = "/{{../namePlural}}/{id}/{{name}}",
+        method = RequestMethod.GET,
+        produces = "application/json;charset=UTF-8")
+    public {{returnType}} {{name}}(@PathVariable("id") {{../keyFieldDescriptor.className}} id) throws Exception {
+        Optional<{{../namePascalCase}}> optional{{../namePascalCase}} = {{../nameCamelCase}}Service.findById(id);
+        optional{{../namePascalCase}}.orElseThrow(() -> new Exception("No Entity Found"));
+        {{../namePascalCase}} {{../nameCamelCase}} = optional{{../namePascalCase}}.get();
+        return {{../nameCamelCase}}Service.{{name}}({{../nameCamelCase}});
+    }
+    {{/isRootMethod}}
+    {{/setOperations}}
+    {{/aggregateRoot.operations}}
 }
 
 <function>

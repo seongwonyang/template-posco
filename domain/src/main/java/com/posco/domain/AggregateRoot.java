@@ -25,39 +25,44 @@ import java.time.LocalDate;
 //<<< DDD / Aggregate Root
 public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations namePascalCase}}{{/checkExtends}} {
 
-    {{#aggregateRoot.fieldDescriptors}}
-    {{^isVO}}{{#isKey}}
     @Id
-    {{#checkClassType ../aggregateRoot.fieldDescriptors}}{{/checkClassType}}
-    {{/isKey}}{{/isVO}}
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long id;
+
+    {{#aggregateRoot.fieldDescriptors}}
+    {{^isKey}}
     {{#isLob}}@Lob{{/isLob}}
-    {{#if (isPrimitive className)}}{{#isList}}{{/isList}}{{/if}}
+    {{#if (isPrimitive className)}}{{#isList}}@ElementCollection{{/isList}}{{/if}}
     {{#checkFieldType className isVO}}{{/checkFieldType}}
     private {{{className}}} {{nameCamelCase}};
+    {{/isKey}}
     {{/aggregateRoot.fieldDescriptors}}
 
-    {{#commands}}
-    {{#if isRestRepository}}
-    {{else}}
-    //<<< Clean Arch / Port Method
-    public void {{nameCamelCase}}({{#if (has fieldDescriptors)}}{{namePascalCase}}Command {{nameCamelCase}}Command{{/if}}){
-        {{../namePascalCase}}Service.{{nameCamelCase}}(this{{#if (has fieldDescriptors)}}, {{nameCamelCase}}Command{{/if}});
+    {{#lifeCycles}}
+    {{annotation}}
+    public void on{{trigger}}(){
+        // 비즈니스 로직 구현
     }
-    //>>> Clean Arch / Port Method
-    {{/if}}
+    {{/lifeCycles}}
+
+    {{#commands}}
+    {{^isRestRepository}}
+    public void {{nameCamelCase}}({{#if (has fieldDescriptors)}}{{namePascalCase}}Command {{nameCamelCase}}Command{{/if}}){
+        // 비즈니스 로직 구현
+    }
+    {{/isRestRepository}}
     {{/commands}}
 
-    {{#policyList}}
-    {{#relationEventInfo}}
-    //<<< Clean Arch / Port Method
-    public static void {{../nameCamelCase}}({{eventValue.namePascalCase}} {{eventValue.nameCamelCase}}){
-        {{../../namePascalCase}}Service.{{../nameCamelCase}}({{eventValue.nameCamelCase}});
+    {{#aggregateRoot.operations}}
+    {{#setOperations ../commands name}}
+    {{^isRootMethod}}
+    public {{returnType}} {{name}}(){
+        // 비즈니스 로직 구현
     }
-    //>>> Clean Arch / Port Method
-    {{/relationEventInfo}}
-    {{/policyList}}
+    {{/isRootMethod}}
+    {{/setOperations}}
+    {{/aggregateRoot.operations}}
 }
-//>>> DDD / Aggregate Root
 
 <function>
 window.$HandleBars.registerHelper('checkClassType', function (fieldDescriptors) {

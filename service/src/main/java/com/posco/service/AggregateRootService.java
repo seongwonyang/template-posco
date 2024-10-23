@@ -24,13 +24,9 @@ public class {{namePascalCase}}Service {
     }
 
     {{#commands}}
-    {{#if isRestRepository}}
-    {{else}}
+    {{^isRestRepository}}
     public void {{nameCamelCase}}({{namePascalCase}} {{nameCamelCase}}{{#if (has fieldDescriptors)}}, {{namePascalCase}}Command {{nameCamelCase}}Command{{/if}}) {
-        // Implement business logic here
-        {{#if (has fieldDescriptors)}}
-        // Update {{nameCamelCase}} with {{nameCamelCase}}Command
-        {{/if}}
+        {{nameCamelCase}}.{{nameCamelCase}}({{#if (has fieldDescriptors)}}{{nameCamelCase}}Command{{/if}});
         {{nameCamelCase}}Repository.save({{nameCamelCase}});
 
         {{#triggerByCommand}}
@@ -43,23 +39,32 @@ public class {{namePascalCase}}Service {
         {{eventValue.nameCamelCase}}.publishAfterCommit();
         {{/triggerByCommand}}
     }
-    {{/if}}
+    {{/isRestRepository}}
     {{/commands}}
+
+    {{#aggregateRoot.operations}}
+    {{#setOperations ../commands name}}
+    {{^isRootMethod}}
+    public {{returnType}} {{name}}({{../namePascalCase}} {{../nameCamelCase}}){
+        return {{../nameCamelCase}}.{{name}}();
+    }
+    {{/isRootMethod}}
+    {{/setOperations}}
+    {{/aggregateRoot.operations}}
 
     {{#policyList}}
     {{#relationEventInfo}}
     public static void {{../nameCamelCase}}({{eventValue.namePascalCase}} {{eventValue.nameCamelCase}}){
-        // Implement business logic here
         {{../../namePascalCase}}Repository {{../../nameCamelCase}}Repository = {{../../boundedContext.namePascalCase}}Application.applicationContext.getBean({{../../namePascalCase}}Repository.class);
+        
+        {{../../namePascalCase}} {{../../nameCamelCase}} = new {{../../namePascalCase}}();
+        // 이벤트 처리 로직 구현
+        {{../../nameCamelCase}}Repository.save({{../../nameCamelCase}});
 
-        // Example implementation:
-        // {{../../namePascalCase}} {{../../nameCamelCase}} = new {{../../namePascalCase}}();
-        // {{../../nameCamelCase}}Repository.save({{../../nameCamelCase}});
-
-        // {{#../relationExampleEventInfo}}
-        // {{eventValue.namePascalCase}} {{eventValue.nameCamelCase}} = new {{eventValue.namePascalCase}}({{../../../nameCamelCase}});
-        // {{eventValue.nameCamelCase}}.publishAfterCommit();
-        // {{/../relationExampleEventInfo}}
+        {{#../relationExampleEventInfo}}
+        {{eventValue.namePascalCase}} {{eventValue.nameCamelCase}} = new {{eventValue.namePascalCase}}({{../../../nameCamelCase}});
+        {{eventValue.nameCamelCase}}.publishAfterCommit();
+        {{/../relationExampleEventInfo}}
     }
     {{/relationEventInfo}}
     {{/policyList}}
