@@ -6,7 +6,6 @@ mergeType: template
 ---
 package {{options.package}}.infra;
 import {{options.package}}.domain.*;
-import {{options.package}}.store.*;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +34,7 @@ public class {{ namePascalCase }}Controller {
         produces = "application/json;charset=UTF-8")
     public {{../namePascalCase}} {{nameCamelCase}}(@PathVariable(value = "id") {{../keyFieldDescriptor.className}} id, {{#if (hasFields fieldDescriptors)}}@RequestBody {{namePascalCase}}Command {{nameCamelCase}}Command, {{/if}}HttpServletRequest request, HttpServletResponse response) throws Exception {
         System.out.println("##### /{{../nameCamelCase}}/{{nameCamelCase}}  called #####");
-        return {{nameCamelCase}}Service.{{nameCamelCase}}(id{{#if (hasFields fieldDescriptors)}}, {{nameCamelCase}}Command{{/if}});
+        return {{../nameCamelCase}}Service.{{nameCamelCase}}(id{{#if (has fieldDescriptors)}}, {{nameCamelCase}}Command{{/if}});
     }
     {{/checkMethod}}
     {{^checkMethod controllerInfo.method}}
@@ -44,8 +43,8 @@ public class {{ namePascalCase }}Controller {
             produces = "application/json;charset=UTF-8")
     public {{../namePascalCase}} {{nameCamelCase}}(HttpServletRequest request, HttpServletResponse response, 
         {{#if fieldDescriptors}}@RequestBody {{namePascalCase}}Command {{nameCamelCase}}Command{{/if}}) throws Exception {
-        System.out.println("##### /{{aggregate.nameCamelCase}}/{{nameCamelCase}}  called #####");
-        return {{nameCamelCase}}Service.{{nameCamelCase}}({{#if fieldDescriptors}}{{nameCamelCase}}Command{{/if}});
+        System.out.println("##### /{{../nameCamelCase}}/{{nameCamelCase}}  called #####");
+        return {{../nameCamelCase}}Service.{{nameCamelCase}}({{#if fieldDescriptors}}{{nameCamelCase}}Command{{/if}});
     }
     {{/checkMethod}}    
     {{/isRestRepository}}

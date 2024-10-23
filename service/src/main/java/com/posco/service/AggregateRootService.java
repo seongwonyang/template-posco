@@ -14,7 +14,7 @@ import javax.persistence.EntityNotFoundException;
 
 @Service
 @Transactional
-public class {{namePascalCase}}Service {
+public class {{namePascalCase}}RepositoryService {
 
     private final {{namePascalCase}}Repository {{nameCamelCase}}Repository;
 

@@ -1,7 +1,7 @@
 path: {{name}}/boot/{{{options.packagePath}}}/boot
 fileName: {{namePascalCase}}Application.java
 ---
-package {{options.package}};
+package {{options.package}}.boot;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
