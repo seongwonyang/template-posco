@@ -1,5 +1,5 @@
 server:
-  port: {{portGenerated}}
+  port: 8080
 
 {{#circuitBreaker}}
 #<<< Resilency / Circuit Breaker
