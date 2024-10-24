@@ -3,10 +3,12 @@ representativeFor: Aggregate
 fileName: {{namePascalCase}}RepositoryService.java
 path: {{boundedContext.name}}/service/{{options.packagePath}}/service
 ---
-package {{options.package}}.service.*;
+package {{options.package}}.service;
 
-import {{options.package}}.domain.*;
-import {{options.package}}.service.*;
+import {{options.package}}.domain.{{namePascalCase}};
+{{#commands}}
+import {{options.package}}.service.{{namePascalCase}}Command;
+{{/commands}}
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
