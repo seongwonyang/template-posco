@@ -34,7 +34,7 @@ public class {{namePascalCase}}RepositoryService {
     @RequestMapping(value = "/{id}/{{nameCamelCase}}", method = RequestMethod.POST)
     public {{../namePascalCase}} {{nameCamelCase}}({{namePascalCase}}Command {{nameCamelCase}}Command) {
         {{../namePascalCase}} {{../nameCamelCase}} = {{../nameCamelCase}}Repository
-            .findById({{nameCamelCase}}Command.get{{pascalCase}}Id)
+            .findById({{nameCamelCase}}Command.get{{namePascalCase}}Id())
             .orElseThrow(() -> new EntityNotFoundException("{{../namePascalCase}} not found"));
         
         // Map command fields to method parameters
