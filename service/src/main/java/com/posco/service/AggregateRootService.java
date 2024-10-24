@@ -6,6 +6,7 @@ path: {{boundedContext.name}}/s20a01-service/src/main/java/com/posco/{{boundedCo
 package com.posco.{{boundedContext.name}}.s20a01.service;
 
 import com.posco.{{boundedContext.name}}.s20a01.domain.{{namePascalCase}};
+import com.posco.{{boundedContext.name}}.s20a01.store.{{namePascalCase}}Repository;
 {{#commands}}
 import com.posco.{{boundedContext.name}}.s20a01.service.{{namePascalCase}}Command;
 {{/commands}}
