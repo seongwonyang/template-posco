@@ -1,8 +1,8 @@
 forEach: Rules
 fileName: {{ruleName}}StepDefinition.java
-path: {{boundedContext.name}}/s20a01-boot/src/test/java/{{options.package}}/common
+path: {{boundedContext.name}}/s20a01-boot/src/test/java/com/posco/{{boundedContext.name}}/s20a01/common
 ---
-package {{options.package}}.common;
+package com.posco.{{boundedContext.name}}.s20a01.common;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;

@@ -1,9 +1,9 @@
 forEach: ValueObject
 fileName: {{namePascalCase}}.java
-path: {{boundedContext.name}}/domain/{{{options.packagePath}}}/domain
+path: {{boundedContext.name}}/s20a01-domain/src/main/java/com/posco/{{boundedContext.name}}/s20a01/domain
 mergeType: {{#mergeType _type}}{{/mergeType}}
 ---
-package {{options.package}}.s20a01.domain;
+package com.posco.{{boundedContext.name}}.s20a01.domain;
 
 import javax.persistence.*;
 import org.springframework.beans.BeanUtils;

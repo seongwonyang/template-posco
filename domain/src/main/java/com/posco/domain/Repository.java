@@ -1,8 +1,8 @@
 forEach: Aggregate
 fileName: {{namePascalCase}}Repository.java
-path: {{boundedContext.name}}/s20a01-domain/{{{options.packagePath}}}/s20a01/domain
+path: {{boundedContext.name}}/s20a01-domain/src/main/java/com/posco/{{boundedContext.name}}/s20a01/domain
 ---
-package {{options.package}}.domain;
+package com.posco.{{boundedContext.name}}.s20a01.domain;
 
 {{#if boundedContext.readModels}} 
 import java.util.Date;

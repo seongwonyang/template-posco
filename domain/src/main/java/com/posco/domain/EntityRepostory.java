@@ -1,10 +1,10 @@
 forEach: Entity
 fileName: {{namePascalCase}}Repository.java
-path: {{boundedContext.name}}/domain/{{{options.packagePath}}}/domain
+path: {{boundedContext.name}}/s20a01-domain/src/main/java/com/posco/{{boundedContext.name}}/s20a01/domain
 ---
-package {{options.package}}.domain;
+package com.posco.{{boundedContext.name}}.s20a01.domain;
 
-import ../domain/src/main/java/com/{{options.package}}.domain.*;
+import com.posco.{{boundedContext.name}}.s20a01.domain.*;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 

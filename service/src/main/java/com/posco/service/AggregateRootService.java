@@ -1,13 +1,13 @@
 forEach: Aggregate
 representativeFor: Aggregate
 fileName: {{namePascalCase}}RepositoryService.java
-path: {{boundedContext.name}}/s20a01-service/{{options.packagePath}}/s20a01/service
+path: {{boundedContext.name}}/s20a01-service/src/main/java/com/posco/{{boundedContext.name}}/s20a01/service
 ---
-package {{options.package}}.s20a01.service;
+package com.posco.{{boundedContext.name}}.s20a01.service;
 
-import {{options.package}}.s20a01.domain.{{namePascalCase}};
+import com.posco.{{boundedContext.name}}.s20a01.domain.{{namePascalCase}};
 {{#commands}}
-import {{options.package}}.s20a01.service.{{namePascalCase}}Command;
+import com.posco.{{boundedContext.name}}.s20a01.service.{{namePascalCase}}Command;
 {{/commands}}
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
