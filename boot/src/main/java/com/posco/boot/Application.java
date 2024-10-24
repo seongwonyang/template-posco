@@ -1,4 +1,4 @@
-path: {{name}}/boot/{{{options.packagePath}}}/boot
+path: {{name}}/s20a01-boot/{{{options.packagePath}}}/s20a01
 fileName: {{namePascalCase}}Application.java
 ---
 package {{options.package}}.boot;

@@ -1,6 +1,6 @@
 forEach: Relation
 fileName: {{target.aggregate.namePascalCase}}Service.java
-path: {{source.boundedContext.name}}/service/{{options.packagePath}}/service
+path: {{source.boundedContext.name}}/s20a01-service/{{options.packagePath}}/s20a01/service
 except: {{contexts.except}}
 ifDuplicated: merge
 ---

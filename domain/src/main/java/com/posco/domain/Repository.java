@@ -1,6 +1,6 @@
 forEach: Aggregate
 fileName: {{namePascalCase}}Repository.java
-path: {{boundedContext.name}}/domain/{{{options.packagePath}}}/domain
+path: {{boundedContext.name}}/s20a01-domain/{{{options.packagePath}}}/s20a01/domain
 ---
 package {{options.package}}.domain;
 

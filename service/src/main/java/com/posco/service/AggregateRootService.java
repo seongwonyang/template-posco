@@ -1,7 +1,7 @@
 forEach: Aggregate
 representativeFor: Aggregate
 fileName: {{namePascalCase}}RepositoryService.java
-path: {{boundedContext.name}}/service/{{options.packagePath}}/service
+path: {{boundedContext.name}}/s20a01-service/{{options.packagePath}}/s20a01/service
 ---
 package {{options.package}}.service;
 
