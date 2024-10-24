@@ -3,7 +3,7 @@ fileName: {{namePascalCase}}.java
 path: {{boundedContext.name}}/domain/{{{options.packagePath}}}/domain
 mergeType: {{#mergeType _type}}{{/mergeType}}
 ---
-package {{options.package}}.domain;
+package {{options.package}}.s20a01.domain;
 
 import javax.persistence.*;
 import org.springframework.beans.BeanUtils;

@@ -4,7 +4,7 @@ path: {{source.boundedContext.name}}/s20a01-service/{{options.packagePath}}/s20a
 except: {{contexts.except}}
 ifDuplicated: merge
 ---
-package {{options.package}}.service;
+package {{options.package}}.s20a01.service;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;

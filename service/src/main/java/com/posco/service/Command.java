@@ -3,7 +3,7 @@ representativeFor: Command
 fileName: {{namePascalCase}}Command.java
 path: {{boundedContext.name}}/s20a01-service/{{options.packagePath}}/s20a01/service
 ---
-package {{options.package}}.service;
+package {{options.package}}.s20a01.service;
 
 import java.util.*;
 import lombok.Data;

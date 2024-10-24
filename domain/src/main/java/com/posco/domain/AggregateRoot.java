@@ -3,7 +3,7 @@ representativeFor: Aggregate
 fileName: {{namePascalCase}}.java
 path: {{boundedContext.name}}/s20a01-domain/{{options.packagePath}}/s20a01/domain
 ---
-package {{options.package}}.domain;
+package {{options.package}}.s20a01.domain;
 
 import javax.persistence.*;
 import java.util.List;

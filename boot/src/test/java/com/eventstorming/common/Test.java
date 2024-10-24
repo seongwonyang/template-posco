@@ -1,6 +1,6 @@
 forEach: Rules
 fileName: {{ruleName}}StepDefinition.java
-path: {{boundedContext.name}}/src/test/java/{{options.package}}/common
+path: {{boundedContext.name}}/s20a01-boot/src/test/java/{{options.package}}/common
 ---
 package {{options.package}}.common;
 
