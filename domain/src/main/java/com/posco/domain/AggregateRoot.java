@@ -32,7 +32,7 @@ public class {{namePascalCase}} {{#checkExtends aggregateRoot.entities.relations
     {{#commands}}
     {{#if isRestRepository}}
     {{else}}
-    public void {{nameCamelCase}}({{#fieldDescriptors}}{{{className}}} {{nameCamelCase}}{{^@last}}, {{/@last}}{{/fieldDescriptors}}){
+    public void {{nameCamelCase}}({{#fieldDescriptors}}{{^isKey}}{{{className}}} {{nameCamelCase}}{{^@last}}, {{/@last}}{{/isKey}}{{/fieldDescriptors}}){
         // 비즈니스 로직 구현
     }
     {{/if}}

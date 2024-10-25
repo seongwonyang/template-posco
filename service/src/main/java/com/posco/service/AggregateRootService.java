@@ -41,11 +41,9 @@ public class {{namePascalCase}}RepositoryService {
         // Map command fields to method parameters
         {{../nameCamelCase}}.{{nameCamelCase}}(
             {{#fieldDescriptors}}
-            {{#if ../aggregateRoot.fieldDescriptors.isKey}}
-            {{../keyFieldDescriptor.nameCamelCase}}{{^@last}},{{/@last}}
-            {{else}}
+            {{^isKey}}
             {{../nameCamelCase}}Command.get{{pascalCase nameCamelCase}}(){{^@last}},{{/@last}}
-            {{/if}}
+            {{/isKey}}
             {{/fieldDescriptors}}
         );
         
