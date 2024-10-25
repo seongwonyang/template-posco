@@ -42,7 +42,7 @@ public class {{namePascalCase}}RepositoryService {
         {{../nameCamelCase}}.{{nameCamelCase}}(
             {{#fieldDescriptors}}
             {{#if ../aggregateRoot.fieldDescriptors.isKey}}
-            {{../keyFieldDescriptor.className}}Command.get{{pascalCase ../keyFieldDescriptor.nameCamelCase}}(){{^@last}},{{/@last}}
+            {{../keyFieldDescriptor.nameCamelCase}}{{^@last}},{{/@last}}
             {{else}}
             {{../nameCamelCase}}Command.get{{pascalCase nameCamelCase}}(){{^@last}},{{/@last}}
             {{/if}}
