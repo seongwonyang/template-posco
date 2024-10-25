@@ -33,7 +33,7 @@ public class {{namePascalCase}}RepositoryService {
     {{#if isRestRepository}}
     {{else}}
     @RequestMapping(value = "/{id}/{{nameCamelCase}}", method = RequestMethod.POST)
-    public {{../namePascalCase}} {{nameCamelCase}}(@PathVariable("id") Long id, {{namePascalCase}}Command {{nameCamelCase}}Command) {
+    public {{../namePascalCase}} {{nameCamelCase}}(@PathVariable("id") Long id, @RequestBody {{namePascalCase}}Command {{nameCamelCase}}Command) {
         {{../namePascalCase}} {{../nameCamelCase}} = {{../nameCamelCase}}Repository
             .findById(id)
             .orElseThrow(() -> new EntityNotFoundException("{{../namePascalCase}} not found"));
