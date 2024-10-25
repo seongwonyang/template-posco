@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityNotFoundException;
 
 @RestController
-//@RequestMapping(value="/{{namePlural}}")
+@RequestMapping(value="/{{namePlural}}")
 @Service
 @Transactional
 public class {{namePascalCase}}RepositoryService {
@@ -40,8 +40,12 @@ public class {{namePascalCase}}RepositoryService {
         
         // Map command fields to method parameters
         {{../nameCamelCase}}.{{nameCamelCase}}(
+            id,
             {{#fieldDescriptors}}
+            {{#if ../aggregateRoot.fieldDescriptors.isKey}}
+            {{else}}
             {{../nameCamelCase}}Command.get{{pascalCase nameCamelCase}}(){{^@last}},{{/@last}}
+            {{/if}}
             {{/fieldDescriptors}}
         );
         
