@@ -1,3 +1,6 @@
+path: {{name}}/s20a01-boot/src/main/resources
+fileName: application.yml
+---
 server:
   port: 8080
 
