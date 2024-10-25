@@ -33,19 +33,14 @@ public class {{namePascalCase}}RepositoryService {
     {{#if isRestRepository}}
     {{else}}
     @RequestMapping(value = "/{id}/{{nameCamelCase}}", method = RequestMethod.POST)
-    public {{../namePascalCase}} {{nameCamelCase}}(@PathVariable("id") Long id, @RequestBody {{namePascalCase}}Command {{nameCamelCase}}Command) {
-        {{../namePascalCase}} {{../nameCamelCase}} = {{../nameCamelCase}}Repository
-            .findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("{{../namePascalCase}} not found"));
+    public {{../namePascalCase}} {{nameCamelCase}}(@PathVariable(value = "id") {{../keyFieldDescriptor.className}} id, {{#if (hasFields fieldDescriptors)}}@RequestBody {{namePascalCase}}Command {{nameCamelCase}}Command, {{/if}}HttpServletRequest request, HttpServletResponse response) throws Exception {
+        System.out.println("##### /{{../nameCamelCase}}/{{nameCamelCase}}  called #####");
+        Optional<{{../namePascalCase}}> optional{{../namePascalCase}} = {{../nameCamelCase}}Repository.findById(id);
         
         // Map command fields to method parameters
         {{../nameCamelCase}}.{{nameCamelCase}}(
-            id,
             {{#fieldDescriptors}}
-            {{#if ../aggregateRoot.fieldDescriptors.isKey}}
-            {{else}}
             {{../nameCamelCase}}Command.get{{pascalCase nameCamelCase}}(){{^@last}},{{/@last}}
-            {{/if}}
             {{/fieldDescriptors}}
         );
         
