@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityNotFoundException;
 
 @RestController
-@RequestMapping(value="/{{namePlural}}")
+//@RequestMapping(value="/{{namePlural}}")
 @Service
 @Transactional
 public class {{namePascalCase}}RepositoryService {
