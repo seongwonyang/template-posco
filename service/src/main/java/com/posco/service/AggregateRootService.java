@@ -30,25 +30,51 @@ public class {{namePascalCase}}RepositoryService {
     }
 
     {{#commands}}
-    {{#if isRestRepository}}
-    {{else}}
-    @RequestMapping(value = "/{id}/{{nameCamelCase}}", method = RequestMethod.POST)
-    public {{../namePascalCase}} {{nameCamelCase}}({{namePascalCase}}Command {{nameCamelCase}}Command) {
-        {{../namePascalCase}} {{../nameCamelCase}} = {{../nameCamelCase}}Repository
-            .findById({{nameCamelCase}}Command.get{{../namePascalCase}}Id())
-            .orElseThrow(() -> new EntityNotFoundException("{{../namePascalCase}} not found"));
-        
-        // Map command fields to method parameters
-        {{../nameCamelCase}}.{{nameCamelCase}}(
-            {{#fieldDescriptors}}
-            {{../nameCamelCase}}Command.get{{pascalCase nameCamelCase}}(){{^@last}},{{/@last}}
-            {{/fieldDescriptors}}
-        );
-        
-        // 레포지토리에 저장
-        return {{../nameCamelCase}}Repository.save({{../nameCamelCase}});
+    {{#isRestRepository}}
+    {{/isRestRepository}}
+    {{^isRestRepository}}
+    {{#checkMethod controllerInfo.method}}
+    @RequestMapping(value = "/{{../namePlural}}/{id}/{{controllerInfo.apiPath}}",
+        method = RequestMethod.{{controllerInfo.method}},
+        produces = "application/json;charset=UTF-8")
+    public {{../namePascalCase}} {{nameCamelCase}}(@PathVariable(value = "id") {{../keyFieldDescriptor.className}} id, {{#if (hasFields fieldDescriptors)}}@RequestBody {{namePascalCase}}Command {{nameCamelCase}}Command, {{/if}}HttpServletRequest request, HttpServletResponse response) throws Exception {
+            System.out.println("##### /{{../nameCamelCase}}/{{nameCamelCase}}  called #####");
+            Optional<{{../namePascalCase}}> optional{{../namePascalCase}} = {{../nameCamelCase}}Repository.findById(id);
+            
+            optional{{../namePascalCase}}.orElseThrow(()-> new Exception("No Entity Found"));
+            {{../namePascalCase}} {{../nameCamelCase}} = optional{{../namePascalCase}}.get();
+            {{../nameCamelCase}}.{{nameCamelCase}}({{#if (hasFields fieldDescriptors)}}{{nameCamelCase}}Command{{/if}});
+            
+            {{../nameCamelCase}}Repository.{{#methodConvert controllerInfo.method}}{{/methodConvert}}({{../nameCamelCase}});
+            return {{../nameCamelCase}};
+            
+    }
+    {{#each ../aggregateRoot.entities.relations}}
+    {{#if (isGeneralization targetElement.namePascalCase ../../namePascalCase relationType)}}
+    @RequestMapping(value = "/{{#toURL sourceElement.nameCamelCase}}{{/toURL}}/{id}/{{../controllerInfo.apiPath}}",
+            method = RequestMethod.{{../controllerInfo.method}},
+            produces = "application/json;charset=UTF-8")
+    public {{../../namePascalCase}} {{../nameCamelCase}}{{sourceElement.namePascalCase}}(
+        @PathVariable(value = "id") {{../../keyFieldDescriptor.className}} id, {{#if (hasFields ../fieldDescriptors)}}@RequestBody {{../namePascalCase}}Command {{../nameCamelCase}}Command, {{/if}}HttpServletRequest request, HttpServletResponse response) throws Exception {
+            return {{../nameCamelCase}}(id, {{#if (hasFields ../fieldDescriptors)}}{{../nameCamelCase}}Command,{{/if}} request, response);
     }
     {{/if}}
+    {{/each}}
+    {{/checkMethod}}
+    {{^checkMethod controllerInfo.method}}
+    @RequestMapping(value = "/{{../namePlural}}{{#if controllerInfo.apiPath}}{{controllerInfo.apiPath}}{{/if}}",
+            method = RequestMethod.{{controllerInfo.method}},
+            produces = "application/json;charset=UTF-8")
+    public {{../namePascalCase}} {{nameCamelCase}}(HttpServletRequest request, HttpServletResponse response, 
+        {{#if fieldDescriptors}}@RequestBody {{namePascalCase}}Command {{nameCamelCase}}Command{{/if}}) throws Exception {
+            System.out.println("##### /{{aggregate.nameCamelCase}}/{{nameCamelCase}}  called #####");
+            {{aggregate.namePascalCase}} {{aggregate.nameCamelCase}} = new {{aggregate.namePascalCase}}();
+            {{aggregate.nameCamelCase}}.{{nameCamelCase}}({{#if fieldDescriptors}}{{nameCamelCase}}Command{{/if}});
+            {{aggregate.nameCamelCase}}Repository.save({{aggregate.nameCamelCase}});
+            return {{aggregate.nameCamelCase}};
+    }
+    {{/checkMethod}}    
+    {{/isRestRepository}}
     {{/commands}}
 
     {{#aggregateRoot.operations}}
