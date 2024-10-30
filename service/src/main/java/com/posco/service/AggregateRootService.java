@@ -14,7 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import javax.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping(value="/{{namePlural}}")
@@ -36,7 +37,7 @@ public class {{namePascalCase}}RepositoryService {
     public {{../namePascalCase}} {{nameCamelCase}}(@PathVariable("id") Long {{../keyFieldDescriptor.nameCamelCase}}, @RequestBody {{namePascalCase}}Command {{nameCamelCase}}Command) {
         {{../namePascalCase}} {{../nameCamelCase}} = {{../nameCamelCase}}Repository
             .findById({{../keyFieldDescriptor.nameCamelCase}})
-            .orElseThrow(() -> new EntityNotFoundException("{{../namePascalCase}} not found"));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "{{../namePascalCase}} not found"));
         
         // Map command fields to method parameters
         {{../nameCamelCase}}.{{nameCamelCase}}(
