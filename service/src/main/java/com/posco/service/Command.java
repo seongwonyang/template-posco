@@ -2,6 +2,7 @@ forEach: Command
 representativeFor: Command
 fileName: {{namePascalCase}}Command.java
 path: {{boundedContext.name}}/s20a01-service/src/main/java/com/posco/{{boundedContext.name}}/s20a01/service
+except:{{#isRestRepository}}{{/isRestRepository}}
 ---
 package com.posco.{{boundedContext.name}}.s20a01.service;
 
