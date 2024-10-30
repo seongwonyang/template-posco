@@ -18,6 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
+{{#fieldDescriptors}}
+{{#if isVO}}{{#isKey}}
+import com.posco.{{boundedContext.name}}.s20a01.domain.{{className}};
+{{/isKey}}{{/if}}
+{{/fieldDescriptors}}
 
 @RestController
 @RequestMapping(value="/{{namePlural}}")
@@ -36,7 +41,7 @@ public class {{namePascalCase}}RepositoryService {
     {{#if isRestRepository}}
     {{else}}
     @RequestMapping(value = "/{id}/{{nameCamelCase}}", method = RequestMethod.POST)
-    public {{../namePascalCase}} {{nameCamelCase}}(@PathVariable("id") Long {{../keyFieldDescriptor.nameCamelCase}}, @RequestBody {{namePascalCase}}Command {{nameCamelCase}}Command) {
+    public {{../namePascalCase}} {{nameCamelCase}}(@PathVariable("id") {{../keyFieldDescriptor.className}} {{../keyFieldDescriptor.nameCamelCase}}, @RequestBody {{namePascalCase}}Command {{nameCamelCase}}Command) {
         {{../namePascalCase}} {{../nameCamelCase}} = {{../nameCamelCase}}Repository
             .findById({{../keyFieldDescriptor.nameCamelCase}})
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "{{../namePascalCase}} not found"));
