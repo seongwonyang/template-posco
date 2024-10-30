@@ -9,6 +9,11 @@ package com.posco.{{boundedContext.name}}.s20a01.service;
 import java.util.*;
 import lombok.Data;
 import java.time.LocalDate;
+{{#fieldDescriptors}}
+{{^if (isPrimitive className)}}
+import com.posco.{{../boundedContext.name}}.s20a01.domain.{{namePascalCase}};
+{{/if}}
+{{/fieldDescriptors}}
 {{#checkBigDecimal fieldDescriptors}}{{/checkBigDecimal}}
 
 @Data
@@ -37,6 +42,15 @@ window.$HandleBars.registerHelper('checkBigDecimal', function (fieldDescriptors)
 window.$HandleBars.registerHelper('isDefaultVerb', function (command) {
     if(command.isRestRepository){
         return true;
+    }
+});
+
+window.$HandleBars.registerHelper('isPrimitive', function (className) {
+    if(className.includes("String") || className.includes("Integer") || className.includes("Long") || className.includes("Double") || className.includes("Float")
+            || className.includes("Boolean") || className.includes("Date")){
+        return true;
+    } else {
+        return false;
     }
 });
 
