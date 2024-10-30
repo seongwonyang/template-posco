@@ -9,7 +9,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource(collectionResourceRel="{{#toURL nameCamelCase}}{{/toURL}}", path="{{#toURL nameCamelCase}}{{/toURL}}")
-public interface {{namePascalCase}}Repository extends PagingAndSortingRepository<{{namePascalCase}}, Long>{}
+public interface {{namePascalCase}}Repository extends PagingAndSortingRepository<{{namePascalCase}}, {{#fieldDescriptors}}{{isKey}}{{className}}{{/isKey}}{{/fieldDescriptors}}>{}
 
 <function>
     window.$HandleBars.registerHelper('toURL', function (className) {
