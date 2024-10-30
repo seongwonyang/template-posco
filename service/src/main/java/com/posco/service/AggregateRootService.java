@@ -23,7 +23,6 @@ import org.springframework.web.server.ResponseStatusException;
 import com.posco.{{boundedContext.name}}.s20a01.domain.{{className}};
 {{/isVO}}
 {{/keyFieldDescriptor}}
-{{/fieldDescriptors}}
 
 @RestController
 @RequestMapping(value="/{{namePlural}}")
