@@ -18,10 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
-{{#fieldDescriptors}}
-{{#if isVO}}{{#isKey}}
+{{#keyFieldDescriptor}}
+{{#isVO}}
 import com.posco.{{boundedContext.name}}.s20a01.domain.{{className}};
-{{/isKey}}{{/if}}
+{{/isVO}}
+{{/keyFieldDescriptor}}
 {{/fieldDescriptors}}
 
 @RestController
