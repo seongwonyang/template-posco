@@ -20,7 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 {{#keyFieldDescriptor}}
 {{#isVO}}
-import com.posco.{{boundedContext.name}}.s20a01.domain.{{className}};
+import com.posco.{{../boundedContext.name}}.s20a01.domain.{{className}};
 {{/isVO}}
 {{/keyFieldDescriptor}}
 
