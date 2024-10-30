@@ -2,7 +2,7 @@ forEach: Command
 representativeFor: Command
 fileName: {{namePascalCase}}Command.java
 path: {{boundedContext.name}}/s20a01-service/src/main/java/com/posco/{{boundedContext.name}}/s20a01/service
-except:{{#isRestRepository}}{{/isRestRepository}}
+except: {{#isDefaultVerb this}}{{/isDefaultVerb}}
 ---
 package com.posco.{{boundedContext.name}}.s20a01.service;
 
@@ -31,6 +31,12 @@ window.$HandleBars.registerHelper('checkBigDecimal', function (fieldDescriptors)
         if(fieldDescriptors[i] && fieldDescriptors[i].className.includes('BigDecimal')){
             return "import java.math.BigDecimal;";
         }
+    }
+});
+
+window.$HandleBars.registerHelper('isDefaultVerb', function (command) {
+    if(command.isRestRepository){
+        return true;
     }
 });
 
