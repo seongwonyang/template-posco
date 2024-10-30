@@ -9,7 +9,7 @@ import com.posco.{{boundedContext.name}}.s20a01.domain.{{namePascalCase}};
 import com.posco.{{boundedContext.name}}.s20a01.domain.{{namePascalCase}}Repository;
 {{#commands}}
 {{^isRestRepository}}
-import com.posco.{{boundedContext.name}}.s20a01.service.{{namePascalCase}}Command;
+import com.posco.{{../boundedContext.name}}.s20a01.service.{{namePascalCase}}Command;
 {{/isRestRepository}}
 {{/commands}}
 import org.springframework.beans.factory.annotation.Autowired;
