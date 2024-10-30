@@ -8,9 +8,9 @@ package com.posco.{{boundedContext.name}}.s20a01.service;
 import com.posco.{{boundedContext.name}}.s20a01.domain.{{namePascalCase}};
 import com.posco.{{boundedContext.name}}.s20a01.domain.{{namePascalCase}}Repository;
 {{#commands}}
-{{#if isRestRepository}}
+{{^isRestRepository}}
 import com.posco.{{boundedContext.name}}.s20a01.service.{{namePascalCase}}Command;
-{{/if}}
+{{/isRestRepository}}
 {{/commands}}
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
