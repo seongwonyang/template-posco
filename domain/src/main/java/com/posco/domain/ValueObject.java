@@ -45,11 +45,13 @@ public class {{namePascalCase}} {{#checkCompositeKey incomingClassRef namePascal
 <function>
 window.$HandleBars.registerHelper('checkCompositeKey', function (incomingClassRef, voName) {
     var flag = false;
-    for(var i = 0; i < incomingClassRef.length; i ++ ){
-        if(incomingClassRef[i].value.isAggregateRoot){
-            for(var j = 0; j < incomingClassRef[i].value.fieldDescriptors.length; j ++ ){
-                if(incomingClassRef[i].value.fieldDescriptors[j] && incomingClassRef[i].value.fieldDescriptors[j].className===voName){
-                    flag = true;
+    if(incomingClassRef.length > 0){
+        for(var i = 0; i < incomingClassRef.length; i ++ ){
+            if(incomingClassRef[i].value.isAggregateRoot){
+                for(var j = 0; j < incomingClassRef[i].value.fieldDescriptors.length; j ++ ){
+                    if(incomingClassRef[i].value.fieldDescriptors[j] && incomingClassRef[i].value.fieldDescriptors[j].className===voName){
+                        flag = true;
+                    }
                 }
             }
         }
