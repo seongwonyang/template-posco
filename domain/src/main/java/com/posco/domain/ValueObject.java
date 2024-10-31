@@ -12,7 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.util.Date;
-{{#checkCompositeKey incomingClassRefs namePascalCase}}import java.io.Serializable;{{/checkCompositeKey}}
+{{#if (checkCompositeKey incomingClassRefs namePascalCase)}}import java.io.Serializable;{{/if}}
 {{#checkBigDecimal fieldDescriptors}}{{/checkBigDecimal}}
 
 //<<< DDD / Value Object
@@ -20,7 +20,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class {{namePascalCase}} {{#checkCompositeKey incomingClassRefs namePascalCase}}implements Serializable{{/checkCompositeKey}} {
+public class {{namePascalCase}} {{#if (checkCompositeKey incomingClassRefs namePascalCase)}}implements Serializable{{/if}} {
 
     {{#fieldDescriptors}}
     {{#isLob}}@Lob{{/isLob}}
