@@ -12,7 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.util.Date;
-{{#incomingClassRef}}{{#checkCompositeKey this namePascalCase}}import java.io.Serializable;{{/checkCompositeKey}}{{/incomingClassRef}}
+{{#checkCompositeKey incomingClassRef namePascalCase}}import java.io.Serializable;{{/checkCompositeKey}}
 {{#checkBigDecimal fieldDescriptors}}{{/checkBigDecimal}}
 
 //<<< DDD / Value Object
@@ -20,7 +20,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class {{namePascalCase}} {{#incomingClassRef}}{{#checkCompositeKey this namePascalCase}}implements Serializable{{/checkCompositeKey}}{{/incomingClassRef}} {
+public class {{namePascalCase}} {{#checkCompositeKey incomingClassRef namePascalCase}}implements Serializable{{/checkCompositeKey}} {
 
     {{#fieldDescriptors}}
     {{#isLob}}@Lob{{/isLob}}
@@ -43,11 +43,13 @@ public class {{namePascalCase}} {{#incomingClassRef}}{{#checkCompositeKey this n
 
 //>>> DDD / Value Object
 <function>
-window.$HandleBars.registerHelper('checkCompositeKey', function (class, voName) {
-    if(class.isAggregateRoot){
-        for(var i = 0; i < class.fieldDescriptors.length; i ++ ){
-            if(class.fieldDescriptors[i] && class.fieldDescriptors[i].className===voName){
-                return true;
+window.$HandleBars.registerHelper('checkCompositeKey', function (incomingClassRef, voName) {
+    for(var i = 0; i < incomingClassRef.length; i ++ ){
+        if(incomingClassRef[i].isAggregateRoot){
+            for(var j = 0; j < incomingClassRef[i].fieldDescriptors.length; j ++ ){
+                if(incomingClassRef[i].fieldDescriptors[j] && incomingClassRef[i].fieldDescriptors[j].className===voName){
+                    return true;
+                }
             }
         }
     }
