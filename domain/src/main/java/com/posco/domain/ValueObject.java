@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.util.Date;
+{{#incomingClassRef}}{{#checkCompositeKey this namePascalCase}}import java.io.Serializable;{{/checkCompositeKey}}{{/incomingClassRef}}
 {{#checkBigDecimal fieldDescriptors}}{{/checkBigDecimal}}
 
 //<<< DDD / Value Object
@@ -19,7 +20,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class {{namePascalCase}} {
+public class {{namePascalCase}} {{#incomingClassRef}}{{#checkCompositeKey this namePascalCase}}implements Serializable{{/checkCompositeKey}}{{/incomingClassRef}} {
 
     {{#fieldDescriptors}}
     {{#isLob}}@Lob{{/isLob}}
@@ -42,6 +43,16 @@ public class {{namePascalCase}} {
 
 //>>> DDD / Value Object
 <function>
+window.$HandleBars.registerHelper('checkCompositeKey', function (class, voName) {
+    if(class.isAggregateRoot){
+        for(var i = 0; i < class.fieldDescriptors.length; i ++ ){
+            if(class.fieldDescriptors[i] && class.fieldDescriptors[i].className===voName){
+                return true;
+            }
+        }
+    }
+    return false;
+});
 window.$HandleBars.registerHelper('checkClassType', function (className) {
     if(className && className === 'Long'){
         return "@GeneratedValue(strategy=GenerationType.AUTO)";
