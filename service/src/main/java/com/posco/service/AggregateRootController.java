@@ -9,9 +9,9 @@ import com.posco.{{boundedContext.name}}.s20a01.domain.{{namePascalCase}};
 {{#commands}}
 {{#if isRestRepository}}
 {{#fieldDescriptors}}
-{{isVO}}
+{{#checkVO className}}
 import com.posco.{{boundedContext.name}}.s20a01.domain.{{className}};
-{{/isVO}}
+{{/checkVO}}
 {{/fieldDescriptors}}
 {{/if}}
 {{/commands}}
@@ -32,29 +32,29 @@ public class {{namePascalCase}}Controller {
 
     {{#commands}}
     {{#if isRestRepository}}
-    {{#equals controllerInfo.method 'POST'}}
+    {{#ifEquals controllerInfo.method 'POST'}}
     @PostMapping
     public ResponseEntity<{{../namePascalCase}}> create(@Valid @RequestBody {{namePascalCase}}Command command) {
         return ResponseEntity.ok({{../nameCamelCase}}RepositoryService.create(command));
     }
-    {{/equals}}
+    {{/ifEquals}}
 
-    {{#equals controllerInfo.method 'PATCH'}}
+    {{#ifEquals controllerInfo.method 'PATCH'}}
     @PatchMapping("/{id}")
     public ResponseEntity<{{../namePascalCase}}> update(
         @PathVariable {{../keyFieldDescriptor.className}} id,
         @Valid @RequestBody {{namePascalCase}}Command command) {
         return ResponseEntity.ok({{../nameCamelCase}}RepositoryService.update(id, command));
     }
-    {{/equals}}
+    {{/ifEquals}}
 
-    {{#equals controllerInfo.method 'DELETE'}}
+    {{#ifEquals controllerInfo.method 'DELETE'}}
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable {{../keyFieldDescriptor.className}} id) {
         {{../nameCamelCase}}RepositoryService.delete(id);
         return ResponseEntity.noContent().build();
     }
-    {{/equals}}
+    {{/ifEquals}}
     {{else}}
     @PostMapping("/{id}/{{nameCamelCase}}")
     public ResponseEntity<{{../namePascalCase}}> {{nameCamelCase}}(

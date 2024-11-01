@@ -26,7 +26,7 @@ public class {{namePascalCase}}RepositoryService {
 
     {{#commands}}
     {{#if isRestRepository}}
-    {{#equals controllerInfo.method 'POST'}}
+    {{#ifEquals controllerInfo.method 'POST'}}
     public {{../namePascalCase}} create({{namePascalCase}}Command command) {
         {{../namePascalCase}} {{../nameCamelCase}} = new {{../namePascalCase}}();
         {{#../fieldDescriptors}}
@@ -34,9 +34,9 @@ public class {{namePascalCase}}RepositoryService {
         {{/../fieldDescriptors}}
         return {{../nameCamelCase}}Repository.save({{../nameCamelCase}});
     }
-    {{/equals}}
+    {{/ifEquals}}
 
-    {{#equals controllerInfo.method 'PATCH'}}
+    {{#ifEquals controllerInfo.method 'PATCH'}}
     public {{../namePascalCase}} update({{../keyFieldDescriptor.className}} id, {{namePascalCase}}Command command) {
         {{../namePascalCase}} existing = findById(id);
         {{#../fieldDescriptors}}
@@ -46,14 +46,14 @@ public class {{namePascalCase}}RepositoryService {
         {{/../fieldDescriptors}}
         return {{../nameCamelCase}}Repository.save(existing);
     }
-    {{/equals}}
+    {{/ifEquals}}
 
-    {{#equals controllerInfo.method 'DELETE'}}
+    {{#ifEquals controllerInfo.method 'DELETE'}}
     public void delete({{../keyFieldDescriptor.className}} id) {
         {{../namePascalCase}} {{../nameCamelCase}} = findById(id);
         {{../nameCamelCase}}Repository.delete({{../nameCamelCase}});
     }
-    {{/equals}}
+    {{/ifEquals}}
     {{/if}}
     {{/commands}}
 
