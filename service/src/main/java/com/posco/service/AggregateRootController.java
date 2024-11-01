@@ -20,6 +20,36 @@ public class {{namePascalCase}}Controller {
         this.{{nameCamelCase}}RepositoryService = {{nameCamelCase}}RepositoryService;
     }
 
+    // Basic CRUD Operations
+    @PostMapping
+    public ResponseEntity<{{namePascalCase}}> create(@RequestBody {{namePascalCase}} {{nameCamelCase}}) {
+        return ResponseEntity.ok({{nameCamelCase}}RepositoryService.save({{nameCamelCase}}));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<{{namePascalCase}}> findById(@PathVariable {{keyFieldDescriptor.className}} id) {
+        return ResponseEntity.ok({{nameCamelCase}}RepositoryService.findById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<{{namePascalCase}}>> findAll() {
+        return ResponseEntity.ok({{nameCamelCase}}RepositoryService.findAll());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<{{namePascalCase}}> update(
+        @PathVariable {{keyFieldDescriptor.className}} id,
+        @RequestBody {{namePascalCase}} {{nameCamelCase}}) {
+        return ResponseEntity.ok({{nameCamelCase}}RepositoryService.update(id, {{nameCamelCase}}));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable {{keyFieldDescriptor.className}} id) {
+        {{nameCamelCase}}RepositoryService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
+    // Custom Commands
     {{#commands}}
     {{#if isRestRepository}}
     {{else}}
