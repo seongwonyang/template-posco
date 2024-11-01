@@ -26,20 +26,20 @@ public class {{namePascalCase}}Service {
 
     {{#commands}}
     {{#if isRestRepository}}
-    {{else}}
     public {{../namePascalCase}} {{nameCamelCase}}({{../keyFieldDescriptor.className}} {{../keyFieldDescriptor.nameCamelCase}}, {{namePascalCase}}Command command) {
         {{../namePascalCase}} {{../nameCamelCase}} = {{../nameCamelCase}}Repository
-            .findById({{../keyFieldDescriptor.nameCamelCase}})
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "{{../namePascalCase}} not found"));
+        .findById({{../keyFieldDescriptor.nameCamelCase}})
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "{{../namePascalCase}} not found"));
         
         {{../nameCamelCase}}.{{nameCamelCase}}(
             {{^isKey}}
             command.get{{pascalCase nameCamelCase}}(){{^@last}},{{/@last}}
             {{/isKey}}
-        );
-        
-        return {{../nameCamelCase}}Repository.save({{../nameCamelCase}});
-    }
+            );
+            
+            return {{../nameCamelCase}}Repository.save({{../nameCamelCase}});
+        }
+    {{else}}
     {{/if}}
     {{/commands}}
 }
