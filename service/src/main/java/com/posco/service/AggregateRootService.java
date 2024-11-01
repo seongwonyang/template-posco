@@ -13,21 +13,16 @@ import com.posco.{{boundedContext.name}}.s20a01.service.{{namePascalCase}}Comman
 {{/isRestRepository}}
 {{/commands}}
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.rest.webmvc.RepositoryRestController;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
-{{#keyFieldDescriptor}}
-{{#isVO}}
-import com.posco.{{../boundedContext.name}}.s20a01.domain.{{className}};
-{{/isVO}}
-{{/keyFieldDescriptor}}
+import java.util.List;
+import java.util.Optional;
 
-@RestController
-@RequestMapping(value="/{{namePlural}}")
-@Service
-@Transactional
+@RepositoryRestController
+@RequestMapping("/{{namePlural}}")
 public class {{namePascalCase}}RepositoryService {
 
     private final {{namePascalCase}}Repository {{nameCamelCase}}Repository;
@@ -37,46 +32,68 @@ public class {{namePascalCase}}RepositoryService {
         this.{{nameCamelCase}}Repository = {{nameCamelCase}}Repository;
     }
 
+    @GetMapping
+    public ResponseEntity<List<{{namePascalCase}}>> getAll{{namePascalCase}}s() {
+        return ResponseEntity.ok({{nameCamelCase}}Repository.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<{{namePascalCase}}> get{{namePascalCase}}(@PathVariable("id") {{keyFieldDescriptor.className}} id) {
+        return {{nameCamelCase}}Repository.findById(id)
+            .map(ResponseEntity::ok)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "{{namePascalCase}} not found"));
+    }
+
+    @PostMapping
+    public ResponseEntity<{{namePascalCase}}> create{{namePascalCase}}(@RequestBody {{namePascalCase}} {{nameCamelCase}}) {
+        {{namePascalCase}} saved{{namePascalCase}} = {{nameCamelCase}}Repository.save({{nameCamelCase}});
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved{{namePascalCase}});
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<{{namePascalCase}}> update{{namePascalCase}}(
+        @PathVariable("id") {{keyFieldDescriptor.className}} id,
+        @RequestBody {{namePascalCase}} {{nameCamelCase}}) {
+        
+        if (!{{nameCamelCase}}Repository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "{{namePascalCase}} not found");
+        }
+        
+        {{nameCamelCase}}.set{{keyFieldDescriptor.namePascalCase}}(id);
+        return ResponseEntity.ok({{nameCamelCase}}Repository.save({{nameCamelCase}}));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete{{namePascalCase}}(@PathVariable("id") {{keyFieldDescriptor.className}} id) {
+        if (!{{nameCamelCase}}Repository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "{{namePascalCase}} not found");
+        }
+        
+        {{nameCamelCase}}Repository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
     {{#commands}}
-    {{#if isRestRepository}}
-    {{else}}
-    @RequestMapping(value = "/{id}/{{nameCamelCase}}", method = RequestMethod.POST)
-    public {{../namePascalCase}} {{nameCamelCase}}(@PathVariable("id") {{../keyFieldDescriptor.className}} {{../keyFieldDescriptor.nameCamelCase}}, @RequestBody {{namePascalCase}}Command {{nameCamelCase}}Command) {
+    {{^isRestRepository}}
+    @PostMapping("/{id}/{{nameCamelCase}}")
+    public ResponseEntity<{{../namePascalCase}}> {{nameCamelCase}}(
+        @PathVariable("id") {{../keyFieldDescriptor.className}} id,
+        @RequestBody {{namePascalCase}}Command command) {
+        
         {{../namePascalCase}} {{../nameCamelCase}} = {{../nameCamelCase}}Repository
-            .findById({{../keyFieldDescriptor.nameCamelCase}})
+            .findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "{{../namePascalCase}} not found"));
         
-        // Map command fields to method parameters
         {{../nameCamelCase}}.{{nameCamelCase}}(
             {{#fieldDescriptors}}
             {{^isKey}}
-            {{../nameCamelCase}}Command.get{{pascalCase nameCamelCase}}(){{^@last}},{{/@last}}
+            command.get{{pascalCase nameCamelCase}}(){{^@last}},{{/@last}}
             {{/isKey}}
             {{/fieldDescriptors}}
         );
         
-        // 레포지토리에 저장
-        return {{../nameCamelCase}}Repository.save({{../nameCamelCase}});
+        return ResponseEntity.ok({{../nameCamelCase}}Repository.save({{../nameCamelCase}}));
     }
-    {{/if}}
+    {{/isRestRepository}}
     {{/commands}}
-
-    {{#aggregateRoot.operations}}
-    {{#setOperations ../commands name}}
-    {{#isOverride}}
-    @Override
-    {{/isOverride}}
-    {{^isRootMethod}}
-    public {{returnType}} {{name}}({{../namePascalCase}} {{../nameCamelCase}}){
-        // 비즈니스 로직 호출
-        {{returnType}} result = {{../nameCamelCase}}.{{name}}();
-        
-        // 필요한 경우 레포지토리에 저장
-        {{nameCamelCase}}Repository.save({{../nameCamelCase}});
-        
-        return result;
-    }
-    {{/isRootMethod}}
-    {{/setOperations}}
-    {{/aggregateRoot.operations}}
 }
