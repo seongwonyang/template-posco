@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
+import java.util.List;
 
 @Service
 @Transactional
@@ -24,8 +25,12 @@ public class {{namePascalCase}}RepositoryService {
         this.{{nameCamelCase}}Repository = {{nameCamelCase}}Repository;
     }
 
-    // Basic CRUD Operations
-    public {{namePascalCase}} save({{namePascalCase}} {{nameCamelCase}}) {
+    public {{namePascalCase}} create(Create{{namePascalCase}}Command command) {
+        {{namePascalCase}} {{nameCamelCase}} = new {{namePascalCase}}();
+        {{#fieldDescriptors}}
+        {{nameCamelCase}}.set{{pascalCase nameCamelCase}}(command.get{{pascalCase nameCamelCase}}());
+        {{/fieldDescriptors}}
+        
         return {{nameCamelCase}}Repository.save({{nameCamelCase}});
     }
 
@@ -38,10 +43,16 @@ public class {{namePascalCase}}RepositoryService {
         return (List<{{namePascalCase}}>){{nameCamelCase}}Repository.findAll();
     }
 
-    public {{namePascalCase}} update({{keyFieldDescriptor.className}} id, {{namePascalCase}} {{nameCamelCase}}) {
+    public {{namePascalCase}} update({{keyFieldDescriptor.className}} id, Update{{namePascalCase}}Command command) {
         {{namePascalCase}} existing = findById(id);
-        // Add update logic here
-        return {{nameCamelCase}}Repository.save({{nameCamelCase}});
+        
+        {{#fieldDescriptors}}
+        if (command.get{{pascalCase nameCamelCase}}() != null) {
+            existing.set{{pascalCase nameCamelCase}}(command.get{{pascalCase nameCamelCase}}());
+        }
+        {{/fieldDescriptors}}
+        
+        return {{nameCamelCase}}Repository.save(existing);
     }
 
     public void delete({{keyFieldDescriptor.className}} id) {
@@ -49,7 +60,6 @@ public class {{namePascalCase}}RepositoryService {
         {{nameCamelCase}}Repository.delete({{nameCamelCase}});
     }
 
-    // Custom Commands
     {{#commands}}
     {{#if isRestRepository}}
     public {{../namePascalCase}} {{nameCamelCase}}({{../keyFieldDescriptor.className}} {{../keyFieldDescriptor.nameCamelCase}}, {{namePascalCase}}Command command) {

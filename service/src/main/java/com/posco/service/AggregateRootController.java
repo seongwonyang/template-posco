@@ -5,9 +5,11 @@ path: {{boundedContext.name}}/s20a01-service/src/main/java/com/posco/{{boundedCo
 ---
 package com.posco.{{boundedContext.name}}.s20a01.service;
 
+import com.posco.{{boundedContext.name}}.s20a01.domain.{{namePascalCase}};
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+import java.util.List;
 
 @RestController
 @RequestMapping("/{{namePlural}}")
@@ -20,10 +22,9 @@ public class {{namePascalCase}}Controller {
         this.{{nameCamelCase}}RepositoryService = {{nameCamelCase}}RepositoryService;
     }
 
-    // Basic CRUD Operations
     @PostMapping
-    public ResponseEntity<{{namePascalCase}}> create(@RequestBody {{namePascalCase}} {{nameCamelCase}}) {
-        return ResponseEntity.ok({{nameCamelCase}}RepositoryService.save({{nameCamelCase}}));
+    public ResponseEntity<{{namePascalCase}}> create(@RequestBody Create{{namePascalCase}}Command command) {
+        return ResponseEntity.ok({{nameCamelCase}}RepositoryService.create(command));
     }
 
     @GetMapping("/{id}")
@@ -39,8 +40,8 @@ public class {{namePascalCase}}Controller {
     @PutMapping("/{id}")
     public ResponseEntity<{{namePascalCase}}> update(
         @PathVariable {{keyFieldDescriptor.className}} id,
-        @RequestBody {{namePascalCase}} {{nameCamelCase}}) {
-        return ResponseEntity.ok({{nameCamelCase}}RepositoryService.update(id, {{nameCamelCase}}));
+        @RequestBody Update{{namePascalCase}}Command command) {
+        return ResponseEntity.ok({{nameCamelCase}}RepositoryService.update(id, command));
     }
 
     @DeleteMapping("/{id}")
@@ -49,7 +50,6 @@ public class {{namePascalCase}}Controller {
         return ResponseEntity.ok().build();
     }
 
-    // Custom Commands
     {{#commands}}
     {{#if isRestRepository}}
     {{else}}
