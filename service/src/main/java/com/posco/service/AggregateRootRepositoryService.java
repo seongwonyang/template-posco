@@ -17,7 +17,6 @@ import java.util.List;
 @Service
 @Transactional
 public class {{namePascalCase}}RepositoryService {
-
     private final {{namePascalCase}}Repository {{nameCamelCase}}Repository;
 
     @Autowired
@@ -25,38 +24,45 @@ public class {{namePascalCase}}RepositoryService {
         this.{{nameCamelCase}}Repository = {{nameCamelCase}}Repository;
     }
 
-    public {{namePascalCase}} create(Create{{namePascalCase}}Command command) {
-        {{namePascalCase}} {{nameCamelCase}} = new {{namePascalCase}}();
-        {{#fieldDescriptors}}
-        {{nameCamelCase}}.set{{pascalCase nameCamelCase}}(command.get{{pascalCase nameCamelCase}}());
-        {{/fieldDescriptors}}
-        
-        return {{nameCamelCase}}Repository.save({{nameCamelCase}});
+    {{#commands}}
+    {{#if isRestRepository}}
+    {{#equals controllerInfo.method 'POST'}}
+    public {{../namePascalCase}} create({{namePascalCase}}Command command) {
+        {{../namePascalCase}} {{../nameCamelCase}} = new {{../namePascalCase}}();
+        {{#../fieldDescriptors}}
+        {{../nameCamelCase}}.set{{pascalCase nameCamelCase}}(command.get{{pascalCase nameCamelCase}}());
+        {{/../fieldDescriptors}}
+        return {{../nameCamelCase}}Repository.save({{../nameCamelCase}});
     }
+    {{/equals}}
+
+    {{#equals controllerInfo.method 'PATCH'}}
+    public {{../namePascalCase}} update({{../keyFieldDescriptor.className}} id, {{namePascalCase}}Command command) {
+        {{../namePascalCase}} existing = findById(id);
+        {{#../fieldDescriptors}}
+        if (command.get{{pascalCase nameCamelCase}}() != null) {
+            existing.set{{pascalCase nameCamelCase}}(command.get{{pascalCase nameCamelCase}}());
+        }
+        {{/../fieldDescriptors}}
+        return {{../nameCamelCase}}Repository.save(existing);
+    }
+    {{/equals}}
+
+    {{#equals controllerInfo.method 'DELETE'}}
+    public void delete({{../keyFieldDescriptor.className}} id) {
+        {{../namePascalCase}} {{../nameCamelCase}} = findById(id);
+        {{../nameCamelCase}}Repository.delete({{../nameCamelCase}});
+    }
+    {{/equals}}
+    {{/if}}
+    {{/commands}}
 
     public {{namePascalCase}} findById({{keyFieldDescriptor.className}} id) {
         return {{nameCamelCase}}Repository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "{{namePascalCase}} not found"));
     }
 
-    public List<{{namePascalCase}}> findAll() {
-        return (List<{{namePascalCase}}>){{nameCamelCase}}Repository.findAll();
-    }
-
-    public {{namePascalCase}} update({{keyFieldDescriptor.className}} id, Update{{namePascalCase}}Command command) {
-        {{namePascalCase}} existing = findById(id);
-        
-        {{#fieldDescriptors}}
-        if (command.get{{pascalCase nameCamelCase}}() != null) {
-            existing.set{{pascalCase nameCamelCase}}(command.get{{pascalCase nameCamelCase}}());
-        }
-        {{/fieldDescriptors}}
-        
-        return {{nameCamelCase}}Repository.save(existing);
-    }
-
-    public void delete({{keyFieldDescriptor.className}} id) {
-        {{namePascalCase}} {{nameCamelCase}} = findById(id);
-        {{nameCamelCase}}Repository.delete({{nameCamelCase}});
+    public {{namePascalCase}} save({{namePascalCase}} {{nameCamelCase}}) {
+        return {{nameCamelCase}}Repository.save({{nameCamelCase}});
     }
 }
