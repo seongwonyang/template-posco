@@ -59,20 +59,4 @@ public class {{namePascalCase}}RepositoryService {
         {{namePascalCase}} {{nameCamelCase}} = findById(id);
         {{nameCamelCase}}Repository.delete({{nameCamelCase}});
     }
-
-    {{#commands}}
-    {{#if isRestRepository}}
-    public {{../namePascalCase}} {{nameCamelCase}}({{../keyFieldDescriptor.className}} {{../keyFieldDescriptor.nameCamelCase}}, {{namePascalCase}}Command command) {
-        {{../namePascalCase}} {{../nameCamelCase}} = findById({{../keyFieldDescriptor.nameCamelCase}});
-        
-        {{../nameCamelCase}}.{{nameCamelCase}}(
-            {{^isKey}}
-            command.get{{pascalCase nameCamelCase}}(){{^@last}},{{/@last}}
-            {{/isKey}}
-        );
-        
-        return {{../nameCamelCase}}Repository.save({{../nameCamelCase}});
-    }
-    {{/if}}
-    {{/commands}}
 }
