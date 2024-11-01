@@ -56,8 +56,18 @@ public class {{namePascalCase}}Controller {
     @PostMapping("/{id}/{{nameCamelCase}}")
     public ResponseEntity<{{../namePascalCase}}> {{nameCamelCase}}(
         @PathVariable("id") {{../keyFieldDescriptor.className}} id,
-        @RequestBody {{namePascalCase}}Command command) {
-        return ResponseEntity.ok({{../nameCamelCase}}RepositoryService.{{nameCamelCase}}(id, command));
+        @Valid @RequestBody {{namePascalCase}}Command command) {
+        {{../namePascalCase}} {{../nameCamelCase}} = {{../nameCamelCase}}RepositoryService.findById(id);
+        
+        {{../nameCamelCase}}.{{nameCamelCase}}(
+            {{#fieldDescriptors}}
+            {{^isKey}}
+            command.get{{pascalCase nameCamelCase}}(){{^@last}},{{/@last}}
+            {{/isKey}}
+            {{/fieldDescriptors}}
+        );
+        
+        return ResponseEntity.ok({{../nameCamelCase}}RepositoryService.save({{../nameCamelCase}}));
     }
     {{/if}}
     {{/commands}}
