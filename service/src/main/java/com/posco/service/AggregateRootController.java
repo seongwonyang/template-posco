@@ -32,14 +32,14 @@ public class {{namePascalCase}}Controller {
 
     {{#commands}}
     {{#if isRestRepository}}
-    {{#ifEquals controllerInfo.method 'POST'}}
+    {{#ifEquals restRepositoryInfo.method 'POST'}}
     @PostMapping
     public ResponseEntity<{{../namePascalCase}}> create(@Valid @RequestBody {{namePascalCase}}Command command) {
         return ResponseEntity.ok({{../nameCamelCase}}RepositoryService.create(command));
     }
     {{/ifEquals}}
 
-    {{#ifEquals controllerInfo.method 'PATCH'}}
+    {{#ifEquals restRepositoryInfo.method 'PATCH'}}
     @PatchMapping("/{id}")
     public ResponseEntity<{{../namePascalCase}}> update(
         @PathVariable {{../keyFieldDescriptor.className}} id,
@@ -48,7 +48,7 @@ public class {{namePascalCase}}Controller {
     }
     {{/ifEquals}}
 
-    {{#ifEquals controllerInfo.method 'DELETE'}}
+    {{#ifEquals restRepositoryInfo.method 'DELETE'}}
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable {{../keyFieldDescriptor.className}} id) {
         {{../nameCamelCase}}RepositoryService.delete(id);
