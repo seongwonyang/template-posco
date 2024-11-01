@@ -1,6 +1,6 @@
 forEach: Aggregate
 representativeFor: Aggregate
-fileName: {{namePascalCase}}RepositoService.java
+fileName: {{namePascalCase}}RepositoryService.java
 path: {{boundedContext.name}}/s20a01-service/src/main/java/com/posco/{{boundedContext.name}}/s20a01/service
 ---
 package com.posco.{{boundedContext.name}}.s20a01.service;
