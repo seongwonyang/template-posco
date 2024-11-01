@@ -1,6 +1,6 @@
 forEach: Aggregate
 representativeFor: Aggregate
-fileName: {{namePascalCase}}RepositoryService.java
+fileName: {{namePascalCase}}RepositoService.java
 path: {{boundedContext.name}}/s20a01-service/src/main/java/com/posco/{{boundedContext.name}}/s20a01/service
 ---
 package com.posco.{{boundedContext.name}}.s20a01.service;
@@ -15,7 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @Transactional
-public class {{namePascalCase}}Service {
+public class {{namePascalCase}}RepositoryService {
 
     private final {{namePascalCase}}Repository {{nameCamelCase}}Repository;
 

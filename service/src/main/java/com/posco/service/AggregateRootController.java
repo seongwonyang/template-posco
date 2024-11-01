@@ -13,11 +13,11 @@ import org.springframework.http.ResponseEntity;
 @RequestMapping("/{{namePlural}}")
 public class {{namePascalCase}}Controller {
 
-    private final {{namePascalCase}}Service {{nameCamelCase}}Service;
+    private final {{namePascalCase}}RepositoryService {{nameCamelCase}}RepositoryService;
 
     @Autowired
-    public {{namePascalCase}}Controller({{namePascalCase}}Service {{nameCamelCase}}Service) {
-        this.{{nameCamelCase}}Service = {{nameCamelCase}}Service;
+    public {{namePascalCase}}Controller({{namePascalCase}}RepositoryService {{nameCamelCase}}RepositoryService) {
+        this.{{nameCamelCase}}RepositoryService = {{nameCamelCase}}RepositoryService;
     }
 
     {{#commands}}
@@ -27,7 +27,7 @@ public class {{namePascalCase}}Controller {
     public ResponseEntity<{{../namePascalCase}}> {{nameCamelCase}}(
         @PathVariable("id") {{../keyFieldDescriptor.className}} id,
         @RequestBody {{namePascalCase}}Command command) {
-        return ResponseEntity.ok({{../nameCamelCase}}Service.{{nameCamelCase}}(id, command));
+        return ResponseEntity.ok({{../nameCamelCase}}RepositoryService.{{nameCamelCase}}(id, command));
     }
     {{/if}}
     {{/commands}}
