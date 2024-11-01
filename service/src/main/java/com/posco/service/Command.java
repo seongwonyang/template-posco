@@ -10,7 +10,7 @@ import lombok.Data;
 import java.time.LocalDate;
 {{#fieldDescriptors}}
 {{^if (isPrimitive className)}}
-import com.posco.{{../boundedContext.name}}.s20a01.domain.{{namePascalCase}};
+import com.posco.{{../boundedContext.name}}.s20a01.domain.{{className}};
 {{/if}}
 {{/fieldDescriptors}}
 {{#checkBigDecimal fieldDescriptors}}{{/checkBigDecimal}}
