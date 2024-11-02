@@ -9,9 +9,9 @@ import java.util.*;
 import lombok.Data;
 import java.time.LocalDate;
 {{#fieldDescriptors}}
-{{^isPrimitive className}}
+{{^if (isPrimitive className)}}
 import com.posco.{{../boundedContext.name}}.s20a01.domain.{{className}};
-{{/isPrimitive}}
+{{/if}}
 {{/fieldDescriptors}}
 {{#checkBigDecimal fieldDescriptors}}{{/checkBigDecimal}}
 
