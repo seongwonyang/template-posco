@@ -9,7 +9,7 @@ import java.util.*;
 import lombok.Data;
 import java.time.LocalDate;
 {{#fieldDescriptors}}
-{{#isVO className}}
+{{#isVO}}
 import com.posco.{{../boundedContext.name}}.s20a01.domain.{{className}};
 {{/isVO}}
 {{/fieldDescriptors}}
