@@ -55,6 +55,7 @@ public class {{namePascalCase}}Controller {
         return ResponseEntity.noContent().build();
     }
     {{/ifEquals}}
+    
     {{else}}
     @PostMapping("/{id}/{{nameCamelCase}}")
     public ResponseEntity<{{../namePascalCase}}> {{nameCamelCase}}(

@@ -29,9 +29,9 @@ public class {{namePascalCase}}RepositoryService {
     {{#ifEquals restRepositoryInfo.method 'POST'}}
     public {{../namePascalCase}} create({{namePascalCase}}Command command) {
         {{../namePascalCase}} {{../nameCamelCase}} = new {{../namePascalCase}}();
-        {{#../fieldDescriptors}}
+        {{#fieldDescriptors}}
         {{../nameCamelCase}}.set{{pascalCase nameCamelCase}}(command.get{{pascalCase nameCamelCase}}());
-        {{/../fieldDescriptors}}
+        {{/fieldDescriptors}}
         return {{../nameCamelCase}}Repository.save({{../nameCamelCase}});
     }
     {{/ifEquals}}
@@ -39,11 +39,11 @@ public class {{namePascalCase}}RepositoryService {
     {{#ifEquals restRepositoryInfo.method 'PATCH'}}
     public {{../namePascalCase}} update({{../keyFieldDescriptor.className}} id, {{namePascalCase}}Command command) {
         {{../namePascalCase}} existing = findById(id);
-        {{#../fieldDescriptors}}
+        {{#fieldDescriptors}}
         if (command.get{{pascalCase nameCamelCase}}() != null) {
             existing.set{{pascalCase nameCamelCase}}(command.get{{pascalCase nameCamelCase}}());
         }
-        {{/../fieldDescriptors}}
+        {{/fieldDescriptors}}
         return {{../nameCamelCase}}Repository.save(existing);
     }
     {{/ifEquals}}
