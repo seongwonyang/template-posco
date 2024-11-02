@@ -6,15 +6,6 @@ path: {{boundedContext.name}}/s20a01-service/src/main/java/com/posco/{{boundedCo
 package com.posco.{{boundedContext.name}}.s20a01.service;
 
 import com.posco.{{boundedContext.name}}.s20a01.domain.{{namePascalCase}};
-{{#commands}}
-{{#if isRestRepository}}
-{{#fieldDescriptors}}
-{{#checkVO className}}
-import com.posco.{{boundedContext.name}}.s20a01.domain.{{className}};
-{{/checkVO}}
-{{/fieldDescriptors}}
-{{/if}}
-{{/commands}}
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
