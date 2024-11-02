@@ -30,9 +30,9 @@ public class {{namePascalCase}}RepositoryService {
     public {{../namePascalCase}} create({{namePascalCase}}Command command) {
         {{../namePascalCase}} {{../nameCamelCase}} = new {{../namePascalCase}}();
         {{#fieldDescriptors}}
-        {{../nameCamelCase}}.set{{pascalCase nameCamelCase}}(command.get{{pascalCase nameCamelCase}}());
+        {{../../nameCamelCase}}.set{{pascalCase nameCamelCase}}(command.get{{pascalCase nameCamelCase}}());
         {{/fieldDescriptors}}
-        return {{../nameCamelCase}}Repository.save({{../nameCamelCase}});
+        return {{nameCamelCase}}Repository.save({{nameCamelCase}});
     }
     {{/ifEquals}}
 
