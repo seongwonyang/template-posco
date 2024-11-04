@@ -16,7 +16,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 //<<< PoEAA / Repository
-@RepositoryRestResource(collectionResourceRel="{{namePlural}}", path="repository/{{namePlural}}")
+@RepositoryRestResource(collectionResourceRel="{{namePlural}}", path="{{namePlural}}")
 public interface {{namePascalCase}}Repository extends JpaRepository<{{namePascalCase}}, {{aggregateRoot.keyFieldDescriptor.className}}> {
 {{#attached 'View' this}}
 {{#if queryParameters}}    
