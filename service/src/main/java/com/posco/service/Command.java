@@ -45,6 +45,10 @@ window.$HandleBars.registerHelper('isDefaultVerb', function (command) {
 });
 
 window.$HandleBars.registerHelper('isPrimitive', function (className) {
+    if(className.includes("List<")) {
+        className = className.replace("List<", "").replace(">", "");
+    }
+
     if(className.includes("String") || className.includes("Integer") || className.includes("Long") || className.includes("Double") || className.includes("Float")
             || className.includes("Boolean") || className.includes("Date")){
         return true;
