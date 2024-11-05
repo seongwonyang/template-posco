@@ -24,6 +24,10 @@ public class {{namePascalCase}}RepositoryService {
         this.{{nameCamelCase}}Repository = {{nameCamelCase}}Repository;
     }
 
+    public List<{{namePascalCase}}> findAll() {
+        return {{nameCamelCase}}Repository.findAll();
+    }
+
     {{#commands}}
     {{#if isRestRepository}}
     {{#ifEquals restRepositoryInfo.method 'POST'}}

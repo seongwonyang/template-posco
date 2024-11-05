@@ -21,6 +21,11 @@ public class {{namePascalCase}}Controller {
         this.{{nameCamelCase}}RepositoryService = {{nameCamelCase}}RepositoryService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<{{namePascalCase}}>> findAll() {
+        return ResponseEntity.ok({{nameCamelCase}}RepositoryService.findAll());
+    }
+
     {{#commands}}
     {{#if isRestRepository}}
     {{#ifEquals restRepositoryInfo.method 'POST'}}
