@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
 import javax.validation.Valid;
+import org.springframework.data.rest.webmvc.RepositoryRestController;
 
 @RepositoryRestController
 public class {{namePascalCase}}Controller {
