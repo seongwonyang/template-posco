@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
 import javax.validation.Valid;
-@RestController
-@RequestMapping("/{{namePlural}}")
+
+@RepositoryRestController
 public class {{namePascalCase}}Controller {
     private final {{namePascalCase}}RepositoryService {{nameCamelCase}}RepositoryService;
 
@@ -21,22 +21,17 @@ public class {{namePascalCase}}Controller {
         this.{{nameCamelCase}}RepositoryService = {{nameCamelCase}}RepositoryService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<{{namePascalCase}}>> findAll() {
-        return ResponseEntity.ok({{nameCamelCase}}RepositoryService.findAll());
-    }
-
     {{#commands}}
     {{#if isRestRepository}}
     {{#ifEquals restRepositoryInfo.method 'POST'}}
-    @PostMapping
+    @PostMapping(path = "/{{../namePlural}}")
     public ResponseEntity<{{../namePascalCase}}> create(@Valid @RequestBody {{namePascalCase}}Command command) {
         return ResponseEntity.ok({{../nameCamelCase}}RepositoryService.create(command));
     }
     {{/ifEquals}}
 
     {{#ifEquals restRepositoryInfo.method 'PATCH'}}
-    @PatchMapping("/{id}")
+    @PatchMapping(path = "{{../namePlural}}/{id}")
     public ResponseEntity<{{../namePascalCase}}> update(
         @PathVariable {{../keyFieldDescriptor.className}} id,
         @Valid @RequestBody {{namePascalCase}}Command command) {
@@ -45,7 +40,7 @@ public class {{namePascalCase}}Controller {
     {{/ifEquals}}
 
     {{#ifEquals restRepositoryInfo.method 'DELETE'}}
-    @DeleteMapping("/{id}")
+    @DeleteMapping(path = "{{../namePlural}}/{id}")
     public ResponseEntity<Void> delete(@PathVariable {{../keyFieldDescriptor.className}} id) {
         {{../nameCamelCase}}RepositoryService.delete(id);
         return ResponseEntity.noContent().build();
@@ -53,7 +48,7 @@ public class {{namePascalCase}}Controller {
     {{/ifEquals}}
     
     {{else}}
-    @PostMapping("/{id}/{{nameCamelCase}}")
+    @PostMapping(path = "{{../namePlural}}/{id}/{{nameCamelCase}}")
     public ResponseEntity<{{../namePascalCase}}> {{nameCamelCase}}(
         @PathVariable("id") {{../keyFieldDescriptor.className}} id,
         @Valid @RequestBody {{namePascalCase}}Command command) {
