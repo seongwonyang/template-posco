@@ -57,5 +57,6 @@ window.$HandleBars.registerHelper('removeList', function (className) {
     if(className.includes("List<")) {
         className = className.replace("List<", "").replace(">", "");
     }
+    return className;
 });
 </function>
